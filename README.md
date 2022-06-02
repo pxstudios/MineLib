@@ -1,6 +1,6 @@
 <div align="center">
 
-![logo](minelib_logo.png)
+![Logo](minelib_logo.png)
 
 ---
 

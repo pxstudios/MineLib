@@ -1,5 +1,5 @@
 name: MineLib
-main: pxstudios.bukkit.MineLib
+main: net.pxstudios.minelib.PluginImpl
 
 version: 1.0.0
 author: 'PlazmixStudios'
