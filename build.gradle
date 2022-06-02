@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'space.pxstudios'
+version '1.0.0'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'space.pxstudios'
+            artifactId = 'minelib'
+            version = '1.0.0'
+
+            from components.java
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    implementation 'com.github.azbh111:ProtocolLib:4.4.0'
+    implementation 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'
+
+    compileOnly 'com.google.guava:guava:31.1-jre'
+    compileOnly 'net.sf.trove4j:trove4j:3.0.3'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileJava.options.encoding = 'UTF-8'

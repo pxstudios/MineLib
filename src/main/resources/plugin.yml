@@ -1,0 +1,8 @@
+name: MineLib
+main: pxstudios.bukkit.MineLib
+
+version: 1.0.0
+author: 'PlazmixStudios'
+
+website: 'www.plazmix.space'
+description: 'Library for Bukkit plugins development'
