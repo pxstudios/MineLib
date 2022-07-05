@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.command.CommandRegistry;
 import org.bukkit.plugin.Plugin;
 
@@ -19,8 +20,12 @@ public final class MineLibrary {
     @Getter
     private CommandRegistry commandRegistry;
 
+    @Getter
+    private AsyncCatcherBypass asyncCatcherBypass;
+
     void init(@NonNull Plugin plugin) {
         commandRegistry = new CommandRegistry(plugin);
+        asyncCatcherBypass = new AsyncCatcherBypass(plugin);
         // ...
     }
 
