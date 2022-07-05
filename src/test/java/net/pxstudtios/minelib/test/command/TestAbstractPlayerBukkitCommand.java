@@ -14,6 +14,8 @@ public final class TestAbstractPlayerBukkitCommand extends AbstractPlayerBukkitC
     public TestAbstractPlayerBukkitCommand(Plugin plugin) {
         super(plugin);
 
+        super.addLabels("playertest", "ptest");
+
         super.addSetting(CommandSettings.USE_COOLDOWN_DELAY, 1500L);
     }
 

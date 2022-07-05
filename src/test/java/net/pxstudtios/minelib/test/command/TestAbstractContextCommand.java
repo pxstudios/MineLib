@@ -14,6 +14,8 @@ public final class TestAbstractContextCommand extends AbstractContextCommand {
     public TestAbstractContextCommand(Plugin plugin) {
         super(plugin);
 
+        super.addLabels("contexttest", "ctest");
+
         super.addSetting(CommandSettings.SENDER_TYPE, Player.class);
         super.addSetting(CommandSettings.USE_COOLDOWN_DELAY, 1500L);
         super.addSetting(CommandSettings.EMPTY_ARGS_MESSAGE);

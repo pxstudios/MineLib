@@ -15,6 +15,9 @@ public final class TestAbstractBukkitCommand extends AbstractBukkitCommand {
     public TestAbstractBukkitCommand(Plugin plugin) {
         super(plugin);
 
+        // super.addLabels("bukkittest", "btest");
+        // - used on registering in MineLibTest
+
         super.addSetting(CommandSettings.SENDER_TYPE, Player.class);
         super.addSetting(CommandSettings.USE_COOLDOWN_DELAY, 1500L);
     }
