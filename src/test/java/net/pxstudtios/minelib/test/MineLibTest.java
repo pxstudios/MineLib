@@ -1,3 +1,5 @@
+package net.pxstudtios.minelib.test;
+
 import net.pxstudios.minelib.MineLibrary;
 
 public class MineLibTest {
