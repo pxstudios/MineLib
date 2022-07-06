@@ -21,6 +21,7 @@ publishing {
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
     implementation 'com.github.azbh111:ProtocolLib:4.4.0'
     implementation 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'

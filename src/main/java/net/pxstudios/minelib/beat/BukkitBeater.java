@@ -19,7 +19,6 @@ import java.util.concurrent.Callable;
 public final class BukkitBeater {
 
     private final Plugin plugin;
-    private final BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
 
     private WrappedBukkitTimerTask wrapTimer(BukkitTask bukkitTask) {
         return new WrappedBukkitTimerTask(this, bukkitTask);
@@ -40,7 +39,7 @@ public final class BukkitBeater {
     }
 
     public void cancel(int taskID) {
-        bukkitScheduler.cancelTask(taskID);
+        plugin.getServer().getScheduler().cancelTask(taskID);
     }
 
     public void cancel(BukkitTask bukkitTask) {
@@ -52,27 +51,27 @@ public final class BukkitBeater {
     }
 
     public void cancelAll() {
-        bukkitScheduler.cancelTasks(plugin);
+        plugin.getServer().getScheduler().cancelTasks(plugin);
     }
 
     public <T> WrappedBukkitFuture<T> callSync(Callable<T> callable) {
-        return new WrappedBukkitFuture<T>(this, bukkitScheduler.callSyncMethod(plugin, callable));
+        return new WrappedBukkitFuture<T>(this, plugin.getServer().getScheduler().callSyncMethod(plugin, callable));
     }
 
     public WrappedBukkitTask runSync(Runnable command) {
-        return wrap(bukkitScheduler.runTask(plugin, command));
+        return wrap(plugin.getServer().getScheduler().runTask(plugin, command));
     }
 
     public WrappedBukkitTask runAsync(Runnable command) {
-        return wrap(bukkitScheduler.runTaskAsynchronously(plugin, command));
+        return wrap(plugin.getServer().getScheduler().runTaskAsynchronously(plugin, command));
     }
 
     public WrappedBukkitTask runLater(long delay, Runnable command) {
-        return wrap(bukkitScheduler.runTaskLater(plugin, command, delay));
+        return wrap(plugin.getServer().getScheduler().runTaskLater(plugin, command, delay));
     }
 
     public WrappedBukkitTimerTask runTimer(long delay, long period, Runnable command) {
-        return wrapTimer(bukkitScheduler.runTaskTimer(plugin, command, delay, period));
+        return wrapTimer(plugin.getServer().getScheduler().runTaskTimer(plugin, command, delay, period));
     }
 
     public WrappedBukkitTimerTask runTimer(long period, Runnable command) {
@@ -80,11 +79,11 @@ public final class BukkitBeater {
     }
 
     public WrappedBukkitTask runLaterAsync(long delay, Runnable command) {
-        return wrap(bukkitScheduler.runTaskLaterAsynchronously(plugin, command, delay));
+        return wrap(plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, command, delay));
     }
 
     public WrappedBukkitTimerTask runTimerAsync(long delay, long period, Runnable command) {
-        return wrapTimer(bukkitScheduler.runTaskTimerAsynchronously(plugin, command, delay, period));
+        return wrapTimer(plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, command, delay, period));
     }
 
     public WrappedBukkitTimerTask runTimerAsync(long period, Runnable command) {
@@ -92,10 +91,10 @@ public final class BukkitBeater {
     }
 
     public List<BukkitTask> getPendingTasks() {
-        return bukkitScheduler.getPendingTasks();
+        return plugin.getServer().getScheduler().getPendingTasks();
     }
 
     public List<BukkitWorker> getActiveWorkers() {
-        return bukkitScheduler.getActiveWorkers();
+        return plugin.getServer().getScheduler().getActiveWorkers();
     }
 }
