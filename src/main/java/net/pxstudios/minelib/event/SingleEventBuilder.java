@@ -7,9 +7,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;

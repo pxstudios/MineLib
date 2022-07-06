@@ -1,6 +1,5 @@
 package net.pxstudtios.minelib.test;
 
-import lombok.SneakyThrows;
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
