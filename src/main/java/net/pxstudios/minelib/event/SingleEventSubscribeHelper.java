@@ -53,6 +53,8 @@ public class SingleEventSubscribeHelper<T extends Event> implements Listener, Ev
                 if (unregisterFlag) {
                     active = false;
                 }
+
+                return;
             }
         }
 
