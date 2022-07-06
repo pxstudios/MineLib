@@ -1,5 +1,6 @@
 package net.pxstudtios.minelib.test.item;
 
+import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.item.BukkitItem;
 import net.pxstudios.minelib.item.BukkitItemFactory;
 import org.bukkit.Material;
@@ -11,10 +12,13 @@ import org.bukkit.inventory.ItemFlag;
 
 import java.util.Arrays;
 
+@RequiredArgsConstructor
 public final class TestBukkitItemListener implements Listener {
 
+    private final BukkitItemFactory bukkitItemFactory;
+
     private BukkitItem createCompassItem(String playerName) {
-        BukkitItem bukkitItem = BukkitItemFactory.getByType(Material.COMPASS);
+        BukkitItem bukkitItem = bukkitItemFactory.getByType(Material.COMPASS);
         bukkitItem.getModifySession()
                 .withUnbreakable()
                 .withAmount(15)

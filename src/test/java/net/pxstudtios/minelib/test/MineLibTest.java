@@ -6,6 +6,7 @@ import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
+import net.pxstudios.minelib.item.BukkitItemFactory;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
@@ -34,7 +35,8 @@ public final class MineLibTest extends JavaPlugin {
     }
 
     private void registerItemListener() {
-        getServer().getPluginManager().registerEvents(new TestBukkitItemListener(), this);
+        BukkitItemFactory bukkitItemFactory = mineLibrary.getItemFactory();
+        getServer().getPluginManager().registerEvents(new TestBukkitItemListener(bukkitItemFactory), this);
     }
 
     private void testAsyncCatcherBypass() {

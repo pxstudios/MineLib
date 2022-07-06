@@ -11,28 +11,28 @@ import java.util.function.Consumer;
 
 public final class BukkitItemFactory {
 
-    public static BukkitItem getByStack(ItemStack itemStack) {
+    public BukkitItem getByStack(ItemStack itemStack) {
         return new BukkitItem(itemStack);
     }
 
-    public static BukkitItem getByTypeAndData(Material material, int durability) {
+    public BukkitItem getByTypeAndData(Material material, int durability) {
         return new BukkitItem(new ItemStack(material, 1, (byte) durability));
     }
 
-    public static BukkitItem getByType(Material material) {
+    public BukkitItem getByType(Material material) {
         return getByTypeAndData(material, 0);
     }
 
-    public static BukkitItem getByDataAndAmount(MaterialData materialData, int amount) {
+    public BukkitItem getByDataAndAmount(MaterialData materialData, int amount) {
         return new BukkitItem(materialData.toItemStack(amount));
     }
 
-    public static BukkitItem getByData(MaterialData materialData) {
+    public BukkitItem getByData(MaterialData materialData) {
         return getByDataAndAmount(materialData, 1);
     }
 
     @SuppressWarnings("unchecked")
-    public static <Meta extends ItemMeta> BukkitItem getByStackAndMeta(ItemStack itemStack, Consumer<Meta> metaHandler) {
+    public <Meta extends ItemMeta> BukkitItem getByStackAndMeta(ItemStack itemStack, Consumer<Meta> metaHandler) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         metaHandler.accept((Meta) itemMeta);
 
@@ -41,15 +41,15 @@ public final class BukkitItemFactory {
         return getByStack(itemStack);
     }
 
-    public static BukkitItem getByStackAndName(ItemStack itemStack, String name) {
+    public BukkitItem getByStackAndName(ItemStack itemStack, String name) {
         return getByStackAndMeta(itemStack, itemMeta -> itemMeta.setDisplayName(name));
     }
 
-    public static BukkitItem getByStackAndLoreList(ItemStack itemStack, List<String> loreList) {
+    public BukkitItem getByStackAndLoreList(ItemStack itemStack, List<String> loreList) {
         return getByStackAndMeta(itemStack, itemMeta -> itemMeta.setLore(loreList));
     }
 
-    public static BukkitItem getByStackAndLoreArray(ItemStack itemStack, String... loreArray) {
+    public BukkitItem getByStackAndLoreArray(ItemStack itemStack, String... loreArray) {
         return getByStackAndLoreList(itemStack, Arrays.asList(loreArray));
     }
 }
