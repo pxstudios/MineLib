@@ -1,5 +1,6 @@
 package net.pxstudios.minelib.item;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
@@ -14,9 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public final class BukkitItemModifySession {
 
+    private final BukkitItem bukkitItem;
     private final ItemStack itemStack;
 
     public BukkitItemModifySession withType(Material material) {
@@ -138,5 +140,9 @@ public final class BukkitItemModifySession {
 
     public BukkitItemModifySession withEnchant(Enchantment enchantment) {
         return withEnchant(enchantment, 1);
+    }
+
+    public BukkitItem complete() {
+        return bukkitItem;
     }
 }

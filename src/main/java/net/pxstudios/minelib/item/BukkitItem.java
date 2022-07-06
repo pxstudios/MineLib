@@ -31,6 +31,6 @@ public class BukkitItem {
     }
 
     public final BukkitItemModifySession getModifySession() {
-        return modifySession == null ? (modifySession = new BukkitItemModifySession(itemStack)) : modifySession;
+        return modifySession == null ? (modifySession = new BukkitItemModifySession(this, itemStack)) : modifySession;
     }
 }
