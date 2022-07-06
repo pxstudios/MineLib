@@ -93,6 +93,8 @@ public final class MineLibTest extends JavaPlugin {
         testAsyncCatcherBypass();
 
         testBukkitBeater();
+
+        testEventsSubscriber();
     }
 
 }
