@@ -18,7 +18,7 @@ public class SingleEventSubscribeHelper<T extends Event> implements Listener, Ev
     private SingleEventBuilder<T> singleEventBuilder;
 
     @Getter
-    private int useCounter;
+    private long useCounter;
 
     @Getter
     private boolean active;
