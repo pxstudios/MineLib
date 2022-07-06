@@ -12,10 +12,14 @@ import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public final class MineLibTest extends JavaPlugin {
 
@@ -60,6 +64,24 @@ public final class MineLibTest extends JavaPlugin {
             WrappedBukkitTask wrappedCancellingTask = bukkitBeater.runLater(60L, () -> bukkitBeater.cancel(bukkitTask));
             wrappedCancellingTask.waitAfter(() -> Bukkit.getLogger().info("Task #" + wrappedCancellingTask.getTaskId() + " was cancelled!"));
         });
+    }
+
+    private void testEventsSubscriber() {
+        mineLibrary.getEventsSubscriber().subscribe(PlayerJoinEvent.class, EventPriority.HIGHEST)
+                .ignoreCancelled() // если ивент ранее был отменен, то он не будет использоваться
+
+                .useFilter(event -> event.getPlayer().hasPermission("join.announce")) // ивент не будет работать на игроков, у которых нет права join.announce
+
+                .useExpireMaxCount(15) // если ивент использовался 15 раз или больше, то он разрегистрируется
+                .useExpireTime(5, TimeUnit.SECONDS) // если ивент работает уже 5 секунд, то он разрегистрируется
+                .useExpire(event -> event.getPlayer().getLevel() > 50) // если хоть один игрок зашел с уровнем > 50, то ивент больше не работает
+
+                // обработчик события
+                .complete(event -> {
+
+                    Player player = event.getPlayer();
+                    event.setJoinMessage(String.format("Player %s has joined!", player.getName()));
+                });
     }
 
     @Override
