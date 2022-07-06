@@ -8,6 +8,7 @@ import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.event.EventsSubscriber;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -37,7 +38,14 @@ public final class MineLibrary {
         beater = new BukkitBeater(plugin);
         eventsSubscriber = new EventsSubscriber(plugin);
 
+        runAutoGarbageCollector();
+
         // ...
+    }
+
+    private void runAutoGarbageCollector() {
+        beater.runTimerAsync(20L * 5, System::gc)
+                .waitAfter(() -> Bukkit.getLogger().info("Auto garbage-collector is disabled!"));
     }
 
 }
