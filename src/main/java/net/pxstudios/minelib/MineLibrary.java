@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
+import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import org.bukkit.Bukkit;
@@ -32,6 +33,8 @@ public final class MineLibrary {
     @Getter
     private EventsSubscriber eventsSubscriber;
 
+    private WrappedBukkitTask autoGarbageCollectorTask;
+
     void init(@NonNull Plugin plugin) {
         asyncCatcherBypass = new AsyncCatcherBypass(plugin);
         commandRegistry = new CommandRegistry(plugin);
@@ -44,8 +47,14 @@ public final class MineLibrary {
     }
 
     private void runAutoGarbageCollector() {
-        beater.runTimerAsync(20L * 5, System::gc)
-                .waitAfter(() -> Bukkit.getLogger().info("Auto garbage-collector is disabled!"));
+        autoGarbageCollectorTask = beater.runTimerAsync(20L * 5, System::gc);
+        autoGarbageCollectorTask.waitAfter(() -> Bukkit.getLogger().info("Auto garbage-collector is disabled!"));
+    }
+
+    public void destroyAutoGarbageCollector() {
+        if (!autoGarbageCollectorTask.isCancelled()) {
+            autoGarbageCollectorTask.cancel();
+        }
     }
 
 }
