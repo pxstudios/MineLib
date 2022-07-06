@@ -26,14 +26,14 @@ This functionality is under development, so it makes no sense to check it now
 
 ### `Maven`:
 ```xml
-<dependecies>
+<dependencies>
     <dependency>
         <groupId>space.pxstudios</groupId>
         <artifactId>minelib</artifactId>
         <version>1.0.0</version>
         <scope>provided</scope>
     </dependency>
-</dependecies>
+</dependencies>
 ```
 
 ### `Gradle`:
