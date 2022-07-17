@@ -46,9 +46,8 @@ public class BukkitCommandExecuteWrapper extends Command implements CommandExecu
 
     private Cache<CommandSender, Long> injectCooldownDelayCache(long cooldownDelayMillis) {
         if (cooldownDelayCache == null) {
-            cooldownDelayCache = CacheBuilder.newBuilder().expireAfterAccess(cooldownDelayMillis, TimeUnit.MILLISECONDS).build();
-
-            lastCooldownDelayMillisValue = cooldownDelayMillis;
+            cooldownDelayCache = CacheBuilder.newBuilder().expireAfterAccess(lastCooldownDelayMillisValue = cooldownDelayMillis,
+                    TimeUnit.MILLISECONDS).build();
         }
         else if (lastCooldownDelayMillisValue != cooldownDelayMillis) {
             cooldownDelayCache = null;
