@@ -42,11 +42,15 @@ public class BukkitCommandExecuteWrapper extends Command implements CommandExecu
         return execute(commandSender, label, args);
     }
 
+    private long lastCooldownDelayMillisValue;
+
     private Cache<CommandSender, Long> injectCooldownDelayCache(long cooldownDelayMillis) {
         if (cooldownDelayCache == null) {
             cooldownDelayCache = CacheBuilder.newBuilder().expireAfterAccess(cooldownDelayMillis, TimeUnit.MILLISECONDS).build();
+
+            lastCooldownDelayMillisValue = cooldownDelayMillis;
         }
-        else if (cooldownDelayCache.stats().totalLoadTime() != cooldownDelayMillis) {
+        else if (lastCooldownDelayMillisValue != cooldownDelayMillis) {
             cooldownDelayCache = null;
 
             return injectCooldownDelayCache(cooldownDelayMillis);
