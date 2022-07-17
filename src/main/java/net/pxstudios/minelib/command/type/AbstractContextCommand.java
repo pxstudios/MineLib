@@ -33,6 +33,17 @@ public abstract class AbstractContextCommand {
         settings.add(commandSetting.set(value));
     }
 
+    public <T> T getSettingValue(CommandSettings<T> commandSetting) {
+        for (CommandSettings<?> commandSettings : getSettings()) {
+
+            if (commandSettings.getName().equals(commandSetting.getName())) {
+                return commandSetting.value();
+            }
+        }
+
+        return null;
+    }
+
     public abstract void process(CommandContext context);
 
 }

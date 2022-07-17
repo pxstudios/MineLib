@@ -17,7 +17,7 @@ public final class AsyncCatcherBypass {
         bypassEnabled = true;
     }
 
-    public synchronized void sync(Runnable synchronizer) {
+    public void sync(Runnable synchronizer) {
         if (!bypassEnabled) {
             throw new IllegalArgumentException("async-catcher bypass is not enabled");
         }
