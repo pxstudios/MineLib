@@ -10,6 +10,7 @@ import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import net.pxstudios.minelib.item.BukkitItemFactory;
+import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -37,6 +38,9 @@ public final class MineLibrary {
     @Getter
     private BukkitItemFactory itemFactory;
 
+    @Getter
+    private BukkitRegistryManager registryManager;
+
     private WrappedBukkitTask autoGarbageCollectorTask;
 
     void init(@NonNull Plugin plugin) {
@@ -44,6 +48,7 @@ public final class MineLibrary {
         commandRegistry = new CommandRegistry(plugin);
         beater = new BukkitBeater(plugin);
         eventsSubscriber = new EventsSubscriber(plugin);
+        registryManager = new BukkitRegistryManager(plugin);
 
         itemFactory = new BukkitItemFactory();
 
