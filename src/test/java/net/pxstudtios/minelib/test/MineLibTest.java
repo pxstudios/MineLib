@@ -6,10 +6,13 @@ import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
 import net.pxstudios.minelib.item.BukkitItemFactory;
+import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
+import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
+import net.pxstudtios.minelib.test.registry.TestRegistryListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -85,6 +88,13 @@ public final class MineLibTest extends JavaPlugin {
                 });
     }
 
+    private void testBukkitRegistry() {
+        BukkitRegistryManager bukkitRegistryManager = mineLibrary.getRegistryManager();
+
+        bukkitRegistryManager.register(TestRegistryCommand.class);
+        bukkitRegistryManager.register(TestRegistryListener.class);
+    }
+
     @Override
     public void onEnable() {
         registerTestCommands();
@@ -96,6 +106,8 @@ public final class MineLibTest extends JavaPlugin {
         testBukkitBeater();
 
         testEventsSubscriber();
+
+        testBukkitRegistry();
     }
 
 }
