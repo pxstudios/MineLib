@@ -41,8 +41,7 @@ public class CommandSettings<R> {
     private R value;
 
     public CommandSettings<R> set(R value) {
-        this.value = value;
-        return this;
+        return new CommandSettings<>(name, value);
     }
 
     public R value() {
