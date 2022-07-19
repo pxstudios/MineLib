@@ -48,7 +48,9 @@ public final class MineLibrary {
         commandRegistry = new CommandRegistry(plugin);
         beater = new BukkitBeater(plugin);
         eventsSubscriber = new EventsSubscriber(plugin);
+
         registryManager = new BukkitRegistryManager(plugin);
+        registryManager.addDefaultAdapters();
 
         itemFactory = new BukkitItemFactory();
 
