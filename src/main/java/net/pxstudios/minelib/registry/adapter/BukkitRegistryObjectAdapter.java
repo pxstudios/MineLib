@@ -7,5 +7,5 @@ public abstract class BukkitRegistryObjectAdapter<T> {
 
     public abstract void fireRegister(Plugin plugin, T obj);
 
-    public abstract T newObjectInstance(BukkitRegistryObject<T> bukkitRegistryObject);
+    public abstract T newObjectInstance(Plugin plugin, BukkitRegistryObject<T> bukkitRegistryObject);
 }
