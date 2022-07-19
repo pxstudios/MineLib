@@ -30,9 +30,9 @@ public class EventListenerRegistryObjectAdapter extends BukkitRegistryObjectAdap
                 continue;
             }
 
-            if (method.isAnnotationPresent(EventHandler.class)) {
+            EventHandler eventHandler = method.getDeclaredAnnotation(EventHandler.class);
+            if (eventHandler != null) {
 
-                EventHandler eventHandler = method.getAnnotation(EventHandler.class);
                 Class<?> parameter = method.getParameterTypes()[0];
 
                 if (!parameter.isAssignableFrom(Event.class)) {
