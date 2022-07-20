@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.chat;
+package net.pxstudios.minelib.common.chat;
 
 public enum ChatDirection {
 

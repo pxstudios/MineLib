@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.item;
+package net.pxstudios.minelib.common.item;
 
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;

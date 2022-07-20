@@ -1,8 +1,8 @@
 package net.pxstudtios.minelib.test.item;
 
 import lombok.RequiredArgsConstructor;
-import net.pxstudios.minelib.item.BukkitItem;
-import net.pxstudios.minelib.item.BukkitItemFactory;
+import net.pxstudios.minelib.common.item.BukkitItem;
+import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

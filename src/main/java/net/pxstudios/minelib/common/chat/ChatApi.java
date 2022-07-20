@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.chat;
+package net.pxstudios.minelib.common.chat;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;

@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.item;
+package net.pxstudios.minelib.common.item;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
