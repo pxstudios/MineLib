@@ -133,6 +133,8 @@ public final class MineLibTest extends JavaPlugin {
         testEventsSubscriber();
 
         testBukkitRegistry();
+
+        testChatApi();
     }
 
 }
