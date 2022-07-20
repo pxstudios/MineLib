@@ -9,6 +9,8 @@ import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.chat.ChatDirection;
 import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
+import net.pxstudios.minelib.common.location.point.Point2D;
+import net.pxstudios.minelib.common.location.point.Point3D;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
@@ -143,9 +145,17 @@ public final class MineLibTest extends JavaPlugin {
 
         boolean distanceXYZ = locationApi.inDistance(250, firstLocation, secondLocation);
 
-        // geometric maths.
+        // geometry maths.
         boolean isInCuboid = locationApi.containsInCuboid(firstLocation, secondLocation,
                 locationApi.newBuilder().worldMain().x(357).y(50).z(50).build());
+
+        // geometry points.
+        Point2D point2D = new Point2D(49.1, 90)
+                .add(0.9, 10)
+                .divide(1, 2);
+
+        Point3D point3D = point2D.to3D().add(0, 0, 50);
+        Location location3D = locationApi.toLocation(firstLocation.getWorld(), point3D);
 
         // locations centralization.
         firstLocation = locationApi.toCenterLocation(firstLocation);
