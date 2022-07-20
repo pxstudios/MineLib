@@ -7,6 +7,7 @@ import lombok.NonNull;
 import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
+import net.pxstudios.minelib.chat.ChatApi;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import net.pxstudios.minelib.item.BukkitItemFactory;
@@ -33,6 +34,9 @@ public final class MineLibrary {
     private BukkitBeater beater;
 
     @Getter
+    private ChatApi chatApi;
+
+    @Getter
     private EventsSubscriber eventsSubscriber;
 
     @Getter
@@ -44,19 +48,23 @@ public final class MineLibrary {
     private WrappedBukkitTask autoGarbageCollectorTask;
 
     void init(@NonNull Plugin plugin) {
+
+        // Init library sub-systems by plugin.
         asyncCatcherBypass = new AsyncCatcherBypass(plugin);
         commandRegistry = new CommandRegistry(plugin);
         beater = new BukkitBeater(plugin);
         eventsSubscriber = new EventsSubscriber(plugin);
-
         registryManager = new BukkitRegistryManager(plugin);
-        registryManager.addDefaultAdapters();
 
+        // Init library common sub-systems.
+        chatApi = new ChatApi();
         itemFactory = new BukkitItemFactory();
 
-        runAutoGarbageCollector();
+        // Register default bukkit-objects registry adapters.
+        registryManager.addDefaultAdapters();
 
-        // ...
+        // Start automatically memory cleanup task.
+        runAutoGarbageCollector();
     }
 
     private void runAutoGarbageCollector() {

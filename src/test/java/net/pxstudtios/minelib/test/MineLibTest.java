@@ -5,6 +5,8 @@ import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
+import net.pxstudios.minelib.chat.ChatApi;
+import net.pxstudios.minelib.chat.ChatDirection;
 import net.pxstudios.minelib.item.BukkitItemFactory;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
@@ -18,6 +20,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.permissions.ServerOperator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -93,6 +96,28 @@ public final class MineLibTest extends JavaPlugin {
 
         bukkitRegistryManager.register(TestRegistryCommand.class);
         bukkitRegistryManager.register(TestRegistryListener.class);
+    }
+
+    private void testChatApi() {
+        ChatApi chat = mineLibrary.getChatApi();
+
+        String testPermission = ("minelib.chat.test");
+
+        // Messages send by anyone CommandSender.
+        Player player = Bukkit.getPlayerExact("itzstonlex");
+
+        chat.sendMessage(player, "Hello world!");
+        chat.sendMessage(ChatDirection.CHAT, player, "Hello world!");
+        chat.sendMessage(ChatDirection.TITLE, player, testPermission, "Hello world!");
+        chat.sendMessage(player, testPermission, "Hello world!");
+
+        // Messages broadcasting.
+        boolean inConsole = true;
+
+        chat.broadcastMessage("BROADCAST: Hello world!");
+        chat.broadcastMessage("BROADCAST: Hello world!", ServerOperator::isOp);
+        chat.broadcastMessage(testPermission, "BROADCAST: Hello world!");
+        chat.broadcastMessage(inConsole, ChatDirection.ACTIONBAR, "BROADCAST: Hello world!", Player::isFlying);
     }
 
     @Override
