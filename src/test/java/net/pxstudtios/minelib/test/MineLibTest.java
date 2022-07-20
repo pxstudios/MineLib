@@ -12,6 +12,7 @@ import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
+import net.pxstudtios.minelib.test.complex.TestComplexBlockListener;
 import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
@@ -120,6 +121,10 @@ public final class MineLibTest extends JavaPlugin {
         chat.broadcastMessage(inConsole, ChatDirection.ACTIONBAR, "BROADCAST: Hello world!", Player::isFlying);
     }
 
+    private void testComplex() {
+        getServer().getPluginManager().registerEvents(new TestComplexBlockListener(), this);
+    }
+
     @Override
     public void onEnable() {
         registerTestCommands();
@@ -135,6 +140,8 @@ public final class MineLibTest extends JavaPlugin {
         testBukkitRegistry();
 
         testChatApi();
+
+        testComplex();
     }
 
 }
