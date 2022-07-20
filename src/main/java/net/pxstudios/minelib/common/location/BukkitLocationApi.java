@@ -15,17 +15,15 @@ public final class BukkitLocationApi {
     private static final Server SERVER = Bukkit.getServer();
 
     @Getter
-    private final String locationToStringFormat = ("world#x#y#z#yaw#pitch");
-
-    @Getter
     @Setter
     private String locationToStringFormatSeparator = (", ");
 
+    public String getLocationToStringFormat() {
+        return ("world#x#y#z#yaw#pitch").replace("#", locationToStringFormatSeparator);
+    }
 
     public String toString(Location location) {
-        String format = locationToStringFormat;
-
-        format = format.replace("#", locationToStringFormatSeparator);
+        String format = getLocationToStringFormat();
 
         format = format.replace("world", location.getWorld().getName());
 
