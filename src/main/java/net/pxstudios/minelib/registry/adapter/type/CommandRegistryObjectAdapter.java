@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CommandRegistryObjectAdapter extends BukkitRegistryObjectAdapter<AbstractContextCommand> {
+public class CommandRegistryObjectAdapter implements BukkitRegistryObjectAdapter<AbstractContextCommand> {
 
     @Override
     public void fireRegister(Plugin plugin, AbstractContextCommand obj) {

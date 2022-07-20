@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
-public class EventListenerRegistryObjectAdapter extends BukkitRegistryObjectAdapter<Listener> {
+public class EventListenerRegistryObjectAdapter implements BukkitRegistryObjectAdapter<Listener> {
     private final MineLibrary mineLibrary = MineLibrary.getLibrary();
 
     @Override
