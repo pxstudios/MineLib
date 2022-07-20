@@ -138,10 +138,10 @@ public final class MineLibTest extends JavaPlugin {
 
         // locations distance checking.
         boolean distanceX = locationApi.inDistanceByX(5, firstLocation, secondLocation);
-        boolean distanceY = locationApi.inDistanceByX(100, firstLocation, secondLocation);
-        boolean distanceZ = locationApi.inDistanceByX(40.5, firstLocation, secondLocation);
+        boolean distanceY = locationApi.inDistanceByY(100, firstLocation, secondLocation);
+        boolean distanceZ = locationApi.inDistanceByZ(40.5, firstLocation, secondLocation);
 
-        boolean distanceXZ = locationApi.inDistanceByX(250, firstLocation, secondLocation);
+        boolean distanceXZ = locationApi.inDistanceByXZ(250, firstLocation, secondLocation);
 
         boolean distanceXYZ = locationApi.inDistance(250, firstLocation, secondLocation);
 
