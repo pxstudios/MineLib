@@ -150,7 +150,8 @@ public final class MineLibTest extends JavaPlugin {
                 locationApi.newBuilder().worldMain().x(357).y(50).z(50).build());
 
         // geometry points.
-        Point2D point2D = new Point2D(49.1, 90)
+        Point2D point2D = locationApi.newBuilder().x(49.1).y(90)
+                .build2D()
                 .add(0.9, 10)
                 .divide(1, 2);
 

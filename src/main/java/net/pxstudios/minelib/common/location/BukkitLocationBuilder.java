@@ -2,6 +2,8 @@ package net.pxstudios.minelib.common.location;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import net.pxstudios.minelib.common.location.point.Point2D;
+import net.pxstudios.minelib.common.location.point.Point3D;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -60,5 +62,13 @@ public class BukkitLocationBuilder {
 
     public Location build() {
         return new Location(world, x, y, z, yaw, pitch);
+    }
+
+    public Point2D build2D() {
+        return new Point2D(x, y);
+    }
+
+    public Point3D build3D() {
+        return new Point3D(x, y, z);
     }
 }
