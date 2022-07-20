@@ -8,6 +8,7 @@ import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.chat.ChatDirection;
 import net.pxstudios.minelib.common.item.BukkitItemFactory;
+import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
@@ -17,6 +18,7 @@ import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
@@ -125,6 +127,41 @@ public final class MineLibTest extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TestComplexBlockListener(), this);
     }
 
+    private void testLocationApi() {
+        BukkitLocationApi locationApi = mineLibrary.getLocationApi();
+
+        // locations builders.
+        Location firstLocation = locationApi.newBuilder().worldMain().x(356.4).y(67).z(93.15).build();
+        Location secondLocation = locationApi.newBuilder().worldMain().x(358).y(30.5).z(8.445).build();
+
+        // locations distance checking.
+        boolean distanceX = locationApi.inDistanceByX(5, firstLocation, secondLocation);
+        boolean distanceY = locationApi.inDistanceByX(100, firstLocation, secondLocation);
+        boolean distanceZ = locationApi.inDistanceByX(40.5, firstLocation, secondLocation);
+
+        boolean distanceXZ = locationApi.inDistanceByX(250, firstLocation, secondLocation);
+
+        boolean distanceXYZ = locationApi.inDistance(250, firstLocation, secondLocation);
+
+        // geometric maths.
+        boolean isInCuboid = locationApi.containsInCuboid(firstLocation, secondLocation,
+                locationApi.newBuilder().worldMain().x(357).y(50).z(50).build());
+
+        // locations centralization.
+        firstLocation = locationApi.toCenterLocation(firstLocation);
+        secondLocation = locationApi.toCenterLocation(true, secondLocation.getBlock());
+
+        // location parsing to string.
+        locationApi.setLocationToStringFormatSeparator(";");
+
+        String locationToString = locationApi.toString(firstLocation);
+        Location locationFromString = locationApi.toLocation(locationToString);
+
+        if (locationFromString.equals(firstLocation)) {
+            System.out.println("Its work!");
+        }
+    }
+
     @Override
     public void onEnable() {
         registerTestCommands();
@@ -142,6 +179,8 @@ public final class MineLibTest extends JavaPlugin {
         testChatApi();
 
         testComplex();
+
+        testLocationApi();
     }
 
 }

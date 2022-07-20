@@ -9,6 +9,7 @@ import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.command.CommandRegistry;
+import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
@@ -43,6 +44,9 @@ public final class MineLibrary {
     private BukkitItemFactory itemFactory;
 
     @Getter
+    private BukkitLocationApi locationApi;
+
+    @Getter
     private BukkitRegistryManager registryManager;
 
     private WrappedBukkitTask autoGarbageCollectorTask;
@@ -59,6 +63,7 @@ public final class MineLibrary {
         // Init library common sub-systems.
         chatApi = new ChatApi();
         itemFactory = new BukkitItemFactory();
+        locationApi = new BukkitLocationApi();
 
         // Register default bukkit-objects registry adapters.
         registryManager.addDefaultAdapters();
