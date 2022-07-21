@@ -1,9 +1,9 @@
-package net.pxstudios.minelib.registry.adapter;
+package net.pxstudios.minelib.registry.provider;
 
 import net.pxstudios.minelib.registry.BukkitRegistryObject;
 import org.bukkit.plugin.Plugin;
 
-public interface BukkitRegistryObjectAdapter<T> {
+public interface BukkitRegistryObjectProvider<T> {
 
     void fireRegister(Plugin plugin, T obj);
 

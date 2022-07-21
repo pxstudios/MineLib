@@ -1,9 +1,9 @@
-package net.pxstudios.minelib.registry.adapter.type;
+package net.pxstudios.minelib.registry.provider.type;
 
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.event.SingleEventBuilder;
 import net.pxstudios.minelib.registry.BukkitRegistryObject;
-import net.pxstudios.minelib.registry.adapter.BukkitRegistryObjectAdapter;
+import net.pxstudios.minelib.registry.provider.BukkitRegistryObjectProvider;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
-public class EventListenerRegistryObjectAdapter implements BukkitRegistryObjectAdapter<Listener> {
+public class EventListenerRegistryObjectProvider implements BukkitRegistryObjectProvider<Listener> {
     private final MineLibrary mineLibrary = MineLibrary.getLibrary();
 
     @Override

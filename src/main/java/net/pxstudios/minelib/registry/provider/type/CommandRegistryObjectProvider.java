@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.registry.adapter.type;
+package net.pxstudios.minelib.registry.provider.type;
 
 import lombok.SneakyThrows;
 import net.pxstudios.minelib.MineLibrary;
@@ -6,7 +6,7 @@ import net.pxstudios.minelib.command.CommandContext;
 import net.pxstudios.minelib.command.CommandSettings;
 import net.pxstudios.minelib.command.type.AbstractContextCommand;
 import net.pxstudios.minelib.registry.BukkitRegistryObject;
-import net.pxstudios.minelib.registry.adapter.BukkitRegistryObjectAdapter;
+import net.pxstudios.minelib.registry.provider.BukkitRegistryObjectProvider;
 import net.pxstudios.minelib.registry.type.CommandRegistryObject;
 import org.bukkit.plugin.Plugin;
 
@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CommandRegistryObjectAdapter implements BukkitRegistryObjectAdapter<AbstractContextCommand> {
+public class CommandRegistryObjectProvider implements BukkitRegistryObjectProvider<AbstractContextCommand> {
 
     @Override
     public void fireRegister(Plugin plugin, AbstractContextCommand obj) {

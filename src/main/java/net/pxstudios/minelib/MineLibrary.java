@@ -65,8 +65,8 @@ public final class MineLibrary {
         itemFactory = new BukkitItemFactory();
         locationApi = new BukkitLocationApi();
 
-        // Register default bukkit-objects registry adapters.
-        registryManager.addDefaultAdapters();
+        // Register default bukkit-objects registry providers.
+        registryManager.addDefaultProviders();
     }
 
     void runAutoGarbageCollector() {

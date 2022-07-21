@@ -6,11 +6,11 @@ public class BukkitRegistryAdaptiveObject<T> extends BukkitRegistryObject<T> {
 
     public BukkitRegistryAdaptiveObject() {
         super(null);
-        super.setAdapterFunction(manager -> manager.getAdapter(getAdapterType()));
+        super.setProviderFunction(manager -> manager.getProvider(getProviderType()));
     }
 
     @SuppressWarnings("unchecked")
-    protected final Class<T> getAdapterType() {
+    protected final Class<T> getProviderType() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 

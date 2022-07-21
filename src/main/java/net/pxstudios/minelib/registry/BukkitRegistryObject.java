@@ -3,7 +3,7 @@ package net.pxstudios.minelib.registry;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import net.pxstudios.minelib.registry.adapter.BukkitRegistryObjectAdapter;
+import net.pxstudios.minelib.registry.provider.BukkitRegistryObjectProvider;
 import org.bukkit.plugin.Plugin;
 
 import java.util.function.Function;
@@ -12,23 +12,23 @@ import java.util.function.Function;
 public class BukkitRegistryObject<T> {
 
     @Setter(AccessLevel.PACKAGE)
-    private Function<BukkitRegistryManager, BukkitRegistryObjectAdapter<T>> adapterFunction;
+    private Function<BukkitRegistryManager, BukkitRegistryObjectProvider<T>> providerFunction;
 
     private T newInstance(BukkitRegistryManager manager, Plugin plugin) {
-        BukkitRegistryObjectAdapter<T> adapter = adapterFunction.apply(manager);
+        BukkitRegistryObjectProvider<T> provider = providerFunction.apply(manager);
 
-        if (adapter != null) {
-            return adapter.newObjectInstance(plugin, this);
+        if (provider != null) {
+            return provider.newObjectInstance(plugin, this);
         }
 
         return null;
     }
 
     void register(BukkitRegistryManager manager, Plugin plugin) {
-        BukkitRegistryObjectAdapter<T> adapter = adapterFunction.apply(manager);
+        BukkitRegistryObjectProvider<T> provider = providerFunction.apply(manager);
 
-        if (adapter != null) {
-            adapter.fireRegister(plugin, newInstance(manager, plugin));
+        if (provider != null) {
+            provider.fireRegister(plugin, newInstance(manager, plugin));
         }
     }
 
