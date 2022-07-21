@@ -20,9 +20,6 @@ import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudtios.minelib.test.complex.TestComplexBlockListener;
-import net.pxstudtios.minelib.test.config.TestPropertiesConfig;
-import net.pxstudtios.minelib.test.config.TestTextConfig;
-import net.pxstudtios.minelib.test.config.TestYamlConfig;
 import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
@@ -184,22 +181,29 @@ public final class MineLibTest extends JavaPlugin {
         PluginConfigManager configManager = mineLibrary.getConfigManager();
 
         // Properties configs.
-        PropertiesPluginConfig propertiesConfig = new TestPropertiesConfig(configManager, getDataFolder().toPath().resolve("config.properties").toFile())
-                .init();
+        PropertiesPluginConfig propertiesConfig = configManager.createPropertiesConfig(getDataFolder().toPath().resolve("config.properties").toFile());
+
+        propertiesConfig.createFile();
 
         propertiesConfig.set("minelib-author", "pxstudios");
         propertiesConfig.save();
 
         // Text configs.
-        TextPluginConfig textConfig = new TestTextConfig(configManager, getDataFolder().toPath().resolve("motd.txt").toFile())
-                .init();
+        TextPluginConfig textConfig = configManager.createTextConfig(getDataFolder().toPath().resolve("motd.txt").toFile());
 
-        textConfig.append("&bHello world!").appendNewLine().append("This is &ccolorized &eMotd!").colorize('&');
+        textConfig.createFile();
+
+        textConfig.append("&bHello world!")
+                .appendNewLine()
+                .append("This is &ccolorized &eMotd!")
+                .colorize('&');
+
         textConfig.save();
 
         // Yaml configs.
-        YamlPluginConfig yamlConfig = new TestYamlConfig(configManager, getDataFolder().toPath().resolve("settings.yml").toFile())
-                .init();
+        YamlPluginConfig yamlConfig = configManager.createYamlConfig(getDataFolder().toPath().resolve("settings.yml").toFile());
+
+        yamlConfig.createFile();
 
         yamlConfig.set("locations.cuboid.firstPosition", new Point3D(5, 5, 5));
         yamlConfig.set("locations.cuboid.secondPosition", new Point3D(10, 5, 10));

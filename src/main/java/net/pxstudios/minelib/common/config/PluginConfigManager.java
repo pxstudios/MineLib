@@ -3,6 +3,9 @@ package net.pxstudios.minelib.common.config;
 import net.pxstudios.minelib.common.config.provider.PropertiesConfigProvider;
 import net.pxstudios.minelib.common.config.provider.TextConfigProvider;
 import net.pxstudios.minelib.common.config.provider.YamlConfigProvider;
+import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
+import net.pxstudios.minelib.common.config.type.TextPluginConfig;
+import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
 
 import java.io.File;
 import java.util.HashMap;
@@ -35,5 +38,17 @@ public final class PluginConfigManager {
         }
 
         return null;
+    }
+
+    public PropertiesPluginConfig createPropertiesConfig(File file) {
+        return (PropertiesPluginConfig) createConfigObject(PropertiesConfigProvider.class, file);
+    }
+
+    public TextPluginConfig createTextConfig(File file) {
+        return (TextPluginConfig) createConfigObject(TextConfigProvider.class, file);
+    }
+
+    public YamlPluginConfig createYamlConfig(File file) {
+        return (YamlPluginConfig) createConfigObject(YamlConfigProvider.class, file);
     }
 }
