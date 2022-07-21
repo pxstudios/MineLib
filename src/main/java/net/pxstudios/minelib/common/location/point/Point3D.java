@@ -22,6 +22,29 @@ public class Point3D {
         return z;
     }
 
+    public Point3D x(double x) {
+        this.x = x;
+        return this;
+    }
+
+    public Point3D y(double y) {
+        this.y = y;
+        return this;
+    }
+
+    public Point3D z(double z) {
+        this.z = z;
+        return this;
+    }
+
+    public Point3D set(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+
+        return this;
+    }
+
     public Point3D add(double x, double y, double z) {
         this.x += x;
         this.y += y;
@@ -52,6 +75,10 @@ public class Point3D {
         this.z *= z;
 
         return this;
+    }
+
+    public Point3D zero() {
+        return set(0, 0, 0);
     }
 
     public Point2D to2D() {
