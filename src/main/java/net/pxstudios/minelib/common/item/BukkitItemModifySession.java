@@ -3,13 +3,15 @@ package net.pxstudios.minelib.common.item;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.md_5.bungee.api.ChatColor;
 import org.apache.logging.log4j.core.util.ReflectionUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,18 +19,27 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public final class BukkitItemModifySession {
 
     private final BukkitItem bukkitItem;
     private final ItemStack itemStack;
+
+    @Getter
+    private BiFunction<Player, BukkitItemModifySession, BukkitItem> customItemModifier;
+
+    public BukkitItemModifySession withCustomModifications(BiFunction<Player, BukkitItemModifySession, BukkitItem> customItemModifier) {
+        this.customItemModifier = customItemModifier;
+        return this;
+    }
 
     public BukkitItemModifySession withType(Material material) {
         itemStack.setType(material);

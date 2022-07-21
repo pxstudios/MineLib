@@ -23,11 +23,14 @@ public final class TestBukkitItemListener implements Listener {
                 .withUnbreakable()
                 .withAmount(15)
 
-                .withColoredName('&', "&eCompass of " + playerName)
-                .withColoredLoreList('&', Arrays.asList(
-                        "&7That item created by MineLib",
-                        "&7in tests module"
-                ))
+                .withCustomModifications((player, bukkitItemModifySession) -> bukkitItemModifySession
+                        .withColoredName('&', "&eCompass of " + playerName)
+                        .withColoredLoreList('&', Arrays.asList(
+                                "&7That item created by MineLib",
+                                "&7in tests module for " + playerName
+                        ))
+                        .complete())
+
                 .withFlag(ItemFlag.HIDE_ATTRIBUTES);
 
         return bukkitItem;
@@ -38,7 +41,7 @@ public final class TestBukkitItemListener implements Listener {
         Player player = event.getPlayer();
 
         BukkitItem compassItem = createCompassItem(player.getName());
-        compassItem.setToInventory(4, player.getInventory());
+        compassItem.setToPlayerInventory(4, player);
     }
 
 }
