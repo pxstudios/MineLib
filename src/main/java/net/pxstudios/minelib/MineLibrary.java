@@ -67,12 +67,9 @@ public final class MineLibrary {
 
         // Register default bukkit-objects registry adapters.
         registryManager.addDefaultAdapters();
-
-        // Start automatically memory cleanup task.
-        runAutoGarbageCollector();
     }
 
-    private void runAutoGarbageCollector() {
+    void runAutoGarbageCollector() {
         autoGarbageCollectorTask = beater.runTimerAsync(20L * 5, System::gc);
         autoGarbageCollectorTask.waitAfter(() -> Bukkit.getLogger().info("Auto garbage-collector is disabled!"));
     }
