@@ -1,18 +1,27 @@
 package net.pxstudios.minelib.common.item;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
+import org.apache.logging.log4j.core.util.ReflectionUtil;
+import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -140,6 +149,70 @@ public final class BukkitItemModifySession {
 
     public BukkitItemModifySession withEnchant(Enchantment enchantment) {
         return withEnchant(enchantment, 1);
+    }
+
+    public BukkitItemModifySession withSkullOwner(String skullOwner) {
+        this.<SkullMeta>modifyMeta(itemMeta -> itemMeta.setOwner(skullOwner));
+        return this;
+    }
+
+    public BukkitItemModifySession withGameProfile(GameProfile gameProfile) {
+        this.<SkullMeta>modifyMeta(itemMeta -> {
+
+            try {
+                ReflectionUtil.setFieldValue(gameProfile.getClass().getDeclaredField("profile"), itemMeta, gameProfile);
+            }
+            catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+        return this;
+    }
+
+    public BukkitItemModifySession withTextureAndSignature(String value, String signature) {
+        String uuidString = value;
+
+        if (signature != null) {
+            uuidString = (value + signature);
+        }
+
+        GameProfile gameProfile = new GameProfile(UUID.nameUUIDFromBytes(uuidString.getBytes()), null);
+
+        if (signature != null) {
+            gameProfile.getProperties().put("textures", new Property("textures", value, signature));
+        }
+        else {
+            gameProfile.getProperties().put("textures", new Property("textures", value));
+        }
+
+        return withGameProfile(gameProfile);
+    }
+
+    public BukkitItemModifySession withTextureValue(String value) {
+        return withTextureAndSignature(value, null);
+    }
+
+    public BukkitItemModifySession withLeatherColor(Color color) {
+        this.<LeatherArmorMeta>modifyMeta(itemMeta -> itemMeta.setColor(color));
+        return this;
+    }
+
+    public BukkitItemModifySession withLeatherColorMixed(Color mainColor, Color... mixedColors) {
+        this.<LeatherArmorMeta>modifyMeta(itemMeta -> itemMeta.setColor(mainColor.mixColors(mixedColors)));
+        return this;
+    }
+
+    public BukkitItemModifySession withLeatherDyeColorMixed(Color mainColor, DyeColor... mixedColors) {
+        this.<LeatherArmorMeta>modifyMeta(itemMeta -> itemMeta.setColor(mainColor.mixDyes(mixedColors)));
+        return this;
+    }
+
+    public BukkitItemModifySession withLeatherRGB(int red, int green, int blue) {
+        return withLeatherColor(Color.fromRGB(red, green, blue));
+    }
+
+    public BukkitItemModifySession withLeatherRGB(int rgb) {
+        return withLeatherColor(Color.fromRGB(rgb));
     }
 
     public BukkitItem complete() {
