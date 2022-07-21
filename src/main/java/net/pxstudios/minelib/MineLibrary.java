@@ -10,6 +10,7 @@ import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
+import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
@@ -38,6 +39,9 @@ public final class MineLibrary {
     private ChatApi chatApi;
 
     @Getter
+    private PluginConfigManager configManager;
+
+    @Getter
     private EventsSubscriber eventsSubscriber;
 
     @Getter
@@ -62,11 +66,15 @@ public final class MineLibrary {
 
         // Init library common sub-systems.
         chatApi = new ChatApi();
+        configManager = new PluginConfigManager();
         itemFactory = new BukkitItemFactory();
         locationApi = new BukkitLocationApi();
 
         // Register default bukkit-objects registry providers.
         registryManager.addDefaultProviders();
+
+        // Register default plugin-configs providers.
+        configManager.addDefaultProviders();
     }
 
     void runAutoGarbageCollector() {

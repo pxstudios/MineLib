@@ -7,6 +7,10 @@ import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.chat.ChatDirection;
+import net.pxstudios.minelib.common.config.PluginConfigManager;
+import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
+import net.pxstudios.minelib.common.config.type.TextPluginConfig;
+import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
 import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.location.point.Point2D;
@@ -16,6 +20,9 @@ import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudtios.minelib.test.complex.TestComplexBlockListener;
+import net.pxstudtios.minelib.test.config.TestPropertiesConfig;
+import net.pxstudtios.minelib.test.config.TestTextConfig;
+import net.pxstudtios.minelib.test.config.TestYamlConfig;
 import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
@@ -173,6 +180,32 @@ public final class MineLibTest extends JavaPlugin {
         }
     }
 
+    private void testConfigs() {
+        PluginConfigManager configManager = mineLibrary.getConfigManager();
+
+        // Properties configs.
+        PropertiesPluginConfig propertiesConfig = new TestPropertiesConfig(configManager, getDataFolder().toPath().resolve("config.properties").toFile())
+                .init();
+
+        propertiesConfig.set("minelib-author", "pxstudios");
+        propertiesConfig.save();
+
+        // Text configs.
+        TextPluginConfig textConfig = new TestTextConfig(configManager, getDataFolder().toPath().resolve("motd.txt").toFile())
+                .init();
+
+        textConfig.append("&bHello world!").appendNewLine().append("This is &ccolorized &eMotd!").colorize('&');
+        textConfig.save();
+
+        // Yaml configs.
+        YamlPluginConfig yamlConfig = new TestYamlConfig(configManager, getDataFolder().toPath().resolve("settings.yml").toFile())
+                .init();
+
+        yamlConfig.set("locations.cuboid.firstPosition", new Point3D(5, 5, 5));
+        yamlConfig.set("locations.cuboid.secondPosition", new Point3D(10, 5, 10));
+        yamlConfig.save();
+    }
+
     @Override
     public void onEnable() {
         registerTestCommands();
@@ -192,6 +225,8 @@ public final class MineLibTest extends JavaPlugin {
         testComplex();
 
         testLocationApi();
+
+        testConfigs();
     }
 
 }
