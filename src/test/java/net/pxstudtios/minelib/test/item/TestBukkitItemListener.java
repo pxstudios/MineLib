@@ -16,10 +16,15 @@ import java.util.Arrays;
 public final class TestBukkitItemListener implements Listener {
 
     private final BukkitItemFactory bukkitItemFactory;
+    private BukkitItem cachedBukkitItem;
 
     private BukkitItem createCompassItem(String playerName) {
-        BukkitItem bukkitItem = bukkitItemFactory.getByType(Material.COMPASS);
-        bukkitItem.getModifySession()
+        if (cachedBukkitItem != null) {
+            return cachedBukkitItem;
+        }
+
+        cachedBukkitItem = bukkitItemFactory.getByType(Material.COMPASS);
+        cachedBukkitItem.getModifySession()
                 .withUnbreakable()
                 .withAmount(15)
 
@@ -33,7 +38,7 @@ public final class TestBukkitItemListener implements Listener {
 
                 .withFlag(ItemFlag.HIDE_ATTRIBUTES);
 
-        return bukkitItem;
+        return cachedBukkitItem;
     }
 
     @EventHandler
