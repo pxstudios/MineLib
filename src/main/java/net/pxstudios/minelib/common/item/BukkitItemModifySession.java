@@ -134,6 +134,10 @@ public final class BukkitItemModifySession {
         return this;
     }
 
+    public BukkitItemModifySession withAllFlags() {
+        return withFlagsArray(ItemFlag.values());
+    }
+
     public BukkitItemModifySession withEnchant(Enchantment enchantment, int level, boolean flag) {
         modifyMeta(itemMeta -> itemMeta.addEnchant(enchantment, level, flag));
         return this;
