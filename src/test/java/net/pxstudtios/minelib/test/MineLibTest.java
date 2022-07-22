@@ -16,6 +16,7 @@ import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.location.point.Point2D;
 import net.pxstudios.minelib.common.location.point.Point3D;
+import net.pxstudios.minelib.common.permission.PlayerPermissionApi;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
@@ -23,9 +24,11 @@ import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudtios.minelib.test.complex.TestComplexBlockListener;
 import net.pxstudtios.minelib.test.cooldown.TestPlayerCooldownListener;
 import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
+import net.pxstudtios.minelib.test.permission.TestPermissionDatabaseProvider;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -217,6 +220,28 @@ public final class MineLibTest extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TestPlayerCooldownListener(playerCooldownApi), this);
     }
 
+    private void testPermissionsApi() {
+        PlayerPermissionApi permissionApi = mineLibrary.getPermissionApi();
+
+        permissionApi.setEnabled(true);
+        permissionApi.setEnabledOperatorsSystem(false);
+
+        permissionApi.setPermissionDatabaseProvider(new TestPermissionDatabaseProvider("playerPermissions.yml", this));
+
+        // Players management.
+        String testPermission = "bukkit.broadcast";
+        Player player = Bukkit.getPlayerExact("itzstonlex");
+
+        permissionApi.addPermission(player, testPermission);
+
+        boolean hasPermission = permissionApi.hasPermission(player, testPermission);
+        permissionApi.removePermission(player, testPermission);
+
+        if (hasPermission) {
+            Bukkit.broadcast(ChatColor.YELLOW + "Test broadcast message", testPermission);
+        }
+    }
+
     @Override
     public void onEnable() {
         registerTestCommands();
@@ -240,6 +265,8 @@ public final class MineLibTest extends JavaPlugin {
         testConfigs();
 
         testPlayerCooldownApi();
+
+        testPermissionsApi();
     }
 
 }

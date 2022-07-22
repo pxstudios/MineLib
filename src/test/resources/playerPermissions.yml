@@ -1,0 +1,6 @@
+players:
+  plazmix:
+    - 'bukkit.*'
+    - 'minelib.chat.test'
+  itzstonlex:
+    - '*'
