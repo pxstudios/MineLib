@@ -63,6 +63,10 @@ public class BukkitItem {
     public ItemStack getModifiedItem(Player player) {
         ItemStack item = getItem();
 
+        if (modifySession == null || modifySession.getCustomItemModifier() == null) {
+            return item;
+        }
+
         BukkitItem bukkitItem = modifySession.getCustomItemModifier().apply(player, new BukkitItemModifySession(new BukkitItem(item), item));
         return bukkitItem.getItem();
     }
