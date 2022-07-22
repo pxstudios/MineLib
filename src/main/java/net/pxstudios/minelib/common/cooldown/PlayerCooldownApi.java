@@ -26,7 +26,7 @@ public final class PlayerCooldownApi {
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-    public static class Cooldown {
+    public static final class Cooldown {
 
         public static Cooldown byMilliseconds(String name, long millisecondsDelay) {
             return new Cooldown(name, System.currentTimeMillis(), millisecondsDelay);
@@ -53,20 +53,22 @@ public final class PlayerCooldownApi {
         CompletableFuture<CooldownLeftReason> onLeft;
 
         @NonFinal
-        WrappedBukkitTask leftActionTask;
+        WrappedBukkitTask automaticallyExpirationTask;
 
-        void startLeftActionTask(PlayerCooldownApi cooldownApi) {
+        public Cooldown withAutoExpiration() {
             long delayAsTicks = (millisecondsDelay / 50L);
-            leftActionTask = MineLibrary.getLibrary().getBeater().runLater(delayAsTicks, () -> left(CooldownLeftReason.TIME_EXPIRED, cooldownApi));
+
+            automaticallyExpirationTask = MineLibrary.getLibrary().getBeater().runLater(delayAsTicks, () -> left(CooldownLeftReason.TIME_EXPIRED));
+            return this;
         }
 
-        void left(CooldownLeftReason leftReason, PlayerCooldownApi cooldownApi) {
-            if (leftActionTask != null) {
-                leftActionTask.cancel();
+        void left(CooldownLeftReason leftReason) {
+            if (automaticallyExpirationTask != null) {
+                automaticallyExpirationTask.cancel();
             }
 
             if (usableTarget != null) {
-                cooldownApi.cleanUp(usableTarget);
+                cooldownsMultimap.remove(usableTarget, Cooldown.this);
 
                 if (onLeft != null) {
                     onLeft.complete(leftReason);
@@ -79,26 +81,28 @@ public final class PlayerCooldownApi {
         }
     }
 
-    private final Multimap<Player, Cooldown> cooldownsMap = HashMultimap.create();
+    public static final long DEFAULT_RETURN_VALUE = -1L;
+
+    private static final Multimap<Player, Cooldown> cooldownsMultimap = HashMultimap.create();
 
     public PlayerCooldownApi() {
         MineLibrary.getLibrary().getEventsSubscriber()
                 .subscribe(PlayerQuitEvent.class, EventPriority.HIGHEST)
                 .complete(event -> {
 
-                    for (Cooldown cooldown : cooldownsMap.removeAll(event.getPlayer())) {
-                        cooldown.left(CooldownLeftReason.PLAYER_QUIT, this);
+                    for (Cooldown cooldown : cooldownsMultimap.removeAll(event.getPlayer())) {
+                        cooldown.left(CooldownLeftReason.PLAYER_QUIT);
                     }
                 });
     }
 
     private void cleanUp(@NonNull Player player) {
-        new HashSet<>(cooldownsMap.get(player)).forEach(cooldown -> {
+        new HashSet<>(cooldownsMultimap.get(player)).forEach(cooldown -> {
 
             if (cooldown.isExpired()) {
-                cooldown.left(CooldownLeftReason.TIME_EXPIRED, this);
+                cooldown.left(CooldownLeftReason.TIME_EXPIRED);
 
-                cooldownsMap.remove(player, cooldown);
+                cooldownsMultimap.remove(player, cooldown);
             }
         });
     }
@@ -111,9 +115,7 @@ public final class PlayerCooldownApi {
         cooldown.setOnLeft(completableFuture);
         cooldown.setUsableTarget(player);
 
-        cooldown.startLeftActionTask(this);
-
-        cooldownsMap.put(player, cooldown);
+        cooldownsMultimap.put(player, cooldown);
         return completableFuture;
     }
 
@@ -128,27 +130,27 @@ public final class PlayerCooldownApi {
     public long getCachedDelay(@NonNull Player player, @NonNull String name) {
         cleanUp(player);
 
-        for (Cooldown cooldown : cooldownsMap.get(player)) {
+        for (Cooldown cooldown : cooldownsMultimap.get(player)) {
 
             if (cooldown.name.equals(name)) {
                 return cooldown.millisecondsDelay;
             }
         }
 
-        return -1L;
+        return DEFAULT_RETURN_VALUE;
     }
 
     public long getLeftTime(@NonNull Player player, @NonNull String name) {
         cleanUp(player);
 
-        for (Cooldown cooldown : cooldownsMap.get(player)) {
+        for (Cooldown cooldown : cooldownsMultimap.get(player)) {
 
             if (cooldown.name.equals(name)) {
                 return cooldown.millisecondsDelay - (System.currentTimeMillis() - cooldown.initMillisecondsTime);
             }
         }
 
-        return -1L;
+        return DEFAULT_RETURN_VALUE;
     }
 
     public boolean hasCooldown(@NonNull Player player, @NonNull String name) {

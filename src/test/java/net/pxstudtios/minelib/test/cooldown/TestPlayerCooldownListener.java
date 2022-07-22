@@ -34,7 +34,7 @@ public final class TestPlayerCooldownListener implements Listener {
             return;
         }
 
-        playerCooldownApi.addCooldown(player, PlayerCooldownApi.Cooldown.bySeconds(cooldownName, 5))
+        playerCooldownApi.addCooldown(player, PlayerCooldownApi.Cooldown.bySeconds(cooldownName, 5).withAutoExpiration())
                 .thenAccept((cooldownLeftReason) -> player.sendMessage(ChatColor.GREEN + "You can to blocks placing now! (" + cooldownLeftReason + ")"));
     }
 
