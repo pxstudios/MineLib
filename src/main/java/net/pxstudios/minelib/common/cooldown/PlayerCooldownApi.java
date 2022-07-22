@@ -2,107 +2,20 @@ package net.pxstudios.minelib.common.cooldown;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import net.pxstudios.minelib.MineLibrary;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 public final class PlayerCooldownApi {
 
-    public enum CooldownFlag {
-
-        WITH_AUTO_EXPIRATION,
-        REMOVE_ON_PLAYER_QUIT,
-    }
-
-    public enum CooldownLeftReason {
-
-        PLAYER_QUIT,
-        TIME_EXPIRED,
-    }
-
-    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-    public static final class Cooldown {
-
-        public static Cooldown byMilliseconds(String name, long millisecondsDelay) {
-            return new Cooldown(name, System.currentTimeMillis(), millisecondsDelay);
-        }
-
-        public static Cooldown bySeconds(String name, long secondsDelay) {
-            return byMilliseconds(name, TimeUnit.SECONDS.toMillis(secondsDelay));
-        }
-
-        public static Cooldown byTicks(String name, long bukkitTicksDelay) {
-            return byMilliseconds(name, bukkitTicksDelay * 50L);
-        }
-
-        String name;
-
-        long initMillisecondsTime, millisecondsDelay;
-
-        Set<CooldownFlag> flagsSet = new HashSet<>();
-
-        @NonFinal
-        @Setter(AccessLevel.PRIVATE)
-        Player usableTarget;
-
-        @NonFinal
-        @Setter(AccessLevel.PRIVATE)
-        CompletableFuture<CooldownLeftReason> onLeft;
-
-        @NonFinal
-        WrappedBukkitTask automaticallyExpirationTask;
-
-        public Cooldown withFlag(@NonNull CooldownFlag flag) {
-            flagsSet.add(flag);
-            return this;
-        }
-
-        boolean hasFlag(CooldownFlag flag) {
-            return flagsSet.contains(flag);
-        }
-
-        boolean isExpired() {
-            return System.currentTimeMillis() - initMillisecondsTime >= millisecondsDelay;
-        }
-
-        void enableAutoExpirationTask() {
-            long delayAsTicks = (millisecondsDelay / 50L);
-
-            automaticallyExpirationTask = MineLibrary.getLibrary().getBeater().runLater(delayAsTicks, () -> left(CooldownLeftReason.TIME_EXPIRED));
-        }
-
-        void left(CooldownLeftReason leftReason) {
-            if (automaticallyExpirationTask != null) {
-                automaticallyExpirationTask.cancel();
-            }
-
-            if (usableTarget != null) {
-                cooldownsMultimap.remove(usableTarget, Cooldown.this);
-
-                if (onLeft != null) {
-                    onLeft.complete(leftReason);
-                }
-            }
-        }
-    }
-
     public static final long DEFAULT_RETURN_VALUE = -1L;
 
-    private static final Multimap<Player, Cooldown> cooldownsMultimap = HashMultimap.create();
+    static final Multimap<Player, Cooldown> cooldownsMultimap = HashMultimap.create();
 
     public PlayerCooldownApi() {
         MineLibrary.getLibrary().getEventsSubscriber()
@@ -133,7 +46,7 @@ public final class PlayerCooldownApi {
         CompletableFuture<CooldownLeftReason> completableFuture = new CompletableFuture<>();
 
         cooldown.setOnLeft(completableFuture);
-        cooldown.setUsableTarget(player);
+        cooldown.setPlayer(player);
 
         if (cooldown.hasFlag(CooldownFlag.WITH_AUTO_EXPIRATION)) {
             cooldown.enableAutoExpirationTask();
@@ -156,8 +69,8 @@ public final class PlayerCooldownApi {
 
         for (Cooldown cooldown : cooldownsMultimap.get(player)) {
 
-            if (cooldown.name.equals(name)) {
-                return cooldown.millisecondsDelay;
+            if (cooldown.getName().equals(name)) {
+                return cooldown.getMillisecondsDelay();
             }
         }
 
@@ -169,8 +82,8 @@ public final class PlayerCooldownApi {
 
         for (Cooldown cooldown : cooldownsMultimap.get(player)) {
 
-            if (cooldown.name.equals(name)) {
-                return cooldown.millisecondsDelay - (System.currentTimeMillis() - cooldown.initMillisecondsTime);
+            if (cooldown.getName().equals(name)) {
+                return cooldown.getMillisecondsDelay() - (System.currentTimeMillis() - cooldown.getInitMillisecondsTime());
             }
         }
 
