@@ -96,6 +96,8 @@ public final class PlayerCooldownApi {
         new HashSet<>(cooldownsMap.get(player)).forEach(cooldown -> {
 
             if (cooldown.isExpired()) {
+                cooldown.left(CooldownLeftReason.TIME_EXPIRED, this);
+
                 cooldownsMap.remove(player, cooldown);
             }
         });
