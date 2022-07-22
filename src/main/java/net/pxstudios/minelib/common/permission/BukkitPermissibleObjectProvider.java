@@ -67,13 +67,11 @@ public class BukkitPermissibleObjectProvider extends PermissibleBase {
         StringBuilder partsBuilder = new StringBuilder();
 
         for (int in = 0; in < parts.length; in++) {
-            partsBuilder.append(parts[0]);
+            partsBuilder.append(parts[0]).append(".");
 
-            if (permissionsSet.contains(partsBuilder + ".*")) {
+            if (permissionsSet.contains(partsBuilder + "*")) {
                 return true;
             }
-
-            partsBuilder.append(".");
         }
 
         return false;
