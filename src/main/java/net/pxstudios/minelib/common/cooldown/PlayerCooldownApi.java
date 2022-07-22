@@ -107,10 +107,11 @@ public final class PlayerCooldownApi {
     private CompletableFuture<CooldownLeftReason> addCooldown0(@NonNull Player player, @NonNull Cooldown cooldown) {
         cleanUp(player);
 
-        cooldown.setUsableTarget(player);
         CompletableFuture<CooldownLeftReason> completableFuture = new CompletableFuture<>();
 
         cooldown.setOnLeft(completableFuture);
+        cooldown.setUsableTarget(player);
+
         cooldown.startLeftActionTask(this);
 
         cooldownsMap.put(player, cooldown);
