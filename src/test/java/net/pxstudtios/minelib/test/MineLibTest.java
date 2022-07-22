@@ -76,7 +76,7 @@ public final class MineLibTest extends JavaPlugin {
             Bukkit.getLogger().info("Task #" + timerTask.getTaskId() + " was cancelled!");
         });
 
-        List<BukkitTask> pendingTasks = bukkitBeater.callSync(bukkitBeater::getPendingTasks).get();
+        List<BukkitTask> pendingTasks = bukkitBeater.getPendingTasks();
         pendingTasks.forEach(bukkitTask -> {
 
             WrappedBukkitTask wrappedCancellingTask = bukkitBeater.runLater(60L, () -> bukkitBeater.cancel(bukkitTask));
