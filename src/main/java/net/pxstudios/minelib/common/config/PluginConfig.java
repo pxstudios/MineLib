@@ -2,6 +2,7 @@ package net.pxstudios.minelib.common.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -31,8 +32,12 @@ public abstract class PluginConfig<Type> {
         provider.save(file, data);
     }
 
+    public void copyResource(Plugin plugin, String resourceName) {
+        plugin.saveResource(resourceName, false);
+    }
+
     @SneakyThrows
-    public void createFile() {
+    public void createNewResource() {
         if (!isExists()) {
             Files.createFile(file.toPath());
         }

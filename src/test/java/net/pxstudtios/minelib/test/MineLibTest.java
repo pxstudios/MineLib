@@ -183,7 +183,7 @@ public final class MineLibTest extends JavaPlugin {
         // Properties configs.
         PropertiesPluginConfig propertiesConfig = configManager.createPropertiesConfig(getDataFolder().toPath().resolve("config.properties").toFile());
 
-        propertiesConfig.createFile();
+        propertiesConfig.createNewResource();
 
         propertiesConfig.set("minelib-author", "pxstudios");
         propertiesConfig.save();
@@ -191,7 +191,7 @@ public final class MineLibTest extends JavaPlugin {
         // Text configs.
         TextPluginConfig textConfig = configManager.createTextConfig(getDataFolder().toPath().resolve("motd.txt").toFile());
 
-        textConfig.createFile();
+        textConfig.createNewResource();
 
         textConfig.append("&bHello world!")
                 .appendNewLine()
@@ -203,7 +203,7 @@ public final class MineLibTest extends JavaPlugin {
         // Yaml configs.
         YamlPluginConfig yamlConfig = configManager.createYamlConfig(getDataFolder().toPath().resolve("settings.yml").toFile());
 
-        yamlConfig.createFile();
+        yamlConfig.createNewResource();
 
         yamlConfig.set("locations.cuboid.firstPosition", new Point3D(5, 5, 5));
         yamlConfig.set("locations.cuboid.secondPosition", new Point3D(10, 5, 10));
