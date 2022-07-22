@@ -11,6 +11,7 @@ import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
 import net.pxstudios.minelib.common.config.type.TextPluginConfig;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
+import net.pxstudios.minelib.common.cooldown.PlayerCooldownApi;
 import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.location.point.Point2D;
@@ -20,6 +21,7 @@ import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudtios.minelib.test.complex.TestComplexBlockListener;
+import net.pxstudtios.minelib.test.cooldown.TestPlayerCooldownListener;
 import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
@@ -210,6 +212,11 @@ public final class MineLibTest extends JavaPlugin {
         yamlConfig.save();
     }
 
+    private void testPlayerCooldownApi() {
+        PlayerCooldownApi playerCooldownApi = mineLibrary.getPlayerCooldownApi();
+        getServer().getPluginManager().registerEvents(new TestPlayerCooldownListener(playerCooldownApi), this);
+    }
+
     @Override
     public void onEnable() {
         registerTestCommands();
@@ -231,6 +238,8 @@ public final class MineLibTest extends JavaPlugin {
         testLocationApi();
 
         testConfigs();
+
+        testPlayerCooldownApi();
     }
 
 }

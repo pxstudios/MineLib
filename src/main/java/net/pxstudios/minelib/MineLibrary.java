@@ -9,6 +9,7 @@ import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.command.CommandRegistry;
+import net.pxstudios.minelib.common.cooldown.PlayerCooldownApi;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.event.EventsSubscriber;
@@ -42,6 +43,9 @@ public final class MineLibrary {
     private PluginConfigManager configManager;
 
     @Getter
+    private PlayerCooldownApi playerCooldownApi;
+
+    @Getter
     private EventsSubscriber eventsSubscriber;
 
     @Getter
@@ -67,6 +71,7 @@ public final class MineLibrary {
         // Init library common sub-systems.
         chatApi = new ChatApi();
         configManager = new PluginConfigManager();
+        playerCooldownApi = new PlayerCooldownApi();
         itemFactory = new BukkitItemFactory();
         locationApi = new BukkitLocationApi();
 
