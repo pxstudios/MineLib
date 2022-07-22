@@ -34,7 +34,10 @@ public final class TestPlayerCooldownListener implements Listener {
             return;
         }
 
-        playerCooldownApi.addCooldown(player, PlayerCooldownApi.Cooldown.bySeconds(cooldownName, 5).withAutoExpiration())
+        playerCooldownApi.addCooldown(player, PlayerCooldownApi.Cooldown.bySeconds(cooldownName, 5)
+                        .withFlag(PlayerCooldownApi.CooldownFlag.WITH_AUTO_EXPIRATION)
+                        .withFlag(PlayerCooldownApi.CooldownFlag.REMOVE_ON_PLAYER_QUIT))
+
                 .thenAccept((cooldownLeftReason) -> player.sendMessage(ChatColor.GREEN + "You can to blocks placing now! (" + cooldownLeftReason + ")"));
     }
 
@@ -49,7 +52,8 @@ public final class TestPlayerCooldownListener implements Listener {
             return;
         }
 
-        playerCooldownApi.addCooldown(player, PlayerCooldownApi.Cooldown.byTicks(cooldownName, 30L));
+        playerCooldownApi.addCooldown(player, PlayerCooldownApi.Cooldown.byTicks(cooldownName, 30L)
+                .withFlag(PlayerCooldownApi.CooldownFlag.REMOVE_ON_PLAYER_QUIT));
 
         long millisDelay = playerCooldownApi.getCachedDelay(player, cooldownName);
         player.sendMessage(ChatColor.RED + "COOLDOWN: Please wait " + millisDelay + "ms for repeat this action!");

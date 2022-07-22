@@ -15,13 +15,22 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public final class PlayerCooldownApi {
 
+    public enum CooldownFlag {
+
+        WITH_AUTO_EXPIRATION,
+        REMOVE_ON_PLAYER_QUIT,
+    }
+
     public enum CooldownLeftReason {
-        PLAYER_QUIT, TIME_EXPIRED
+
+        PLAYER_QUIT,
+        TIME_EXPIRED,
     }
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -44,6 +53,8 @@ public final class PlayerCooldownApi {
 
         long initMillisecondsTime, millisecondsDelay;
 
+        Set<CooldownFlag> flagsSet = new HashSet<>();
+
         @NonFinal
         @Setter(AccessLevel.PRIVATE)
         Player usableTarget;
@@ -55,11 +66,23 @@ public final class PlayerCooldownApi {
         @NonFinal
         WrappedBukkitTask automaticallyExpirationTask;
 
-        public Cooldown withAutoExpiration() {
+        public Cooldown withFlag(@NonNull CooldownFlag flag) {
+            flagsSet.add(flag);
+            return this;
+        }
+
+        boolean hasFlag(CooldownFlag flag) {
+            return flagsSet.contains(flag);
+        }
+
+        boolean isExpired() {
+            return System.currentTimeMillis() - initMillisecondsTime >= millisecondsDelay;
+        }
+
+        void enableAutoExpirationTask() {
             long delayAsTicks = (millisecondsDelay / 50L);
 
             automaticallyExpirationTask = MineLibrary.getLibrary().getBeater().runLater(delayAsTicks, () -> left(CooldownLeftReason.TIME_EXPIRED));
-            return this;
         }
 
         void left(CooldownLeftReason leftReason) {
@@ -75,10 +98,6 @@ public final class PlayerCooldownApi {
                 }
             }
         }
-
-        boolean isExpired() {
-            return System.currentTimeMillis() - initMillisecondsTime >= millisecondsDelay;
-        }
     }
 
     public static final long DEFAULT_RETURN_VALUE = -1L;
@@ -90,8 +109,11 @@ public final class PlayerCooldownApi {
                 .subscribe(PlayerQuitEvent.class, EventPriority.HIGHEST)
                 .complete(event -> {
 
-                    for (Cooldown cooldown : cooldownsMultimap.removeAll(event.getPlayer())) {
-                        cooldown.left(CooldownLeftReason.PLAYER_QUIT);
+                    for (Cooldown cooldown : new HashSet<>(cooldownsMultimap.get(event.getPlayer()))) {
+
+                        if (cooldown.hasFlag(CooldownFlag.REMOVE_ON_PLAYER_QUIT)) {
+                            cooldown.left(CooldownLeftReason.PLAYER_QUIT);
+                        }
                     }
                 });
     }
@@ -101,8 +123,6 @@ public final class PlayerCooldownApi {
 
             if (cooldown.isExpired()) {
                 cooldown.left(CooldownLeftReason.TIME_EXPIRED);
-
-                cooldownsMultimap.remove(player, cooldown);
             }
         });
     }
@@ -114,6 +134,10 @@ public final class PlayerCooldownApi {
 
         cooldown.setOnLeft(completableFuture);
         cooldown.setUsableTarget(player);
+
+        if (cooldown.hasFlag(CooldownFlag.WITH_AUTO_EXPIRATION)) {
+            cooldown.enableAutoExpirationTask();
+        }
 
         cooldownsMultimap.put(player, cooldown);
         return completableFuture;
