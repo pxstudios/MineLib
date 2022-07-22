@@ -72,6 +72,8 @@ public class BukkitPermissibleObjectProvider extends PermissibleBase {
             if (permissionsSet.contains(partsBuilder + ".*")) {
                 return true;
             }
+
+            partsBuilder.append(".");
         }
 
         return false;
