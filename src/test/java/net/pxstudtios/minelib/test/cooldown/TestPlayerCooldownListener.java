@@ -26,7 +26,7 @@ public final class TestPlayerCooldownListener implements Listener {
         String cooldownName = BLOCK_BREAK_COOLDOWN_NAME;
 
         if (playerCooldownApi.hasCooldown(player, cooldownName)) {
-            long millisLeft = playerCooldownApi.getCooldownLeft(player, cooldownName);
+            long millisLeft = playerCooldownApi.getLeftTime(player, cooldownName);
 
             player.sendMessage(ChatColor.RED + "COOLDOWN: Please wait " + TimeUnit.MILLISECONDS.toSeconds(millisLeft) + " seconds for repeat this action!");
             event.setCancelled(true);
@@ -51,7 +51,7 @@ public final class TestPlayerCooldownListener implements Listener {
 
         playerCooldownApi.addCooldown(player, PlayerCooldownApi.Cooldown.byTicks(cooldownName, 30L));
 
-        long millisDelay = playerCooldownApi.getCooldownDelay(player, cooldownName);
+        long millisDelay = playerCooldownApi.getCachedDelay(player, cooldownName);
         player.sendMessage(ChatColor.RED + "COOLDOWN: Please wait " + millisDelay + "ms for repeat this action!");
     }
 

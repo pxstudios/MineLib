@@ -125,7 +125,7 @@ public final class PlayerCooldownApi {
         return addCooldown(player, Cooldown.byMilliseconds(name, millisecondsDelay));
     }
 
-    public long getCooldownDelay(@NonNull Player player, @NonNull String name) {
+    public long getCachedDelay(@NonNull Player player, @NonNull String name) {
         cleanUp(player);
 
         for (Cooldown cooldown : cooldownsMap.get(player)) {
@@ -138,7 +138,7 @@ public final class PlayerCooldownApi {
         return -1L;
     }
 
-    public long getCooldownLeft(@NonNull Player player, @NonNull String name) {
+    public long getLeftTime(@NonNull Player player, @NonNull String name) {
         cleanUp(player);
 
         for (Cooldown cooldown : cooldownsMap.get(player)) {
@@ -152,7 +152,7 @@ public final class PlayerCooldownApi {
     }
 
     public boolean hasCooldown(@NonNull Player player, @NonNull String name) {
-        return getCooldownLeft(player, name) > 0;
+        return getLeftTime(player, name) > 0;
     }
 
 }
