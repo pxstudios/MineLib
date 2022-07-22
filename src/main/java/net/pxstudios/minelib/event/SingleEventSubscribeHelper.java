@@ -34,7 +34,7 @@ public class SingleEventSubscribeHelper<T extends Event> implements Listener, Ev
             return;
         }
 
-        if (singleEventBuilder == null || !singleEventBuilder.isCompleted()) {
+        if (singleEventBuilder == null) {
             return;
         }
 
@@ -62,7 +62,7 @@ public class SingleEventSubscribeHelper<T extends Event> implements Listener, Ev
         useCounter++;
     }
 
-    public void sync(@NonNull SingleEventBuilder<T> singleEventBuilder) {
+    public void registerInBukkit(@NonNull SingleEventBuilder<T> singleEventBuilder) {
         this.syncTimeMillis = System.currentTimeMillis();
         this.singleEventBuilder = singleEventBuilder;
 

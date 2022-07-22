@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-@Getter
+@Getter(AccessLevel.PACKAGE)
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public final class SingleEventBuilder<T extends Event> {
 
@@ -23,7 +23,6 @@ public final class SingleEventBuilder<T extends Event> {
 
     private final Map<Predicate<T>, Boolean> predicatesUnregisterMap = new HashMap<>();
 
-    private boolean completed;
     private boolean ignoreCancelled;
 
     private Consumer<T> handler;
@@ -52,10 +51,8 @@ public final class SingleEventBuilder<T extends Event> {
     }
 
     public void complete(Consumer<T> eventHandler) {
-        completed = true;
         handler = eventHandler;
-
-        eventSubscribeHelper.sync(this);
+        eventSubscribeHelper.registerInBukkit(this);
     }
 
 }
