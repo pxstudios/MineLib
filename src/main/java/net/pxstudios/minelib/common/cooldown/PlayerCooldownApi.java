@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 public final class PlayerCooldownApi {
 

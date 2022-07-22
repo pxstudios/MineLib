@@ -1,8 +1,8 @@
 package net.pxstudtios.minelib.test.command;
 
-import net.pxstudios.minelib.command.type.AbstractContextCommand;
 import net.pxstudios.minelib.command.CommandContext;
 import net.pxstudios.minelib.command.CommandSettings;
+import net.pxstudios.minelib.command.type.AbstractContextCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
