@@ -15,6 +15,11 @@ public class PropertiesConfigProvider implements PluginConfigProvider<Properties
 
     private final Map<File, Properties> typesByFileMap = new HashMap<>();
 
+    @Override
+    public boolean validateFileFormat(File file) {
+        return file != null && file.getName().endsWith(".properties");
+    }
+
     @SneakyThrows
     @Override
     public Properties provide(File file) {

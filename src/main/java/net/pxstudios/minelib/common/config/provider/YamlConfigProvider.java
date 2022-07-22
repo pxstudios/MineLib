@@ -14,6 +14,11 @@ public class YamlConfigProvider implements PluginConfigProvider<YamlConfiguratio
     private final Map<File, YamlConfiguration> typesByFileMap = new HashMap<>();
 
     @Override
+    public boolean validateFileFormat(File file) {
+        return file.getName().endsWith(".yml") || file.getName().endsWith(".yaml");
+    }
+
+    @Override
     public YamlConfiguration provide(File file) {
         YamlConfiguration configuration = typesByFileMap.get(file);
         

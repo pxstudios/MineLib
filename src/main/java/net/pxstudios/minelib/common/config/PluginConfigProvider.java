@@ -1,11 +1,15 @@
 package net.pxstudios.minelib.common.config;
 
-import net.pxstudios.minelib.common.config.PluginConfig;
-
 import java.io.File;
 import java.nio.file.Path;
 
 public interface PluginConfigProvider<Type> {
+
+    default boolean validateFileFormat(Path path) {
+        return validateFileFormat(path.toFile());
+    }
+
+    boolean validateFileFormat(File file);
 
     default Type provide(Path path) {
         return provide(path.toFile());

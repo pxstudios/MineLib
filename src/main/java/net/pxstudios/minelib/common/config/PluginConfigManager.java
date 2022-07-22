@@ -33,9 +33,11 @@ public final class PluginConfigManager {
     public <Type> PluginConfig<Type> createConfigObject(Class<? extends PluginConfigProvider<Type>> cls, File file) {
         PluginConfigProvider<Type> provider = getProvider(cls);
 
-        // todo: add @file format checking.
-
         if (provider != null) {
+            if (!provider.validateFileFormat(file)) {
+                throw new IllegalArgumentException(String.format("Invalid `%s` format", file.getName()));
+            }
+
             return provider.createConfig(file);
         }
 

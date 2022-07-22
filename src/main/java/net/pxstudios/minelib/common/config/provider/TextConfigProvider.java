@@ -13,7 +13,11 @@ import java.util.Map;
 public class TextConfigProvider implements PluginConfigProvider<String> {
     
     private final Map<File, String> typesByFileMap = new HashMap<>();
-    
+
+    @Override
+    public boolean validateFileFormat(File file) {
+        return file != null;
+    }
     @SneakyThrows
     @Override
     public String provide(File file) {
