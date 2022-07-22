@@ -32,17 +32,13 @@ public class BukkitPermissibleObjectProvider extends PermissibleBase {
     }
 
     public void addPermission(String permission) {
-        permissionsSet.add(permission);
-
-        if (permissionApi.getPermissionDatabaseProvider() != null) {
+        if (permissionsSet.add(permission) && permissionApi.getPermissionDatabaseProvider() != null) {
             permissionApi.getPermissionDatabaseProvider().onPermissionAdd(player, permission);
         }
     }
 
     public void removePermission(String permission) {
-        permissionsSet.remove(permission);
-
-        if (permissionApi.getPermissionDatabaseProvider() != null) {
+        if (permissionsSet.remove(permission) && permissionApi.getPermissionDatabaseProvider() != null) {
             permissionApi.getPermissionDatabaseProvider().onPermissionDelete(player, permission);
         }
     }
