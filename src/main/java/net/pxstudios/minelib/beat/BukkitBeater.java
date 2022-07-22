@@ -2,7 +2,6 @@ package net.pxstudios.minelib.beat;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitFuture;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
 import org.bukkit.plugin.Plugin;
@@ -51,10 +50,6 @@ public final class BukkitBeater {
 
     public void cancelAll() {
         plugin.getServer().getScheduler().cancelTasks(plugin);
-    }
-
-    public <T> WrappedBukkitFuture<T> callSync(Callable<T> callable) {
-        return new WrappedBukkitFuture<T>(this, plugin.getServer().getScheduler().callSyncMethod(plugin, callable));
     }
 
     public WrappedBukkitTask runSync(Runnable command) {
