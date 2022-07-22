@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public final class SingleEventBuilder<T extends Event> {
 
-    private final SingleEventSubscribeHelper<T> eventSubscribeHelper;
+    private final EventSubscribeHelper<T> eventSubscribeHelper;
 
     private final Class<T> eventClass;
     private final EventPriority priority;
@@ -27,27 +27,27 @@ public final class SingleEventBuilder<T extends Event> {
 
     private Consumer<T> handler;
 
-    public SingleEventBuilder<T> ignoreCancelled() {
+    public SingleEventBuilder<T> withIgnoreCancelled() {
         ignoreCancelled = true;
         return this;
     }
 
-    public SingleEventBuilder<T> useFilter(Predicate<T> eventFilter) {
+    public SingleEventBuilder<T> withPredication(Predicate<T> eventFilter) {
         predicatesUnregisterMap.put(eventFilter, false);
         return this;
     }
 
-    public SingleEventBuilder<T> useExpire(Predicate<T> eventFilter) {
+    public SingleEventBuilder<T> withExpiration(Predicate<T> eventFilter) {
         predicatesUnregisterMap.put(eventFilter, true);
         return this;
     }
 
-    public SingleEventBuilder<T> useExpireMaxCount(int maxCountUse) {
-        return useExpire(event -> eventSubscribeHelper.getUseCounter() >= maxCountUse);
+    public SingleEventBuilder<T> withExpirationTime(long delay, TimeUnit timeUnit) {
+        return withExpiration(event -> (System.currentTimeMillis() - eventSubscribeHelper.getRegisteredTimeMillis()) >= timeUnit.toMillis(delay));
     }
 
-    public SingleEventBuilder<T> useExpireTime(long delay, TimeUnit timeUnit) {
-        return useExpire(event -> (System.currentTimeMillis() - eventSubscribeHelper.getSyncTimeMillis()) >= timeUnit.toMillis(delay));
+    public SingleEventBuilder<T> withMaxUseCount(int maxCountUse) {
+        return withExpiration(event -> eventSubscribeHelper.getUsingCounter() >= maxCountUse);
     }
 
     public void complete(Consumer<T> eventHandler) {

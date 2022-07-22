@@ -89,13 +89,13 @@ public final class MineLibTest extends JavaPlugin {
 
     private void testEventsSubscriber() {
         mineLibrary.getEventsSubscriber().subscribe(PlayerJoinEvent.class, EventPriority.HIGHEST)
-                .ignoreCancelled() // если ивент ранее был отменен, то он не будет использоваться
+                .withIgnoreCancelled() // если ивент ранее был отменен, то он не будет использоваться
 
-                .useFilter(event -> event.getPlayer().hasPermission("join.announce")) // ивент не будет работать на игроков, у которых нет права join.announce
+                .withPredication(event -> event.getPlayer().hasPermission("join.announce")) // ивент не будет работать на игроков, у которых нет права join.announce
 
-                .useExpireMaxCount(15) // если ивент использовался 15 раз или больше, то он разрегистрируется
-                .useExpireTime(5, TimeUnit.SECONDS) // если ивент работает уже 5 секунд, то он разрегистрируется
-                .useExpire(event -> event.getPlayer().getLevel() > 50) // если хоть один игрок зашел с уровнем > 50, то ивент больше не работает
+                .withMaxUseCount(15) // если ивент использовался 15 раз или больше, то он разрегистрируется
+                .withExpirationTime(5, TimeUnit.SECONDS) // если ивент работает уже 5 секунд, то он разрегистрируется
+                .withExpiration(event -> event.getPlayer().getLevel() > 50) // если хоть один игрок зашел с уровнем > 50, то ивент больше не работает
 
                 // обработчик события
                 .complete(event -> {

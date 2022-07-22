@@ -12,19 +12,19 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class SingleEventSubscribeHelper<T extends Event> implements Listener, EventExecutor {
+public class EventSubscribeHelper<T extends Event> implements Listener, EventExecutor {
 
     private final Plugin plugin;
     private SingleEventBuilder<T> singleEventBuilder;
 
     @Getter
-    private long useCounter;
+    private long usingCounter;
 
     @Getter
     private boolean active;
 
     @Getter
-    private long syncTimeMillis;
+    private long registeredTimeMillis;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -59,11 +59,11 @@ public class SingleEventSubscribeHelper<T extends Event> implements Listener, Ev
         }
 
         singleEventBuilder.getHandler().accept(instance);
-        useCounter++;
+        usingCounter++;
     }
 
     public void registerInBukkit(@NonNull SingleEventBuilder<T> singleEventBuilder) {
-        this.syncTimeMillis = System.currentTimeMillis();
+        this.registeredTimeMillis = System.currentTimeMillis();
         this.singleEventBuilder = singleEventBuilder;
 
         this.active = true;
@@ -77,7 +77,7 @@ public class SingleEventSubscribeHelper<T extends Event> implements Listener, Ev
     private static void unregisterListener(Class<? extends Event> eventClass, Listener listener) {
         Method getHandlerListMethod = eventClass.getMethod("getHandlerList");
 
-        HandlerList handlerList = (HandlerList)getHandlerListMethod.invoke(null);
+        HandlerList handlerList = (HandlerList) getHandlerListMethod.invoke(null);
         handlerList.unregister(listener);
     }
 

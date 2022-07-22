@@ -15,7 +15,7 @@ public final class EventsSubscriber {
     }
 
     public <T extends Event> SingleEventBuilder<T> subscribe(Class<T> event, EventPriority priority) {
-        return new SingleEventBuilder<>(new SingleEventSubscribeHelper<>(plugin), event, priority);
+        return new SingleEventBuilder<>(new EventSubscribeHelper<>(plugin), event, priority);
     }
 
     public <T extends Event> SingleEventBuilder<T> subscribe(Class<T> event) {

@@ -57,7 +57,7 @@ public class EventListenerRegistryObjectProvider implements BukkitRegistryObject
         SingleEventBuilder<E> singleEventBuilder = mineLibrary.getEventsSubscriber().subscribe(cls, eventHandler.priority());
 
         if (eventHandler.ignoreCancelled()) {
-            singleEventBuilder.ignoreCancelled();
+            singleEventBuilder.withIgnoreCancelled();
         }
 
         singleEventBuilder.complete(completable);
