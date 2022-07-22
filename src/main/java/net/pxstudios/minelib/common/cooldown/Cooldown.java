@@ -70,12 +70,12 @@ public final class Cooldown {
             automaticallyExpirationTask.cancel();
         }
 
+        if (onLeft != null) {
+            onLeft.complete(leftReason);
+        }
+
         if (player != null) {
             PlayerCooldownApi.cooldownsMultimap.remove(player, Cooldown.this);
-
-            if (onLeft != null) {
-                onLeft.complete(leftReason);
-            }
         }
     }
 }
