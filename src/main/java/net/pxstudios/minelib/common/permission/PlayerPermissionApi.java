@@ -9,11 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.PermissibleBase;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class PlayerPermissionApi {
 
@@ -91,6 +94,16 @@ public final class PlayerPermissionApi {
         if (permissible != null) {
             permissible.removePermission(permission);
         }
+    }
+
+    public Set<String> getPermissions(Player player) {
+        BukkitPermissibleObjectProvider permissible = getCachedPermissible(player);
+
+        if (permissible != null) {
+            return permissible.getPermissions();
+        }
+
+        return player.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).collect(Collectors.toSet());
     }
 
     public boolean hasPermission(Player player, String permission) {
