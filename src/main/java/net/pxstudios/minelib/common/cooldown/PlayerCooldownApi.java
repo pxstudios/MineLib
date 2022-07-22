@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashSet;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -50,7 +51,7 @@ public final class PlayerCooldownApi {
 
         @NonFinal
         @Setter(AccessLevel.PRIVATE)
-        Consumer<CooldownLeftReason> onLeft;
+        CompletableFuture<CooldownLeftReason> onLeft;
 
         @NonFinal
         WrappedBukkitTask leftActionTask;
@@ -69,7 +70,7 @@ public final class PlayerCooldownApi {
                 cooldownApi.cleanUp(usableTarget);
 
                 if (onLeft != null) {
-                    onLeft.accept(leftReason);
+                    onLeft.complete(leftReason);
                 }
             }
         }
@@ -103,34 +104,25 @@ public final class PlayerCooldownApi {
         });
     }
 
-    private void addCooldown0(@NonNull Player player, @NonNull Cooldown cooldown, Consumer<CooldownLeftReason> onLeft) {
+    private CompletableFuture<CooldownLeftReason> addCooldown0(@NonNull Player player, @NonNull Cooldown cooldown) {
         cleanUp(player);
 
         cooldown.setUsableTarget(player);
+        CompletableFuture<CooldownLeftReason> completableFuture = new CompletableFuture<>();
 
-        if (onLeft != null) {
-
-            cooldown.setOnLeft(onLeft);
-            cooldown.startLeftActionTask(this);
-        }
+        cooldown.setOnLeft(completableFuture);
+        cooldown.startLeftActionTask(this);
 
         cooldownsMap.put(player, cooldown);
+        return completableFuture;
     }
 
-    public void addCooldown(Player player, Cooldown cooldown, Consumer<CooldownLeftReason> onLeft) {
-        addCooldown0(player, cooldown, onLeft);
+    public CompletableFuture<CooldownLeftReason> addCooldown(Player player, Cooldown cooldown) {
+        return addCooldown0(player, cooldown);
     }
 
-    public void addCooldown(Player player, Cooldown cooldown) {
-        addCooldown(player, cooldown, null);
-    }
-
-    public void addCooldown(Player player, @NonNull String name, long millisecondsDelay, Consumer<CooldownLeftReason> onLeft) {
-        addCooldown(player, Cooldown.byMilliseconds(name, millisecondsDelay), onLeft);
-    }
-
-    public void addCooldown(Player player, @NonNull String name, long millisecondsDelay) {
-        addCooldown(player, name, millisecondsDelay, null);
+    public CompletableFuture<CooldownLeftReason> addCooldown(Player player, @NonNull String name, long millisecondsDelay) {
+        return addCooldown(player, Cooldown.byMilliseconds(name, millisecondsDelay));
     }
 
     public long getCooldownDelay(@NonNull Player player, @NonNull String name) {
