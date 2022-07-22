@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.PermissibleBase;
@@ -37,7 +38,7 @@ public final class PlayerPermissionApi {
     public PlayerPermissionApi() {
         EventsSubscriber eventsSubscriber = MineLibrary.getLibrary().getEventsSubscriber();
 
-        eventsSubscriber.subscribe(PlayerJoinEvent.class)
+        eventsSubscriber.subscribe(PlayerJoinEvent.class, EventPriority.HIGHEST)
                 .complete(event -> {
 
                     Player player = event.getPlayer();
@@ -47,7 +48,7 @@ public final class PlayerPermissionApi {
                     }
                 });
 
-        eventsSubscriber.subscribe(PlayerQuitEvent.class)
+        eventsSubscriber.subscribe(PlayerQuitEvent.class, EventPriority.HIGHEST)
                 .complete(event -> permissibleByPlayersMap.remove(event.getPlayer()));
     }
 
@@ -69,7 +70,7 @@ public final class PlayerPermissionApi {
     }
 
     private BukkitPermissibleObjectProvider getCachedPermissible(Player player) {
-        return permissibleByPlayersMap.get(player);
+        return enabled ? permissibleByPlayersMap.get(player) : null;
     }
 
     public void applyPermissionsMore(Player player, Collection<String> permissions) {
