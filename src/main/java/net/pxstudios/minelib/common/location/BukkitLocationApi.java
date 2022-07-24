@@ -69,6 +69,14 @@ public final class BukkitLocationApi {
         return newBuilder().world(world).x(point.x()).y(point.y()).z(point.z()).build();
     }
 
+    public Point2D toPoint2D(Location location) {
+        return new Point2D(location);
+    }
+
+    public Point3D toPoint3D(Location location) {
+        return new Point3D(location);
+    }
+
     public BukkitLocationBuilder newBuilder() {
         return new BukkitLocationBuilder(SERVER);
     }
