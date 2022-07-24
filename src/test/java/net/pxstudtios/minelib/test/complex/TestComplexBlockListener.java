@@ -1,6 +1,6 @@
 package net.pxstudtios.minelib.test.complex;
 
-import net.pxstudios.minelib.complex.ComplexBed;
+import net.pxstudios.minelib.common.complex.ComplexBed;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

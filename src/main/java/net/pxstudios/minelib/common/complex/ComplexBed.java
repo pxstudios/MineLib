@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.complex;
+package net.pxstudios.minelib.common.complex;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
