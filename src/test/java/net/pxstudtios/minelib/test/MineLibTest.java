@@ -257,7 +257,8 @@ public final class MineLibTest extends JavaPlugin {
 
         // Create a new board
         Board board = boardApi.createOrGetBoard(DisplaySlot.SIDEBAR, "hub");
-        board.getLocalPresetsManager().add("server_name", Bukkit.getServerName().toUpperCase());
+        board.getLocalPresetsManager().add("server_name", () -> Bukkit.getServerName().toUpperCase()); // u can use a supplier
+        board.getLocalPresetsManager().add("server_ip", Bukkit.getIp()); // or common string
 
         board.addFlag(BoardFlag.REMOVE_ON_PLAYER_JOIN);
         board.addFlag(BoardFlag.REMOVE_ON_CHANGED);
