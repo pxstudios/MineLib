@@ -17,14 +17,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class BukkitItemListener implements Listener {
+public final class BukkitItemEventsHandler implements Listener {
 
     private static final Set<BukkitItem> registeredBukkitItems = new HashSet<>();
 

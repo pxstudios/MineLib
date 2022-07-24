@@ -13,6 +13,7 @@ import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.common.cooldown.PlayerCooldownApi;
 import net.pxstudios.minelib.common.item.BukkitItemFactory;
+import net.pxstudios.minelib.common.item.event.BukkitItemEventsHandler;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.motd.ServerMotdApi;
 import net.pxstudios.minelib.common.permission.PlayerPermissionApi;
@@ -95,6 +96,9 @@ public final class MineLibrary {
 
         // Register default plugin-configs providers.
         configManager.addDefaultProviders();
+
+        // Register BukkitItem`s internal events-storage listener.
+        plugin.getServer().getPluginManager().registerEvents(new BukkitItemEventsHandler(), plugin);
     }
 
     void runAutoGarbageCollector() {

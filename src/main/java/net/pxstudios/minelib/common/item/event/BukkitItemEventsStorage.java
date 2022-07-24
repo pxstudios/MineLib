@@ -46,7 +46,7 @@ public final class BukkitItemEventsStorage {
     private Consumer<EntityShootBowEvent> onShootBow;
 
     public void listenEvents() {
-        BukkitItemListener.listen(bukkitItem);
+        BukkitItemEventsHandler.listen(bukkitItem);
     }
 
 }
