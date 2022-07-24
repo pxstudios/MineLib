@@ -12,37 +12,37 @@ import java.util.function.Supplier;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public final class BoardPresetsManager {
 
-    private final Map<String, Supplier<String>> presetsMap = new HashMap<>();
+    private final Map<String, Supplier<String>> map = new HashMap<>();
 
-    public void addPreset(String key, Supplier<String> presetSupplier) {
-        presetsMap.put(key.toLowerCase(), presetSupplier);
+    public void add(String key, Supplier<String> presetSupplier) {
+        map.put(key.toLowerCase(), presetSupplier);
     }
 
-    public void addPreset(String key, String preset) {
-        addPreset(key.toLowerCase(), () -> preset);
+    public void add(String key, String preset) {
+        add(key.toLowerCase(), () -> preset);
     }
 
-    public void removePreset(String key) {
-        presetsMap.remove(key.toLowerCase());
+    public void delete(String key) {
+        map.remove(key.toLowerCase());
     }
 
-    public Supplier<String> getPresetAsSupplier(String key) {
-        return presetsMap.getOrDefault(key.toLowerCase(), () -> null);
+    public Supplier<String> getAsSupplier(String key) {
+        return map.getOrDefault(key.toLowerCase(), () -> null);
     }
 
     public String getPresetAsString(String key) {
-        return getPresetAsSupplier(key).get();
+        return getAsSupplier(key).get();
     }
 
-    public Set<String> getPresetsKeys() {
-        return Collections.unmodifiableSet(presetsMap.keySet());
+    public Set<String> getKeys() {
+        return Collections.unmodifiableSet(map.keySet());
     }
 
     public void addAll(BoardPresetsManager presetsManager) {
-        presetsMap.putAll(presetsManager.presetsMap);
+        map.putAll(presetsManager.map);
     }
 
     public void removeAll() {
-        presetsMap.clear();
+        map.clear();
     }
 }

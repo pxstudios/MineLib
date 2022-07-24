@@ -253,11 +253,11 @@ public final class MineLibTest extends JavaPlugin {
     private void testBoard() {
         BoardApi boardApi = mineLibrary.getBoardApi();
 
-        boardApi.getGlobalPresetsManager().addPreset("Website", "&ewww.plazmix.net");
+        boardApi.getGlobalPresetsManager().add("Website", "&ewww.plazmix.net");
 
         // Create a new board
         Board board = boardApi.createOrGetBoard(DisplaySlot.SIDEBAR, "hub");
-        board.getLocalPresetsManager().addPreset("server_name", Bukkit.getServerName().toUpperCase());
+        board.getLocalPresetsManager().add("server_name", Bukkit.getServerName().toUpperCase());
 
         board.addFlag(BoardFlag.REMOVE_ON_PLAYER_JOIN);
         board.addFlag(BoardFlag.REMOVE_ON_CHANGED);
