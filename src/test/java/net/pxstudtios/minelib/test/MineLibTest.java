@@ -21,6 +21,11 @@ import net.pxstudios.minelib.common.location.point.Point2D;
 import net.pxstudios.minelib.common.location.point.Point3D;
 import net.pxstudios.minelib.common.motd.ServerMotdApi;
 import net.pxstudios.minelib.common.permission.PlayerPermissionApi;
+import net.pxstudios.minelib.common.world.BukkitWorldsApi;
+import net.pxstudios.minelib.common.world.WrapperBukkitWorld;
+import net.pxstudios.minelib.common.world.rule.WorldGameRuleType;
+import net.pxstudios.minelib.common.world.time.WorldTimeType;
+import net.pxstudios.minelib.common.world.weather.WorldWeatherType;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
@@ -31,9 +36,7 @@ import net.pxstudtios.minelib.test.item.TestBukkitItemFactoryListener;
 import net.pxstudtios.minelib.test.permission.TestPermissionDatabaseProvider;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -320,6 +323,62 @@ public final class MineLibTest extends JavaPlugin {
         serverMotdApi.setServerIcon(getDataFolder().toPath().resolve("icon.png"));
     }
 
+    private void testBukkitWorldsApi() {
+        BukkitWorldsApi bukkitWorldsApi = mineLibrary.getWorldsApi();
+        WrapperBukkitWorld wrappedWorld = bukkitWorldsApi.getWrapper(bukkitWorldsApi.getMainWorld());
+
+        wrappedWorld.addFlag(WrapperBukkitWorld.Flag.PLAYER_SPAWN_TELEPORT_ON_JOIN);
+        wrappedWorld.addFlag(WrapperBukkitWorld.Flag.PLAYER_SPAWN_TELEPORT_ON_RESPAWN);
+        // ... and more
+
+        wrappedWorld.setSpawnLocation(new Point3D(0, 50, 0));
+
+        wrappedWorld.setWeather(WorldWeatherType.SUN);
+        wrappedWorld.setWeather(WorldWeatherType.THUNDER);
+        // ... and more
+
+        wrappedWorld.setTime(WorldTimeType.EARLY_SUNRISE);
+        wrappedWorld.setTime(WorldTimeType.LATE_MORNING);
+        wrappedWorld.setTime(WorldTimeType.MORNING);
+
+        wrappedWorld.setFullTime(WorldTimeType.EARLY_EVENING);
+        wrappedWorld.setFullTime(WorldTimeType.LATE_SUNRISE);
+        wrappedWorld.setFullTime(WorldTimeType.SUNRISE);
+        // ... and more
+
+        wrappedWorld.setGameRuleValue(WorldGameRuleType.DO_MOB_SPAWNING, false);
+        wrappedWorld.setGameRuleValue(WorldGameRuleType.MOB_GRIEF, false);
+        wrappedWorld.setGameRuleValue(WorldGameRuleType.DO_DAYLIGHT_CYCLE, false);
+        wrappedWorld.setGameRuleValue(WorldGameRuleType.DO_WEATHER_CYCLE, false);
+        wrappedWorld.setGameRuleValue(WorldGameRuleType.SPAWN_RADIUS, 1);
+        wrappedWorld.setGameRuleValue(WorldGameRuleType.RANDOM_TICK_SPEED, 0);
+        // ... and more
+
+        WorldGameRuleType worldGameRuleType = bukkitWorldsApi.getGameRuleByName("doFireTick");
+        WorldWeatherType worldWeatherType = bukkitWorldsApi.getWeatherByName("storm");
+        WorldTimeType nearbyWorldTimeType = bukkitWorldsApi.getNearbyTimeByTicks(1024);
+
+        System.out.println(worldGameRuleType);
+        System.out.println(worldWeatherType);
+        System.out.println(nearbyWorldTimeType);
+
+        boolean canFolderDelete = true;
+
+        World lastLoadedWorld = bukkitWorldsApi.getLastLoadedWorld();
+
+        bukkitWorldsApi.unloadBukkitWorld(lastLoadedWorld, canFolderDelete)
+                .thenAccept(world -> {
+
+                    System.out.printf("World \"%s\" was success unloaded & deleted from server%n", world.getName());
+                });
+
+        bukkitWorldsApi.loadBukkitWorld(new WorldCreator(lastLoadedWorld.getName()).type(WorldType.FLAT))
+                .thenAccept(world -> {
+
+                    System.out.printf("World \"%s\" was success loaded%n", world.getName());
+                });
+    }
+
     @Override
     public void onEnable() {
         testContextCommands();
@@ -349,6 +408,8 @@ public final class MineLibTest extends JavaPlugin {
         testBoard();
 
         testServerMotdApi();
+
+        testBukkitWorldsApi();
     }
 
 }

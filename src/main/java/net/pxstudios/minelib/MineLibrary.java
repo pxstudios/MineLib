@@ -18,6 +18,7 @@ import net.pxstudios.minelib.common.item.event.BukkitItemEventsHandler;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.motd.ServerMotdApi;
 import net.pxstudios.minelib.common.permission.PlayerPermissionApi;
+import net.pxstudios.minelib.common.world.BukkitWorldsApi;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import org.bukkit.Bukkit;
@@ -69,6 +70,9 @@ public final class MineLibrary {
     private PlayerPermissionApi permissionApi;
 
     @Getter
+    private BukkitWorldsApi worldsApi;
+
+    @Getter
     private BukkitRegistryManager registryManager;
 
     private WrappedBukkitTask autoGarbageCollectorTask;
@@ -91,6 +95,7 @@ public final class MineLibrary {
         locationApi = new BukkitLocationApi();
         serverMotdApi = new ServerMotdApi();
         permissionApi = new PlayerPermissionApi();
+        worldsApi = new BukkitWorldsApi();
 
         // Register default bukkit-objects registry providers.
         registryManager.addDefaultProviders();
