@@ -1,6 +1,7 @@
 package net.pxstudios.minelib.common.item;
 
 import lombok.RequiredArgsConstructor;
+import net.pxstudios.minelib.common.item.event.BukkitItemEventsStorage;
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ public class BukkitItem {
 
     private final ItemStack itemStack;
     private BukkitItemModifySession modifySession;
-
+    private BukkitItemEventsStorage eventsStorage;
 
     private void addToInventory0(Inventory inventory, ItemStack itemStack) {
         inventory.addItem(itemStack);
@@ -63,7 +64,7 @@ public class BukkitItem {
     public ItemStack getModifiedItem(Player player) {
         ItemStack item = getItem();
 
-        if (modifySession == null || modifySession.getCustomItemModifier() == null) {
+        if (player == null || modifySession == null || modifySession.getCustomItemModifier() == null) {
             return item;
         }
 
@@ -72,6 +73,10 @@ public class BukkitItem {
     }
 
     public final BukkitItemModifySession getModifySession() {
-        return modifySession == null ? (modifySession = new BukkitItemModifySession(this, itemStack)) : modifySession;
+        return modifySession == null ? (modifySession = new BukkitItemModifySession(this, getItem())) : modifySession;
+    }
+
+    public final BukkitItemEventsStorage getEventsStorage() {
+        return eventsStorage == null ? (eventsStorage = new BukkitItemEventsStorage(this)) : eventsStorage;
     }
 }

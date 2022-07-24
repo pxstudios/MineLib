@@ -38,6 +38,13 @@ public final class TestBukkitItemListener implements Listener {
 
                 .withFlag(ItemFlag.HIDE_ATTRIBUTES);
 
+        cachedBukkitItem.getEventsStorage().listenEvents();
+        cachedBukkitItem.getEventsStorage().setOnInteract(event -> {
+
+            Player player = event.getPlayer();
+            player.performCommand("servers");
+        });
+
         return cachedBukkitItem;
     }
 
