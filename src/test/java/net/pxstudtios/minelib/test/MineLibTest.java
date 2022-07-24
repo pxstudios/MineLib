@@ -19,6 +19,7 @@ import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.location.point.Point2D;
 import net.pxstudios.minelib.common.location.point.Point3D;
+import net.pxstudios.minelib.common.motd.ServerMotdApi;
 import net.pxstudios.minelib.common.permission.PlayerPermissionApi;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
@@ -43,6 +44,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -290,6 +292,7 @@ public final class MineLibTest extends JavaPlugin {
 
         // Show board to the player.
         Player player = Bukkit.getPlayerExact("itzstonlex");
+        
         boolean isViewing = board.addPlayerView(player);
 
         if (isViewing) {
@@ -297,10 +300,20 @@ public final class MineLibTest extends JavaPlugin {
         }
     }
 
-    private void testCustomMotd() {
-        if (!mineLibrary.hasCustomServerMotd()) {
-            mineLibrary.setCustomServerMotd("&b&lMINELIB &bTEST SERVER &7(1.8 - NEW)\n&fWebsite: &ewww.plazmix.net");
-        }
+    private void testServerMotdApi() {
+        ServerMotdApi serverMotdApi = mineLibrary.getServerMotdApi();
+
+        serverMotdApi.enableApiEvents();
+        serverMotdApi.setMotdColorAltChar('&');
+
+        serverMotdApi.setMotd(Arrays.asList(
+                "&b&lMINELIB &bTEST SERVER &7(1.8 - NEW)",
+                "&fWeb-site: &ewww.plazmix.net"
+        ));
+
+        serverMotdApi.setMaxPlayers(2022);
+
+        serverMotdApi.setServerIcon(getDataFolder().toPath().resolve("icon.png"));
     }
 
     @Override
@@ -331,7 +344,7 @@ public final class MineLibTest extends JavaPlugin {
 
         testBoard();
 
-        testCustomMotd();
+        testServerMotdApi();
     }
 
 }
