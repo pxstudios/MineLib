@@ -5,6 +5,7 @@ import com.mojang.authlib.properties.Property;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.core.util.ReflectionUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -193,7 +194,16 @@ public final class BukkitItemModifySession {
         GameProfile gameProfile = new GameProfile(UUID.nameUUIDFromBytes(uuidString.getBytes()), null);
 
         if (signature != null) {
-            gameProfile.getProperties().put("textures", new Property("textures", value, signature));
+            if (value != null) {
+                gameProfile.getProperties().put("textures", new Property("textures", value, signature));
+            }
+            else {
+                String texture = "http://textures.minecraft.net/texture/" + signature;
+
+                byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", texture).getBytes());
+
+                gameProfile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+            }
         }
         else {
             gameProfile.getProperties().put("textures", new Property("textures", value));
@@ -204,6 +214,10 @@ public final class BukkitItemModifySession {
 
     public BukkitItemModifySession withTextureValue(String value) {
         return withTextureAndSignature(value, null);
+    }
+
+    public BukkitItemModifySession withTextureSignature(String signature) {
+        return withTextureAndSignature(null, signature);
     }
 
     public BukkitItemModifySession withLeatherColor(Color color) {
