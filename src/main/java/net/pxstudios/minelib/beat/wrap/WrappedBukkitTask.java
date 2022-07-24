@@ -30,4 +30,9 @@ public class WrappedBukkitTask {
 
         beater.setupTask(processor, beater.runTimer(1, processor).handle);
     }
+
+    public void setup(BukkitRunnable bukkitRunnable) {
+        beater.setupTask(bukkitRunnable, handle);
+    }
+
 }
