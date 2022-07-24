@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemFlag;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
-public final class TestBukkitItemListener implements Listener {
+public final class TestBukkitItemFactoryListener implements Listener {
 
     private final BukkitItemFactory bukkitItemFactory;
     private BukkitItem cachedBukkitItem;

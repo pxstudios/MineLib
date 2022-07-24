@@ -1,5 +1,7 @@
 package net.pxstudios.minelib.common.item;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -9,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public final class BukkitItemFactory {
 
     public BukkitItem getByStack(ItemStack itemStack) {

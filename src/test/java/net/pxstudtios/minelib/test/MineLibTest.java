@@ -15,7 +15,7 @@ import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
 import net.pxstudios.minelib.common.config.type.TextPluginConfig;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
 import net.pxstudios.minelib.common.cooldown.PlayerCooldownApi;
-import net.pxstudios.minelib.common.item.BukkitItemFactory;
+import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.location.point.Point2D;
 import net.pxstudios.minelib.common.location.point.Point3D;
@@ -27,7 +27,7 @@ import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudtios.minelib.test.complex.TestComplexBlockListener;
 import net.pxstudtios.minelib.test.cooldown.TestPlayerCooldownListener;
-import net.pxstudtios.minelib.test.item.TestBukkitItemListener;
+import net.pxstudtios.minelib.test.item.TestBukkitItemFactoryListener;
 import net.pxstudtios.minelib.test.permission.TestPermissionDatabaseProvider;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
@@ -53,17 +53,18 @@ public final class MineLibTest extends JavaPlugin {
 
     private final MineLibrary mineLibrary = MineLibrary.getLibrary();
 
-    private void registerTestCommands() {
+    private void testContextCommands() {
         mineLibrary.getCommandRegistry().registerCommand(new TestAbstractBukkitCommand(this), "bukkittest", "btest");
-        // -> that command is not contains internal labels.
+        // -> this command is not contains internal labels.
 
         mineLibrary.getCommandRegistry().registerCommand(new TestAbstractPlayerBukkitCommand(this));
         mineLibrary.getCommandRegistry().registerCommand(new TestAbstractContextCommand(this));
     }
 
-    private void registerItemListener() {
-        BukkitItemFactory bukkitItemFactory = mineLibrary.getItemFactory();
-        getServer().getPluginManager().registerEvents(new TestBukkitItemListener(bukkitItemFactory), this);
+    private void testItemApi() {
+        BukkitItemApi bukkitItemApi = mineLibrary.getItemApi();
+
+        getServer().getPluginManager().registerEvents(new TestBukkitItemFactoryListener(bukkitItemApi.getFactory()), this);
     }
 
     private void testAsyncCatcherBypass() {
@@ -321,9 +322,9 @@ public final class MineLibTest extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        registerTestCommands();
+        testContextCommands();
 
-        registerItemListener();
+        testItemApi();
 
         testAsyncCatcherBypass();
 
