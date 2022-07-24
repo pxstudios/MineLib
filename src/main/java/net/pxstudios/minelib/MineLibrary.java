@@ -8,6 +8,7 @@ import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.command.CommandRegistry;
+import net.pxstudios.minelib.common.board.BoardApi;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.common.cooldown.PlayerCooldownApi;
@@ -36,6 +37,9 @@ public final class MineLibrary {
 
     @Getter
     private BukkitBeater beater;
+
+    @Getter
+    private BoardApi boardApi;
 
     @Getter
     private ChatApi chatApi;
@@ -73,6 +77,7 @@ public final class MineLibrary {
         registryManager = new BukkitRegistryManager(plugin);
 
         // Init library common sub-systems.
+        boardApi = new BoardApi();
         chatApi = new ChatApi();
         configManager = new PluginConfigManager();
         playerCooldownApi = new PlayerCooldownApi();

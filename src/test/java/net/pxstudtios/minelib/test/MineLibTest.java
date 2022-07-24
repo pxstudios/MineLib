@@ -5,6 +5,9 @@ import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
+import net.pxstudios.minelib.common.board.Board;
+import net.pxstudios.minelib.common.board.BoardApi;
+import net.pxstudios.minelib.common.board.BoardFlag;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.chat.ChatDirection;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
@@ -31,14 +34,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.ServerOperator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public final class MineLibTest extends JavaPlugin {
@@ -242,6 +248,55 @@ public final class MineLibTest extends JavaPlugin {
         }
     }
 
+    private void testBoard() {
+        BoardApi boardApi = mineLibrary.getBoardApi();
+
+        boardApi.getGlobalPresetsManager().addPreset("Website", "&ewww.plazmix.net");
+
+        // Create a new board
+        Board board = boardApi.createOrGetBoard(DisplaySlot.SIDEBAR, "hub");
+
+        board.addFlag(BoardFlag.REMOVE_ON_PLAYER_JOIN);
+        board.addFlag(BoardFlag.REMOVE_ON_CHANGED);
+        board.addFlag(BoardFlag.WITH_AUTOMATICALLY_STATIC_LINES_COLORIZE);
+        board.addFlag(BoardFlag.USE_DISABLED_WORLD_SYSTEM);
+
+        board.subscribePlayerEvents(mineLibrary.getEventsSubscriber());
+
+        // Add disabled worlds.
+        board.addDisabledWorld("survival");
+        board.addDisabledWorld("bw_arena_1");
+
+        // Set a display-name for objective of board.
+        board.setDisplayName("HUB"); // with presets support
+
+        // Set a lines for objective of board.
+        board.setLineSmart(5);
+        board.setLineSmart(4, "&7Your name:");
+        board.setLineSmart(3, HumanEntity::getName);
+        board.setLineSmart(2);
+        board.setLineSmart(1, "preset:Website");
+
+        // Add automatically updater to board.
+        board.update(10, () -> {
+
+            ChatColor[] chatColors = ChatColor.values();
+            ChatColor randomColor = chatColors[ThreadLocalRandom.current().nextInt(chatColors.length)];
+
+            board.setDisplayName(randomColor + ChatColor.stripColor(board.getObjective().getDisplayName()));
+
+            return true; // if continue the next repeat of update-action?
+        });
+
+        // Show board to the player.
+        Player player = Bukkit.getPlayerExact("itzstonlex");
+        boolean isViewing = board.addPlayerView(player);
+
+        if (isViewing) {
+            player.sendMessage("Board `hub` was success showed for you!");
+        }
+    }
+
     @Override
     public void onEnable() {
         registerTestCommands();
@@ -267,6 +322,8 @@ public final class MineLibTest extends JavaPlugin {
         testPlayerCooldownApi();
 
         testPermissionsApi();
+
+        testBoard();
     }
 
 }
