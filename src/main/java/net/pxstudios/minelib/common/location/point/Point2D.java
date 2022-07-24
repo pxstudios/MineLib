@@ -3,11 +3,15 @@ package net.pxstudios.minelib.common.location.point;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.bukkit.Location;
 
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Point2D {
 
+    public Point2D(Location location) {
+        this(location.getX(), location.getY());
+    }
     double x, y;
 
     public double x() {

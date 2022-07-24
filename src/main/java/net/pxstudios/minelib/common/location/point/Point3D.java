@@ -3,11 +3,15 @@ package net.pxstudios.minelib.common.location.point;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.bukkit.Location;
 
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Point3D {
 
+    public Point3D(Location location) {
+        this(location.getX(), location.getY(), location.getZ());
+    }
     double x, y, z;
 
     public double x() {
