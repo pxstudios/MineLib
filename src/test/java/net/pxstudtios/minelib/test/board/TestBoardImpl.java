@@ -28,6 +28,7 @@ public class TestBoardImpl extends Board {
         addFlag(BoardFlag.REMOVE_ON_CHANGED);
         addFlag(BoardFlag.WITH_AUTOMATICALLY_STATIC_LINES_COLORIZE);
         addFlag(BoardFlag.USE_DISABLED_WORLD_SYSTEM);
+        addFlag(BoardFlag.USE_GLOBAL_PRESETS);
 
         subscribePlayerEvents(mineLibrary.getEventsSubscriber());
 

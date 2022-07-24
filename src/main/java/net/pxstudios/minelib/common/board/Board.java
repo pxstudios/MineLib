@@ -250,7 +250,7 @@ public class Board {
     public final Board setPresetLine(int position, String presetKey) {
         String staticText = String.format(UNKNOWN_PRESET_FORMAT, presetKey);
 
-        if (hasFlag(BoardFlag.WITH_GLOBAL_PRESETS_USE)) {
+        if (hasFlag(BoardFlag.USE_GLOBAL_PRESETS)) {
             String presetString = boardApi.getGlobalPresetsManager().getPresetAsString(presetKey);
 
             if (presetString != null) {

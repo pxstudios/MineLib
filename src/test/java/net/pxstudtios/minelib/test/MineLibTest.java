@@ -262,6 +262,7 @@ public final class MineLibTest extends JavaPlugin {
         board.addFlag(BoardFlag.REMOVE_ON_CHANGED);
         board.addFlag(BoardFlag.WITH_AUTOMATICALLY_STATIC_LINES_COLORIZE);
         board.addFlag(BoardFlag.USE_DISABLED_WORLD_SYSTEM);
+        board.addFlag(BoardFlag.USE_GLOBAL_PRESETS);
 
         board.subscribePlayerEvents(mineLibrary.getEventsSubscriber());
 
@@ -292,7 +293,6 @@ public final class MineLibTest extends JavaPlugin {
 
         // Show board to the player.
         Player player = Bukkit.getPlayerExact("itzstonlex");
-        
         boolean isViewing = board.addPlayerView(player);
 
         if (isViewing) {
