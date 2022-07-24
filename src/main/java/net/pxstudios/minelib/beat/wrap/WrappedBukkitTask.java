@@ -15,7 +15,7 @@ public class WrappedBukkitTask {
     protected final BukkitTask handle;
 
     public void waitAfter(Runnable afterCommand) {
-        BukkitRunnable processor = new BukkitRunnable() {
+        beater.runCancellableTimer(1, new BukkitRunnable() {
 
             @Override
             public void run() {
@@ -26,9 +26,7 @@ public class WrappedBukkitTask {
                     super.cancel();
                 }
             }
-        };
-
-        beater.setupTask(processor, beater.runTimer(1, processor).handle);
+        });
     }
 
     public void setup(BukkitRunnable bukkitRunnable) {

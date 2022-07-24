@@ -266,8 +266,7 @@ public class Board {
     }
 
     public final void update(int ticks, Supplier<Boolean> actionOnUpdate) {
-        WrappedBukkitTask bukkitTask = MineLibrary.getLibrary().getBeater().runTimer(ticks, ticks, () -> {});
-        bukkitTask.setup(new BukkitRunnable() {
+        MineLibrary.getLibrary().getBeater().runCancellableTimer(ticks, ticks, new BukkitRunnable() {
 
             @Override
             public void run() {
