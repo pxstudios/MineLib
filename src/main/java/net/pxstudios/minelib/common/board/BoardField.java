@@ -47,15 +47,15 @@ public class BoardField {
         return !isStatic ? textGetter.apply(player) : null;
     }
 
-    private void sendUpdate(Player player) {
+    protected void sendUpdate(Player player) {
         // todo
     }
 
-    private void sendCreate(Player player) {
+    protected void sendCreate(Player player) {
         // todo
     }
 
-    private void sendRemove(Player player) {
+    protected void sendRemove(Player player) {
         // todo
     }
 

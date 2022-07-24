@@ -22,7 +22,7 @@ public class TestBoardImpl extends Board {
     }
 
     private TestBoardImpl(@NonNull MineLibrary mineLibrary) {
-        super(mineLibrary.getBoardApi(), DisplaySlot.SIDEBAR, "hub", BoardApi.STANDARD_CRITERIA);
+        super(mineLibrary.getBoardApi(), DisplaySlot.SIDEBAR, "hub", BoardApi.DUMMY_CRITERIA);
 
         addFlag(BoardFlag.REMOVE_ON_PLAYER_JOIN);
         addFlag(BoardFlag.REMOVE_ON_CHANGED);

@@ -15,7 +15,7 @@ public final class BoardApi {
 
     public static final int MAX_NAME_LENGTH         = 16;
 
-    public static final String STANDARD_CRITERIA    = "dummy";
+    public static final String DUMMY_CRITERIA = "dummy";
 
     public static final char[] BLANK_LINE_CHARS_BY_POSITION =
             {
@@ -39,11 +39,11 @@ public final class BoardApi {
     }
 
     public Board createOrGetBoard(String name) {
-        return createOrGetBoard(DisplaySlot.SIDEBAR, name, STANDARD_CRITERIA);
+        return createOrGetBoard(DisplaySlot.SIDEBAR, name, DUMMY_CRITERIA);
     }
 
     public Board createOrGetBoard(DisplaySlot display, String name) {
-        return createOrGetBoard(display, name, STANDARD_CRITERIA);
+        return createOrGetBoard(display, name, DUMMY_CRITERIA);
     }
 
     public Board createOrGetBoard(String name, String criteria) {
@@ -59,11 +59,11 @@ public final class BoardApi {
     }
 
     public BoardObjective createObjective(Board board, String name) {
-        return createObjective(board, DisplaySlot.SIDEBAR, name, STANDARD_CRITERIA);
+        return createObjective(board, DisplaySlot.SIDEBAR, name, DUMMY_CRITERIA);
     }
 
     public BoardObjective createObjective(Board board, DisplaySlot display, String name) {
-        return createObjective(board, display, name, STANDARD_CRITERIA);
+        return createObjective(board, display, name, DUMMY_CRITERIA);
     }
 
     public Board getActiveBoard(Player player) {

@@ -3,7 +3,6 @@ package net.pxstudios.minelib.common.board;
 import lombok.Getter;
 import lombok.NonNull;
 import net.pxstudios.minelib.MineLibrary;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,6 +40,18 @@ public class Board {
     public Board(BoardApi boardApi, DisplaySlot display, String name, String criteria) {
         this.boardApi = boardApi;
         this.objective = boardApi.createObjective(this, display, name, criteria);
+    }
+
+    public Board(BoardApi boardApi, String name, String criteria) {
+        this(boardApi, DisplaySlot.SIDEBAR, name, criteria);
+    }
+
+    public Board(BoardApi boardApi, String name) {
+        this(boardApi, DisplaySlot.SIDEBAR, name, BoardApi.DUMMY_CRITERIA);
+    }
+
+    public Board(BoardApi boardApi, DisplaySlot display, String name) {
+        this(boardApi, display, name, BoardApi.DUMMY_CRITERIA);
     }
 
     public final void subscribePlayerEvents(EventsSubscriber eventsSubscriber) {
@@ -190,24 +201,22 @@ public class Board {
         objective.sendRemoveStatus(player);
     }
 
-    public final void setDisplayName(String displayName) {
+    public final void setDisplayName(@NonNull String displayName) {
         checkObjectiveNullable();
 
         boolean preset = displayName.toLowerCase().startsWith(SMART_PRESET_LINE_PREFIX);
 
-        if (!preset) {
-            objective.setDisplayName(displayName);
-        }
-        else {
+        if (preset) {
             displayName = displayName.substring(SMART_PRESET_LINE_PREFIX.length());
+
             String presetString = boardApi.getGlobalPresetsManager().getPresetAsString(displayName);
 
             if (presetString == null) {
                 displayName = String.format(UNKNOWN_PRESET_FORMAT, displayName);
             }
-
-            objective.setDisplayName(displayName);
         }
+
+        objective.setDisplayName(displayName);
     }
 
     private String getBlackLineText(int position) {
