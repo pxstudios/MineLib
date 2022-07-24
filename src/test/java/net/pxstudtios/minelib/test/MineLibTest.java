@@ -297,6 +297,12 @@ public final class MineLibTest extends JavaPlugin {
         }
     }
 
+    private void testCustomMotd() {
+        if (!mineLibrary.hasCustomServerMotd()) {
+            mineLibrary.setCustomServerMotd("&b&lMINELIB &bTEST SERVER &7(1.8 - NEW)\n&fWebsite: &ewww.plazmix.net");
+        }
+    }
+
     @Override
     public void onEnable() {
         registerTestCommands();
@@ -324,6 +330,8 @@ public final class MineLibTest extends JavaPlugin {
         testPermissionsApi();
 
         testBoard();
+
+        testCustomMotd();
     }
 
 }

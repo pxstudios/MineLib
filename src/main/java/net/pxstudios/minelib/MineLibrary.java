@@ -1,9 +1,6 @@
 package net.pxstudios.minelib;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
@@ -18,6 +15,9 @@ import net.pxstudios.minelib.common.permission.PlayerPermissionApi;
 import net.pxstudios.minelib.event.EventsSubscriber;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.Plugin;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -67,6 +67,9 @@ public final class MineLibrary {
 
     private WrappedBukkitTask autoGarbageCollectorTask;
 
+    @Setter
+    private String customServerMotd;
+
     void init(@NonNull Plugin plugin) {
 
         // Init library sub-systems by plugin.
@@ -90,6 +93,26 @@ public final class MineLibrary {
 
         // Register default plugin-configs providers.
         configManager.addDefaultProviders();
+
+        // Register automatically server-motd changing.
+        registerServerMotdChanger();
+    }
+
+    public boolean hasCustomServerMotd() {
+        return customServerMotd != null;
+    }
+
+    public String getCustomServerMotd() {
+        return ChatColor.translateAlternateColorCodes('&', customServerMotd);
+    }
+
+    void registerServerMotdChanger() {
+        eventsSubscriber.subscribe(ServerListPingEvent.class, EventPriority.HIGHEST)
+                .withPredication(event -> hasCustomServerMotd())
+
+                .complete(event -> {
+                    event.setMotd( getCustomServerMotd() );
+                });
     }
 
     void runAutoGarbageCollector() {
