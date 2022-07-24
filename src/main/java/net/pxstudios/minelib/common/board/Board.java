@@ -225,7 +225,7 @@ public class Board {
         if (preset) {
             displayName = displayName.substring(SMART_PRESET_LINE_PREFIX.length());
 
-            String presetString = this.joinAllPresets().getPresetAsString(displayName);
+            String presetString = this.joinAllPresets().getAsString(displayName);
 
             if (presetString == null) {
                 displayName = String.format(UNKNOWN_PRESET_FORMAT, displayName);
@@ -266,7 +266,7 @@ public class Board {
     public final Board setPresetLine(int position, String presetKey) {
         String staticText = String.format(UNKNOWN_PRESET_FORMAT, presetKey);
 
-        String presetString = this.joinAllPresets().getPresetAsString(presetKey);
+        String presetString = this.joinAllPresets().getAsString(presetKey);
 
         if (presetString != null) {
             staticText = presetString;

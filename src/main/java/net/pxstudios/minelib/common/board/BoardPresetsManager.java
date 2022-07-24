@@ -30,7 +30,7 @@ public final class BoardPresetsManager {
         return map.getOrDefault(key.toLowerCase(), () -> null);
     }
 
-    public String getPresetAsString(String key) {
+    public String getAsString(String key) {
         return getAsSupplier(key).get();
     }
 
