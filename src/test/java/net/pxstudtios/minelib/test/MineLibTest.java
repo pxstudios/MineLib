@@ -42,6 +42,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.ServerOperator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -66,8 +67,29 @@ public final class MineLibTest extends JavaPlugin {
 
     private void testItemApi() {
         BukkitItemApi bukkitItemApi = mineLibrary.getItemApi();
-
         getServer().getPluginManager().registerEvents(new TestBukkitItemFactoryListener(bukkitItemApi.getFactory()), this);
+
+        Player player = Bukkit.getPlayerExact("itzstonlex");
+
+        if (bukkitItemApi.hasInventoryItem(player.getInventory(), Material.DIAMOND)) {
+
+            bukkitItemApi.fastWithdraw(player.getInventory(), Material.DIAMOND, 5);
+            bukkitItemApi.depositItem(player.getInventory(), Material.DIAMOND, 2);
+        }
+
+        if (bukkitItemApi.isInventoryFull(player.getInventory(), Material.EMERALD)) {
+            bukkitItemApi.fastWithdraw(player.getInventory(), Material.EMERALD, 64 * 5);
+        }
+
+        boolean equals = bukkitItemApi.equalsItems(new ItemStack(Material.ANVIL), new ItemStack(Material.ANVIL, 2));
+        boolean equalsWithoutAmount = bukkitItemApi.equalsItemsWithoutAmount(new ItemStack(Material.ANVIL), new ItemStack(Material.ANVIL, 2));
+
+        int totalAmountByPlayer = bukkitItemApi.search(player, new ItemStack(Material.ARROW));
+        int totalAmountByInventory = bukkitItemApi.search(player.getInventory(), Material.ARROW);
+
+        ItemStack glowingStickItem = bukkitItemApi.withGlowing(new ItemStack(Material.STICK));
+
+        ItemStack donateItemIcon = bukkitItemApi.parseItem(getConfig().getConfigurationSection("Items.DonateItem"));
     }
 
     private void testAsyncCatcherBypass() {
