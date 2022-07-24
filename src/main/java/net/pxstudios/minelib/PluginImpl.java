@@ -26,6 +26,11 @@ public final class PluginImpl extends JavaPlugin {
         // Start automatically memory cleanup task.
         mineLibrary.runAutoGarbageCollector();
 
+        log("Init custom server-motd api...");
+
+        // Register automatically server-motd changing.
+        mineLibrary.getServerMotdApi().initDefaults(getServer());
+
         log(ChatColor.GREEN + "MineLibrary was success enabled (%sms)", (System.currentTimeMillis() - startEnableMillis));
     }
 
