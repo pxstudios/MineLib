@@ -257,6 +257,7 @@ public final class MineLibTest extends JavaPlugin {
 
         // Create a new board
         Board board = boardApi.createOrGetBoard(DisplaySlot.SIDEBAR, "hub");
+        board.getLocalPresetsManager().addPreset("server_name", Bukkit.getServerName().toUpperCase());
 
         board.addFlag(BoardFlag.REMOVE_ON_PLAYER_JOIN);
         board.addFlag(BoardFlag.REMOVE_ON_CHANGED);
@@ -271,7 +272,8 @@ public final class MineLibTest extends JavaPlugin {
         board.addDisabledWorld("bw_arena_1");
 
         // Set a display-name for objective of board.
-        board.setDisplayName("HUB"); // with presets support
+        board.setDisplayName("preset:server_name"); // with presets support
+        board.setDisplayName("HUB"); // without presets
 
         // Set a lines for objective of board.
         board.setLineSmart(5);

@@ -37,9 +37,14 @@ public class Board {
     private final Set<BoardFlag> flagsSet = new HashSet<>();
     private final Set<String> disabledWorldsSet = new HashSet<>();
 
+    @Getter
+    private final BoardPresetsManager localPresetsManager;
+
     public Board(BoardApi boardApi, DisplaySlot display, String name, String criteria) {
         this.boardApi = boardApi;
+
         this.objective = boardApi.createObjective(this, display, name, criteria);
+        this.localPresetsManager = boardApi.createPresetsManager();
     }
 
     public Board(BoardApi boardApi, String name, String criteria) {
@@ -52,6 +57,17 @@ public class Board {
 
     public Board(BoardApi boardApi, DisplaySlot display, String name) {
         this(boardApi, display, name, BoardApi.DUMMY_CRITERIA);
+    }
+
+    private BoardPresetsManager joinAllPresets() {
+        BoardPresetsManager presetsManager = boardApi.createPresetsManager();
+        presetsManager.addAll(localPresetsManager);
+
+        if (hasFlag(BoardFlag.USE_GLOBAL_PRESETS)) {
+            presetsManager.addAll(boardApi.getGlobalPresetsManager());
+        }
+
+        return presetsManager;
     }
 
     public final void subscribePlayerEvents(EventsSubscriber eventsSubscriber) {
@@ -209,7 +225,7 @@ public class Board {
         if (preset) {
             displayName = displayName.substring(SMART_PRESET_LINE_PREFIX.length());
 
-            String presetString = boardApi.getGlobalPresetsManager().getPresetAsString(displayName);
+            String presetString = this.joinAllPresets().getPresetAsString(displayName);
 
             if (presetString == null) {
                 displayName = String.format(UNKNOWN_PRESET_FORMAT, displayName);
@@ -250,12 +266,10 @@ public class Board {
     public final Board setPresetLine(int position, String presetKey) {
         String staticText = String.format(UNKNOWN_PRESET_FORMAT, presetKey);
 
-        if (hasFlag(BoardFlag.USE_GLOBAL_PRESETS)) {
-            String presetString = boardApi.getGlobalPresetsManager().getPresetAsString(presetKey);
+        String presetString = this.joinAllPresets().getPresetAsString(presetKey);
 
-            if (presetString != null) {
-                staticText = presetString;
-            }
+        if (presetString != null) {
+            staticText = presetString;
         }
 
         return setStaticLine(position, staticText);

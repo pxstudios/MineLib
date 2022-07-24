@@ -28,10 +28,14 @@ public final class BoardApi {
     private final Map<String, Board> createdBoardsMap = new HashMap<>();
 
     @Getter
-    private final PresetsManager globalPresetsManager = new PresetsManager();
+    private final BoardPresetsManager globalPresetsManager = new BoardPresetsManager();
 
     private String substringNameLength(String name) {
         return name.length() > MAX_NAME_LENGTH ? name.substring(0, MAX_NAME_LENGTH) : name;
+    }
+
+    public BoardPresetsManager createPresetsManager() {
+        return new BoardPresetsManager();
     }
 
     public Board createOrGetBoard(DisplaySlot display, String name, String criteria) {
@@ -82,34 +86,6 @@ public final class BoardApi {
         
         if (board != null) {
             board.getPlayersViews().forEach(board::removePlayerView);
-        }
-    }
-
-    public static final class PresetsManager {
-        private final Map<String, Supplier<String>> presetsMap = new HashMap<>();
-
-        public void addPreset(String key, Supplier<String> presetSupplier) {
-            presetsMap.put(key.toLowerCase(), presetSupplier);
-        }
-
-        public void addPreset(String key, String preset) {
-            addPreset(key.toLowerCase(), () -> preset);
-        }
-
-        public void removePreset(String key) {
-            presetsMap.remove(key.toLowerCase());
-        }
-
-        public Supplier<String> getPresetAsSupplier(String key) {
-            return presetsMap.getOrDefault(key.toLowerCase(), () -> null);
-        }
-
-        public String getPresetAsString(String key) {
-            return getPresetAsSupplier(key).get();
-        }
-
-        public Set<String> getPresetsKeys() {
-            return Collections.unmodifiableSet(presetsMap.keySet());
         }
     }
 

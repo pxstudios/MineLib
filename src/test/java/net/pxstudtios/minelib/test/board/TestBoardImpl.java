@@ -37,7 +37,7 @@ public class TestBoardImpl extends Board {
         addDisabledWorld("bw_arena_1");
 
         // Set a display-name for objective of board.
-        setDisplayName("HUB"); // with presets support
+        setDisplayName("HUB"); // can use presets (use: "preset:PRESET_KEY")
 
         // Set a lines for objective of board.
         setLineSmart(5);
