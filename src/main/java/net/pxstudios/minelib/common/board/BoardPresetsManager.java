@@ -41,4 +41,8 @@ public final class BoardPresetsManager {
     public void addAll(BoardPresetsManager presetsManager) {
         presetsMap.putAll(presetsManager.presetsMap);
     }
+
+    public void removeAll() {
+        presetsMap.clear();
+    }
 }
