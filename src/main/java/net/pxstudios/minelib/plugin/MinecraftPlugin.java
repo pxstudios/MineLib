@@ -41,7 +41,7 @@ public abstract class MinecraftPlugin extends JavaPlugin {
     public abstract void postEnable(MineLibrary mineLibrary);
 
     @Override
-    public void onLoad() {
+    public final void onLoad() {
         mineLibrary = new MineLibrary();
         onLoadTimeMillis = System.currentTimeMillis();
 
@@ -55,7 +55,7 @@ public abstract class MinecraftPlugin extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
+    public final void onEnable() {
         log("Running automatically memory cleanup task...");
 
         // Start automatically memory cleanup task.
@@ -71,7 +71,7 @@ public abstract class MinecraftPlugin extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
+    public final void onDisable() {
         postDisable(mineLibrary);
 
         mineLibrary = null;
