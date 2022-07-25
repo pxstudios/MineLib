@@ -25,7 +25,7 @@ public abstract class MinecraftPlugin extends JavaPlugin {
     }
 
     public final void log(Level level, Object message) {
-        log(level, message.toString());
+        log(level, message != null ? message.toString() : "null");
     }
 
     public final void log(Object message) {
