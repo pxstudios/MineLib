@@ -16,20 +16,20 @@ public abstract class MinecraftPlugin extends JavaPlugin {
     @Getter
     private MineLibrary mineLibrary;
 
-    public final void log(String message, Object... placeholders) {
-        getLogger().info(ChatColor.WHITE + String.format(message, placeholders));
-    }
-
     public final void log(Level level, String message, Object... placeholders) {
         getLogger().log(level, ChatColor.WHITE + String.format(message, placeholders));
     }
 
-    public final void log(Object message) {
-        log(message.toString());
+    public final void log(String message, Object... placeholders) {
+        log(Level.INFO, message, placeholders);
     }
 
     public final void log(Level level, Object message) {
         log(level, message.toString());
+    }
+
+    public final void log(Object message) {
+        log(Level.INFO, message);
     }
 
     public void postLoad(MineLibrary mineLibrary) {
