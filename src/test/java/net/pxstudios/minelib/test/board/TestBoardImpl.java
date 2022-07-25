@@ -1,4 +1,4 @@
-package net.pxstudtios.minelib.test.board;
+package net.pxstudios.minelib.test.board;
 
 import lombok.NonNull;
 import net.pxstudios.minelib.MineLibrary;

@@ -1,4 +1,4 @@
-package net.pxstudtios.minelib.test.registry;
+package net.pxstudios.minelib.test.registry;
 
 import net.pxstudios.minelib.command.CommandContext;
 import net.pxstudios.minelib.command.CommandSettings;

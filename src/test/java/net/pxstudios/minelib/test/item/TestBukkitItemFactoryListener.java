@@ -1,4 +1,4 @@
-package net.pxstudtios.minelib.test.item;
+package net.pxstudios.minelib.test.item;
 
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.common.item.BukkitItem;

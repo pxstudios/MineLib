@@ -1,4 +1,4 @@
-package net.pxstudtios.minelib.test.command;
+package net.pxstudios.minelib.test.command;
 
 import net.pxstudios.minelib.command.CommandSettings;
 import net.pxstudios.minelib.command.type.AbstractBukkitCommand;

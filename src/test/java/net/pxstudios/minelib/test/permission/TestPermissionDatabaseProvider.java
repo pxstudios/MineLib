@@ -1,9 +1,9 @@
-package net.pxstudtios.minelib.test.permission;
+package net.pxstudios.minelib.test.permission;
 
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
 import net.pxstudios.minelib.permission.PermissionDatabaseProvider;
-import net.pxstudtios.minelib.test.MineLibTest;
+import net.pxstudios.minelib.test.MineLibTest;
 import org.bukkit.entity.Player;
 
 import java.nio.file.Path;

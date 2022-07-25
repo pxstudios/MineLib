@@ -1,4 +1,4 @@
-package net.pxstudtios.minelib.test.registry;
+package net.pxstudios.minelib.test.registry;
 
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.registry.type.EventListenerRegistryObject;

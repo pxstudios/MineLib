@@ -1,4 +1,4 @@
-package net.pxstudtios.minelib.test.complex;
+package net.pxstudios.minelib.test.complex;
 
 import net.pxstudios.minelib.common.complex.type.ComplexBed;
 import org.bukkit.Location;

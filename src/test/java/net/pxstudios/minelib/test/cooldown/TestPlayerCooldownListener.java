@@ -1,4 +1,4 @@
-package net.pxstudtios.minelib.test.cooldown;
+package net.pxstudios.minelib.test.cooldown;
 
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.cooldown.Cooldown;
