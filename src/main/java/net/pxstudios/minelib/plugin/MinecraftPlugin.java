@@ -2,6 +2,8 @@ package net.pxstudios.minelib.plugin;
 
 import lombok.Getter;
 import net.pxstudios.minelib.MineLibrary;
+import net.pxstudios.minelib.event.plugin.MLMinecraftPluginDisableEvent;
+import net.pxstudios.minelib.event.plugin.MLMinecraftPluginEnableEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -68,11 +70,17 @@ public abstract class MinecraftPlugin extends JavaPlugin {
 
         log(ChatColor.GREEN + "MineLibrary was success enabled (%sms)", (System.currentTimeMillis() - onLoadTimeMillis));
         postEnable(mineLibrary);
+
+        // Call event.
+        mineLibrary.getEventsSubscriber().callEvent(new MLMinecraftPluginEnableEvent(mineLibrary, this));
     }
 
     @Override
     public final void onDisable() {
         postDisable(mineLibrary);
+
+        // Call event.
+        mineLibrary.getEventsSubscriber().callEvent(new MLMinecraftPluginDisableEvent(mineLibrary, this));
 
         mineLibrary = null;
     }

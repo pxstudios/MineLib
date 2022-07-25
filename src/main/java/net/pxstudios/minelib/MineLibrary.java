@@ -13,6 +13,7 @@ import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.item.event.BukkitItemEventsHandler;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.cooldown.PlayerCooldownApi;
+import net.pxstudios.minelib.event.wrapper.BukkitEventsWrapperListener;
 import net.pxstudios.minelib.subscription.EventsSubscriber;
 import net.pxstudios.minelib.motd.ServerMotdApi;
 import net.pxstudios.minelib.permission.PlayerPermissionApi;
@@ -95,6 +96,9 @@ public final class MineLibrary {
 
         // Register BukkitItem`s internal events-storage listener.
         plugin.getServer().getPluginManager().registerEvents(new BukkitItemEventsHandler(), plugin);
+
+        // Register bukkit-events wrappers listener.
+        plugin.getServer().getPluginManager().registerEvents(new BukkitEventsWrapperListener(this), plugin);
     }
 
     public void runAutoGarbageCollector() {

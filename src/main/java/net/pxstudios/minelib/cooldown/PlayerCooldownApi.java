@@ -3,6 +3,8 @@ package net.pxstudios.minelib.cooldown;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import lombok.NonNull;
+import net.pxstudios.minelib.event.player.MLPlayerCooldownAddEvent;
+import net.pxstudios.minelib.event.player.MLPlayerCooldownLeftEvent;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
@@ -30,6 +32,10 @@ public final class PlayerCooldownApi {
 
                         if (cooldown.hasFlag(CooldownFlag.REMOVE_ON_PLAYER_QUIT)) {
                             cooldown.left(CooldownLeftReason.PLAYER_QUIT);
+
+                            if (cooldown.getPlayer() != null) {
+                                callCooldownLeftEvent(cooldown.getPlayer(), cooldown, CooldownLeftReason.PLAYER_QUIT);
+                            }
                         }
                     }
                 });
@@ -40,6 +46,8 @@ public final class PlayerCooldownApi {
 
             if (cooldown.isExpired()) {
                 cooldown.left(CooldownLeftReason.TIME_EXPIRED);
+
+                callCooldownLeftEvent(player, cooldown, CooldownLeftReason.TIME_EXPIRED);
             }
         });
     }
@@ -57,6 +65,8 @@ public final class PlayerCooldownApi {
         }
 
         cooldownsMultimap.put(player, cooldown);
+        callCooldownAddEvent(player, cooldown);
+
         return completableFuture;
     }
 
@@ -96,6 +106,18 @@ public final class PlayerCooldownApi {
 
     public boolean hasCooldown(@NonNull Player player, @NonNull String name) {
         return getLeftTime(player, name) > 0;
+    }
+
+    private void callCooldownAddEvent(Player player, Cooldown cooldown) {
+        plugin.getMineLibrary().getEventsSubscriber().callEvent(
+                new MLPlayerCooldownAddEvent(plugin.getMineLibrary(), player, cooldown.getName(), cooldown.getMillisecondsDelay())
+        );
+    }
+
+    private void callCooldownLeftEvent(Player player, Cooldown cooldown, CooldownLeftReason reason) {
+        plugin.getMineLibrary().getEventsSubscriber().callEvent(
+                new MLPlayerCooldownLeftEvent(plugin.getMineLibrary(), player, cooldown.getName(), cooldown.getMillisecondsDelay(), reason)
+        );
     }
 
 }
