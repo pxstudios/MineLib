@@ -57,11 +57,11 @@ import java.util.logging.Level;
 public final class MineLibTest extends MinecraftPlugin {
 
     private void testContextCommands(MineLibrary mineLibrary) {
-        mineLibrary.getCommandRegistry().registerCommand(new TestAbstractBukkitCommand(this), "bukkittest", "btest");
+        mineLibrary.getCommandRegistry().registerCommand(new TestAbstractBukkitCommand(), "bukkittest", "btest");
         // -> this command is not contains internal labels.
 
-        mineLibrary.getCommandRegistry().registerCommand(new TestAbstractPlayerBukkitCommand(this));
-        mineLibrary.getCommandRegistry().registerCommand(new TestAbstractContextCommand(this));
+        mineLibrary.getCommandRegistry().registerCommand(new TestAbstractPlayerBukkitCommand());
+        mineLibrary.getCommandRegistry().registerCommand(new TestAbstractContextCommand());
     }
 
     private void testItemApi(MineLibrary mineLibrary) {

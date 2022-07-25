@@ -6,15 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public final class TestAbstractBukkitCommand extends AbstractBukkitCommand {
 
-    public TestAbstractBukkitCommand(Plugin plugin) {
-        super(plugin);
-
+    public TestAbstractBukkitCommand() {
         // super.addLabels("bukkittest", "btest");
         // - used on registering in MineLibTest
 

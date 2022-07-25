@@ -5,15 +5,12 @@ import net.pxstudios.minelib.command.type.AbstractPlayerBukkitCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public final class TestAbstractPlayerBukkitCommand extends AbstractPlayerBukkitCommand {
 
-    public TestAbstractPlayerBukkitCommand(Plugin plugin) {
-        super(plugin);
-
+    public TestAbstractPlayerBukkitCommand() {
         super.addLabels("playertest", "ptest");
 
         super.addSetting(CommandSettings.USE_COOLDOWN_DELAY, 1500L);

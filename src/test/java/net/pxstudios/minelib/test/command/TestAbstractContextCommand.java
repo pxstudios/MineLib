@@ -5,15 +5,12 @@ import net.pxstudios.minelib.command.CommandSettings;
 import net.pxstudios.minelib.command.type.AbstractContextCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public final class TestAbstractContextCommand extends AbstractContextCommand {
 
-    public TestAbstractContextCommand(Plugin plugin) {
-        super(plugin);
-
+    public TestAbstractContextCommand() {
         super.addLabels("contexttest", "ctest");
 
         super.addSetting(CommandSettings.SENDER_TYPE, Player.class);
