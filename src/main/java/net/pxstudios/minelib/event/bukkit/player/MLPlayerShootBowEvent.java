@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.event.wrapper.player;
+package net.pxstudios.minelib.event.bukkit.player;
 
 import lombok.Getter;
 import lombok.Setter;

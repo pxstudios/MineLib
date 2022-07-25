@@ -1,12 +1,12 @@
-package net.pxstudios.minelib.event.wrapper;
+package net.pxstudios.minelib.event.bukkit;
 
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.event.player.MLPlayerKillEvent;
-import net.pxstudios.minelib.event.wrapper.player.MLPlayerDamageEvent;
-import net.pxstudios.minelib.event.wrapper.player.MLPlayerProjectileHitEvent;
-import net.pxstudios.minelib.event.wrapper.player.MLPlayerProjectileLaunchEvent;
-import net.pxstudios.minelib.event.wrapper.player.MLPlayerShootBowEvent;
+import net.pxstudios.minelib.event.bukkit.player.MLPlayerDamageEvent;
+import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileHitEvent;
+import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileLaunchEvent;
+import net.pxstudios.minelib.event.bukkit.player.MLPlayerShootBowEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
