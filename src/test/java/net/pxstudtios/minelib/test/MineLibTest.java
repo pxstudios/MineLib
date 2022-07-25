@@ -37,9 +37,7 @@ import net.pxstudtios.minelib.test.permission.TestPermissionDatabaseProvider;
 import net.pxstudtios.minelib.test.registry.TestRegistryCommand;
 import net.pxstudtios.minelib.test.registry.TestRegistryListener;
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
@@ -49,6 +47,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -376,6 +375,22 @@ public final class MineLibTest extends JavaPlugin {
         wrappedWorld.setGameRuleValue(WorldGameRuleType.RANDOM_TICK_SPEED, 0);
         // ... and more
 
+        Location originLocation = wrappedWorld.getLocationAt(50, 120, 3);
+        Point3D originPoint = new Point3D(originLocation);
+
+        Collection<Entity> nearbyEntities1 = wrappedWorld.getNearbyEntities(originPoint);
+        Collection<Entity> nearbyEntities2 = wrappedWorld.getNearbyEntities(originLocation, 5);
+        Collection<Entity> nearbyEntities3 = wrappedWorld.getNearbyEntities(originPoint, 5, 5, 5);
+        Collection<Entity> nearbyEntities4 = wrappedWorld.getNearbyEntities(EntityType.ZOMBIE, originPoint, 4);
+        Collection<Entity> nearbyEntities5 = wrappedWorld.getNearbyEntities(EntityType.SKELETON, originLocation);
+
+        List<Player> playersInWorld = wrappedWorld.getPlayers();
+        Collection<Player> nearbyPlayers2 = wrappedWorld.getNearbyPlayers(originLocation);
+        Collection<Player> nearbyPlayers3 = wrappedWorld.getNearbyPlayers(originPoint, 5, 5, 5);
+
+        Collection<Sheep> sheepsInWorld = wrappedWorld.getEntitiesByClass(Sheep.class);
+        Collection<Entity> cowsInWorld = wrappedWorld.getEntitiesByType(EntityType.COW);
+
         WorldGameRuleType worldGameRuleType = bukkitWorldsApi.getGameRuleByName("doFireTick");
         WorldWeatherType worldWeatherType = bukkitWorldsApi.getWeatherByName("storm");
         WorldTimeType nearbyWorldTimeType = bukkitWorldsApi.getNearbyTimeByTicks(1024);
@@ -386,18 +401,16 @@ public final class MineLibTest extends JavaPlugin {
 
         boolean canFolderDelete = true;
 
-        World lastLoadedWorld = bukkitWorldsApi.getLastLoadedWorld();
+        bukkitWorldsApi.unloadBukkitWorld(bukkitWorldsApi.getLastLoadedWorld(), canFolderDelete)
+                .thenAccept(unloadedWorld -> {
 
-        bukkitWorldsApi.unloadBukkitWorld(lastLoadedWorld, canFolderDelete)
-                .thenAccept(world -> {
+                    System.out.printf("World \"%s\" was success unloaded & deleted from server%n", unloadedWorld.getName());
 
-                    System.out.printf("World \"%s\" was success unloaded & deleted from server%n", world.getName());
-                });
+                    bukkitWorldsApi.loadBukkitWorld(new WorldCreator(unloadedWorld.getName()).type(WorldType.FLAT))
+                            .thenAccept(loadedWorld -> {
 
-        bukkitWorldsApi.loadBukkitWorld(new WorldCreator(lastLoadedWorld.getName()).type(WorldType.FLAT))
-                .thenAccept(world -> {
-
-                    System.out.printf("World \"%s\" was success loaded%n", world.getName());
+                                System.out.printf("World \"%s\" was success loaded%n", loadedWorld.getName());
+                            });
                 });
     }
 
