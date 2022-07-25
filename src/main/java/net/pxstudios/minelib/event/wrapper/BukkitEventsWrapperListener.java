@@ -2,6 +2,7 @@ package net.pxstudios.minelib.event.wrapper;
 
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.MineLibrary;
+import net.pxstudios.minelib.event.player.MLPlayerKillEvent;
 import net.pxstudios.minelib.event.wrapper.player.MLPlayerDamageEvent;
 import net.pxstudios.minelib.event.wrapper.player.MLPlayerProjectileHitEvent;
 import net.pxstudios.minelib.event.wrapper.player.MLPlayerProjectileLaunchEvent;
@@ -12,10 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.projectiles.ProjectileSource;
 
 @RequiredArgsConstructor
@@ -48,6 +46,12 @@ public final class BukkitEventsWrapperListener implements Listener {
     public void callPlayerProjectileLaunchEvent(ProjectileLaunchEvent event) {
         mineLibrary.getEventsSubscriber().callEvent(
                 new MLPlayerProjectileLaunchEvent(mineLibrary, (Player) event.getEntity(), event.getEntity())
+        );
+    }
+
+    public void callPlayerKillEvent(PlayerDeathEvent event) {
+        mineLibrary.getEventsSubscriber().callEvent(
+                new MLPlayerKillEvent(mineLibrary, event.getEntity(), event.getEntity().getKiller())
         );
     }
 
@@ -84,6 +88,14 @@ public final class BukkitEventsWrapperListener implements Listener {
 
         if (entity instanceof Player) {
             callPlayerProjectileLaunchEvent(event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void handle(PlayerDeathEvent event) {
+
+        if (event.getEntity().getKiller() != null) {
+            callPlayerKillEvent(event);
         }
     }
 
