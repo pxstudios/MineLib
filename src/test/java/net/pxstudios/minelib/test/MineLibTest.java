@@ -408,12 +408,12 @@ public final class MineLibTest extends MinecraftPlugin {
         bukkitWorldsApi.unloadBukkitWorld(bukkitWorldsApi.getLastLoadedWorld(), canFolderDelete)
                 .thenAccept(unloadedWorld -> {
 
-                    System.out.printf("World \"%s\" was success unloaded & deleted from server%n", unloadedWorld.getName());
+                    super.log("World \"%s\" was success unloaded & deleted from server", unloadedWorld.getName());
 
                     bukkitWorldsApi.loadBukkitWorld(new WorldCreator(unloadedWorld.getName()).type(WorldType.FLAT))
                             .thenAccept(loadedWorld -> {
 
-                                System.out.printf("World \"%s\" was success loaded%n", loadedWorld.getName());
+                                super.log("World \"%s\" was success loaded", loadedWorld.getName());
                             });
                 });
     }
