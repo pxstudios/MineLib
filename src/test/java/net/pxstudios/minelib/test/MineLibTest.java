@@ -28,6 +28,7 @@ import net.pxstudios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudios.minelib.test.complex.TestComplexBlockListener;
 import net.pxstudios.minelib.test.cooldown.TestPlayerCooldownListener;
+import net.pxstudios.minelib.test.event.TestMLEventsListener;
 import net.pxstudios.minelib.test.item.TestBukkitItemFactoryListener;
 import net.pxstudios.minelib.test.permission.TestPermissionDatabaseProvider;
 import net.pxstudios.minelib.test.registry.TestRegistryCommand;
@@ -88,6 +89,10 @@ public final class MineLibTest extends MinecraftPlugin {
         ItemStack glowingStickItem = bukkitItemApi.withGlowing(new ItemStack(Material.STICK));
 
         ItemStack donateItemIcon = bukkitItemApi.parseItem(getConfig().getConfigurationSection("Items.DonateItem"));
+    }
+
+    private void testMLEvents() {
+        getServer().getPluginManager().registerEvents(new TestMLEventsListener(), this);
     }
 
     private void testAsyncCatcherBypass(MineLibrary mineLibrary) {
@@ -418,6 +423,8 @@ public final class MineLibTest extends MinecraftPlugin {
         testContextCommands(mineLibrary);
 
         testItemApi(mineLibrary);
+
+        testMLEvents();
 
         testAsyncCatcherBypass(mineLibrary);
 
