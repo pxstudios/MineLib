@@ -2,8 +2,8 @@ package net.pxstudios.minelib.beat;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
+import net.pxstudios.minelib.beat.wrapper.WrapperBukkitTask;
+import net.pxstudios.minelib.beat.wrapper.WrapperBukkitTaskTimer;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -17,12 +17,12 @@ public final class BukkitBeater {
 
     private final MinecraftPlugin plugin;
 
-    private WrappedBukkitTimerTask wrapTimer(BukkitTask bukkitTask) {
-        return new WrappedBukkitTimerTask(this, bukkitTask);
+    private WrapperBukkitTaskTimer wrapTimer(BukkitTask bukkitTask) {
+        return new WrapperBukkitTaskTimer(this, bukkitTask);
     }
 
-    private WrappedBukkitTask wrap(BukkitTask bukkitTask) {
-        return new WrappedBukkitTask(this, bukkitTask);
+    private WrapperBukkitTask wrap(BukkitTask bukkitTask) {
+        return new WrapperBukkitTask(this, bukkitTask);
     }
 
     @SneakyThrows
@@ -43,7 +43,7 @@ public final class BukkitBeater {
         cancel(bukkitTask.getTaskId());
     }
 
-    public void cancel(WrappedBukkitTask bukkitTask) {
+    public void cancel(WrapperBukkitTask bukkitTask) {
         cancel(bukkitTask.getTaskId());
     }
 
@@ -51,61 +51,61 @@ public final class BukkitBeater {
         plugin.getServer().getScheduler().cancelTasks(plugin);
     }
 
-    public WrappedBukkitTask runSync(Runnable runnable) {
+    public WrapperBukkitTask runSync(Runnable runnable) {
         return wrap(plugin.getServer().getScheduler().runTask(plugin, runnable));
     }
 
-    public WrappedBukkitTask runAsync(Runnable runnable) {
+    public WrapperBukkitTask runAsync(Runnable runnable) {
         return wrap(plugin.getServer().getScheduler().runTaskAsynchronously(plugin, runnable));
     }
 
-    public WrappedBukkitTask runLater(long delay, Runnable runnable) {
+    public WrapperBukkitTask runLater(long delay, Runnable runnable) {
         return wrap(plugin.getServer().getScheduler().runTaskLater(plugin, runnable, delay));
     }
 
-    public WrappedBukkitTask runLaterAsync(long delay, Runnable runnable) {
+    public WrapperBukkitTask runLaterAsync(long delay, Runnable runnable) {
         return wrap(plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, runnable, delay));
     }
 
-    public WrappedBukkitTimerTask runTimer(long delay, long period, Runnable runnable) {
+    public WrapperBukkitTaskTimer runTimer(long delay, long period, Runnable runnable) {
         return wrapTimer(plugin.getServer().getScheduler().runTaskTimer(plugin, runnable, delay, period));
     }
 
-    public WrappedBukkitTimerTask runTimer(long period, Runnable runnable) {
+    public WrapperBukkitTaskTimer runTimer(long period, Runnable runnable) {
         return runTimer(0, period, runnable);
     }
 
-    public WrappedBukkitTimerTask runTimerAsync(long delay, long period, Runnable runnable) {
+    public WrapperBukkitTaskTimer runTimerAsync(long delay, long period, Runnable runnable) {
         return wrapTimer(plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, runnable, delay, period));
     }
 
-    public WrappedBukkitTimerTask runTimerAsync(long period, Runnable runnable) {
+    public WrapperBukkitTaskTimer runTimerAsync(long period, Runnable runnable) {
         return runTimerAsync(0, period, runnable);
     }
 
-    public WrappedBukkitTimerTask runCancellableTimer(long delay, long period, BukkitRunnable cancellable) {
-        WrappedBukkitTimerTask task = runTimer(delay, period, cancellable);
+    public WrapperBukkitTaskTimer runCancellableTimer(long delay, long period, BukkitRunnable cancellable) {
+        WrapperBukkitTaskTimer task = runTimer(delay, period, cancellable);
         task.setup(cancellable);
 
         return task;
     }
 
-    public WrappedBukkitTimerTask runCancellableTimer(long period, BukkitRunnable cancellable) {
-        WrappedBukkitTimerTask task = runTimer(period, cancellable);
+    public WrapperBukkitTaskTimer runCancellableTimer(long period, BukkitRunnable cancellable) {
+        WrapperBukkitTaskTimer task = runTimer(period, cancellable);
         task.setup(cancellable);
 
         return task;
     }
 
-    public WrappedBukkitTimerTask runCancellableTimerAsync(long delay, long period, BukkitRunnable cancellable) {
-        WrappedBukkitTimerTask task = runTimerAsync(delay, period, cancellable);
+    public WrapperBukkitTaskTimer runCancellableTimerAsync(long delay, long period, BukkitRunnable cancellable) {
+        WrapperBukkitTaskTimer task = runTimerAsync(delay, period, cancellable);
         task.setup(cancellable);
 
         return task;
     }
 
-    public WrappedBukkitTimerTask runCancellableTimerAsync(long period, BukkitRunnable cancellable) {
-        WrappedBukkitTimerTask task = runTimerAsync(period, cancellable);
+    public WrapperBukkitTaskTimer runCancellableTimerAsync(long period, BukkitRunnable cancellable) {
+        WrapperBukkitTaskTimer task = runTimerAsync(period, cancellable);
         task.setup(cancellable);
 
         return task;

@@ -3,8 +3,8 @@ package net.pxstudios.minelib.test;
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
+import net.pxstudios.minelib.beat.wrapper.WrapperBukkitTask;
+import net.pxstudios.minelib.beat.wrapper.WrapperBukkitTaskTimer;
 import net.pxstudios.minelib.board.Board;
 import net.pxstudios.minelib.board.BoardApi;
 import net.pxstudios.minelib.board.BoardFlag;
@@ -110,7 +110,7 @@ public final class MineLibTest extends MinecraftPlugin {
     private void testBukkitBeater(MineLibrary mineLibrary) {
         BukkitBeater bukkitBeater = mineLibrary.getBeater();
 
-        WrappedBukkitTimerTask timerTask = bukkitBeater.runTimer(2L, () -> Bukkit.broadcastMessage("Hello world!"));
+        WrapperBukkitTaskTimer timerTask = bukkitBeater.runTimer(2L, () -> Bukkit.broadcastMessage("Hello world!"));
         timerTask.waitFor(20L, () -> {
 
             Bukkit.getLogger().info("Task #" + timerTask.getTaskId() + " was cancelled!");
@@ -119,8 +119,8 @@ public final class MineLibTest extends MinecraftPlugin {
         List<BukkitTask> pendingTasks = bukkitBeater.getPendingTasks();
         pendingTasks.forEach(bukkitTask -> {
 
-            WrappedBukkitTask wrappedCancellingTask = bukkitBeater.runLater(60L, () -> bukkitBeater.cancel(bukkitTask));
-            wrappedCancellingTask.waitAfter(() -> Bukkit.getLogger().info("Task #" + wrappedCancellingTask.getTaskId() + " was cancelled!"));
+            WrapperBukkitTask wrapperCancellingTask = bukkitBeater.runLater(60L, () -> bukkitBeater.cancel(bukkitTask));
+            wrapperCancellingTask.waitAfter(() -> Bukkit.getLogger().info("Task #" + wrapperCancellingTask.getTaskId() + " was cancelled!"));
         });
     }
 

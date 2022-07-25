@@ -3,7 +3,7 @@ package net.pxstudios.minelib.cooldown;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
+import net.pxstudios.minelib.beat.wrapper.WrapperBukkitTask;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.entity.Player;
 
@@ -44,7 +44,7 @@ public final class Cooldown {
     CompletableFuture<CooldownLeftReason> onLeft;
 
     @NonFinal
-    WrappedBukkitTask automaticallyExpirationTask;
+    WrapperBukkitTask automaticallyExpirationTask;
 
     public Cooldown withFlag(@NonNull CooldownFlag flag) {
         flagsSet.add(flag);

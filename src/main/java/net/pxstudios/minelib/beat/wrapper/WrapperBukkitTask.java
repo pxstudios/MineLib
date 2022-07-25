@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.beat.wrap;
+package net.pxstudios.minelib.beat.wrapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 @RequiredArgsConstructor
-public class WrappedBukkitTask {
+public class WrapperBukkitTask {
 
     protected final BukkitBeater beater;
 

@@ -1,11 +1,11 @@
-package net.pxstudios.minelib.beat.wrap;
+package net.pxstudios.minelib.beat.wrapper;
 
 import net.pxstudios.minelib.beat.BukkitBeater;
 import org.bukkit.scheduler.BukkitTask;
 
-public class WrappedBukkitTimerTask extends WrappedBukkitTask {
+public class WrapperBukkitTaskTimer extends WrapperBukkitTask {
 
-    public WrappedBukkitTimerTask(BukkitBeater beater, BukkitTask bukkitTask) {
+    public WrapperBukkitTaskTimer(BukkitBeater beater, BukkitTask bukkitTask) {
         super(beater, bukkitTask);
     }
 

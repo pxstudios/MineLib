@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
-import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
+import net.pxstudios.minelib.beat.wrapper.WrapperBukkitTask;
 import net.pxstudios.minelib.board.BoardApi;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.common.chat.ChatApi;
@@ -66,7 +66,7 @@ public final class MineLibrary {
     @Getter
     private BukkitRegistryManager registryManager;
 
-    private WrappedBukkitTask autoGarbageCollectorTask;
+    private WrapperBukkitTask autoGarbageCollectorTask;
 
     public void init(@NonNull MinecraftPlugin plugin) {
 
