@@ -40,7 +40,7 @@ public final class BukkitWorldsApi {
     private final Map<String, CompletableFuture<World>> worldsFuturesMap = new HashMap<>();
 
     public WrapperBukkitWorld getWrapper(@NonNull World world) {
-        return wrapperWorldsMap.computeIfAbsent(world, WrapperBukkitWorld::new);
+        return wrapperWorldsMap.computeIfAbsent(world, f -> new WrapperBukkitWorld(plugin, world));
     }
 
     public WrapperBukkitWorld getWrapper(@NonNull String name) {

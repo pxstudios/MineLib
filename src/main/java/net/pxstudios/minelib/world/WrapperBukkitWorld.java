@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.common.location.point.Point3D;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.world.rule.WorldGameRule;
 import net.pxstudios.minelib.world.rule.WorldGameRuleType;
 import net.pxstudios.minelib.world.time.WorldTimeType;
@@ -37,8 +38,14 @@ public class WrapperBukkitWorld {
 
     private final Set<Flag> flagsSet = new HashSet<>();
 
+    private final MinecraftPlugin plugin;
+
     @Getter
     private final World bukkit;
+
+    public final String getName() {
+        return bukkit.getName();
+    }
 
     public final Set<Flag> getActiveFlags() {
         return Collections.unmodifiableSet(flagsSet);
@@ -137,7 +144,7 @@ public class WrapperBukkitWorld {
     }
 
     public final Collection<Entity> getNearbyEntities(Point3D origin, double radiusX, double radiusY, double radiusZ) {
-        Location location = MineLibrary.getLibrary().getLocationApi().toLocation(bukkit, origin);
+        Location location = plugin.getMineLibrary().getLocationApi().toLocation(bukkit, origin);
         return getNearbyEntities(location, radiusX, radiusY, radiusZ);
     }
 
@@ -239,7 +246,7 @@ public class WrapperBukkitWorld {
     }
 
     public final Location getLocationAt(Vector vector) {
-        return MineLibrary.getLibrary().getLocationApi().toLocation(bukkit, vector);
+        return plugin.getMineLibrary().getLocationApi().toLocation(bukkit, vector);
     }
 
     public final Location getLocationAt(Point3D point3D) {
@@ -256,5 +263,22 @@ public class WrapperBukkitWorld {
 
     public final Block getBlockAt(Point3D point3D) {
         return getLocationAt(point3D).getBlock();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof WrapperBukkitWorld) {
+            if (obj == this) {
+                return true;
+            }
+
+            return ((WrapperBukkitWorld) obj).getName().equals(getName());
+        }
+
+        if (obj instanceof World) {
+            return ((World) obj).getName().equals(getName());
+        }
+
+        return false;
     }
 }
