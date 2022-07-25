@@ -109,14 +109,19 @@ public class WrapperBukkitWorld {
     }
 
     public final void setWeather(WorldWeatherType weather) {
-        if (weather == WorldWeatherType.THUNDER) {
+        boolean isThundering = weather == WorldWeatherType.THUNDER;
+
+        if (isThundering) {
             weather = WorldWeatherType.RAIN;
+        }
+
+        bukkit.setWeatherDuration(weather.ordinal());
+
+        if (isThundering) {
 
             bukkit.setThundering(true);
             bukkit.setThunderDuration(1);
         }
-
-        bukkit.setWeatherDuration(weather.ordinal());
     }
 
     public final void setTime(WorldTimeType timeType) {
