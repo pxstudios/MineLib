@@ -2,12 +2,12 @@ package net.pxstudios.minelib.asynccatcher;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.plugin.Plugin;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.spigotmc.AsyncCatcher;
 
 @RequiredArgsConstructor
 public final class AsyncCatcherBypass {
-    private final Plugin plugin;
+    private final MinecraftPlugin plugin;
 
     @Getter
     private boolean bypassEnabled = false;
@@ -17,14 +17,12 @@ public final class AsyncCatcherBypass {
         bypassEnabled = true;
     }
 
-    public void sync(Runnable synchronizer) {
+    public synchronized void sync(Runnable synchronizer) {
         if (!bypassEnabled) {
             throw new IllegalArgumentException("async-catcher bypass is not enabled");
         }
 
-        synchronized (plugin) {
-            plugin.getServer().getScheduler().runTask(plugin, synchronizer);
-        }
+        plugin.getServer().getScheduler().runTask(plugin, synchronizer);
     }
 
 }

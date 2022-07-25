@@ -1,14 +1,14 @@
 package net.pxstudios.minelib.event;
 
 import lombok.RequiredArgsConstructor;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
-import org.bukkit.plugin.Plugin;
 
 @RequiredArgsConstructor
 public final class EventsSubscriber {
 
-    private final Plugin plugin;
+    private final MinecraftPlugin plugin;
 
     public void callEvent(Event event) {
         plugin.getServer().getPluginManager().callEvent(event);

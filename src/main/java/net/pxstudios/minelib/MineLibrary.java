@@ -1,37 +1,27 @@
 package net.pxstudios.minelib;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
+import net.pxstudios.minelib.board.BoardApi;
 import net.pxstudios.minelib.command.CommandRegistry;
-import net.pxstudios.minelib.common.board.BoardApi;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
-import net.pxstudios.minelib.common.cooldown.PlayerCooldownApi;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
-import net.pxstudios.minelib.common.item.BukkitItemFactory;
 import net.pxstudios.minelib.common.item.event.BukkitItemEventsHandler;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
-import net.pxstudios.minelib.common.motd.ServerMotdApi;
-import net.pxstudios.minelib.common.permission.PlayerPermissionApi;
-import net.pxstudios.minelib.common.world.BukkitWorldsApi;
+import net.pxstudios.minelib.cooldown.PlayerCooldownApi;
 import net.pxstudios.minelib.event.EventsSubscriber;
+import net.pxstudios.minelib.motd.ServerMotdApi;
+import net.pxstudios.minelib.permission.PlayerPermissionApi;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
+import net.pxstudios.minelib.world.BukkitWorldsApi;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MineLibrary {
-
-    private static final MineLibrary instance = new MineLibrary();
-
-    public static MineLibrary getLibrary() {
-        return instance;
-    }
 
     @Getter
     private AsyncCatcherBypass asyncCatcherBypass;
@@ -77,7 +67,7 @@ public final class MineLibrary {
 
     private WrappedBukkitTask autoGarbageCollectorTask;
 
-    void init(@NonNull Plugin plugin) {
+    public void init(@NonNull MinecraftPlugin plugin) {
 
         // Init library sub-systems by plugin.
         asyncCatcherBypass = new AsyncCatcherBypass(plugin);
@@ -85,17 +75,17 @@ public final class MineLibrary {
         beater = new BukkitBeater(plugin);
         eventsSubscriber = new EventsSubscriber(plugin);
         registryManager = new BukkitRegistryManager(plugin);
+        boardApi = new BoardApi(plugin);
+        worldsApi = new BukkitWorldsApi(plugin);
+        playerCooldownApi = new PlayerCooldownApi(plugin);
+        serverMotdApi = new ServerMotdApi(plugin);
+        permissionApi = new PlayerPermissionApi(plugin);
 
         // Init library common sub-systems.
-        boardApi = new BoardApi();
         chatApi = new ChatApi();
         configManager = new PluginConfigManager();
-        playerCooldownApi = new PlayerCooldownApi();
         itemApi = new BukkitItemApi();
         locationApi = new BukkitLocationApi();
-        serverMotdApi = new ServerMotdApi();
-        permissionApi = new PlayerPermissionApi();
-        worldsApi = new BukkitWorldsApi();
 
         // Register default bukkit-objects registry providers.
         registryManager.addDefaultProviders();
@@ -107,8 +97,8 @@ public final class MineLibrary {
         plugin.getServer().getPluginManager().registerEvents(new BukkitItemEventsHandler(), plugin);
     }
 
-    void runAutoGarbageCollector() {
-        autoGarbageCollectorTask = beater.runTimerAsync(20L * 5, System::gc);
+    public void runAutoGarbageCollector() {
+        autoGarbageCollectorTask = beater.runTimerAsync(20L * 15, System::gc);
         autoGarbageCollectorTask.waitAfter(() -> Bukkit.getLogger().info("Auto garbage-collector is disabled!"));
     }
 

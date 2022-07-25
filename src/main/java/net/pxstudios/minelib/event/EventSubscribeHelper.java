@@ -1,11 +1,11 @@
 package net.pxstudios.minelib.event;
 
 import lombok.*;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.EventExecutor;
-import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class EventSubscribeHelper<T extends Event> implements Listener, EventExecutor {
 
-    private final Plugin plugin;
+    private final MinecraftPlugin plugin;
     private SingleEventBuilder<T> singleEventBuilder;
 
     @Getter

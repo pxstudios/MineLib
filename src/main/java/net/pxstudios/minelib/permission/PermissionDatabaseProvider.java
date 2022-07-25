@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.common.permission;
+package net.pxstudios.minelib.permission;
 
 import org.bukkit.entity.Player;
 

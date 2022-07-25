@@ -19,8 +19,11 @@ public class CommandSettings<R> {
     public static final CommandSettings<String> USE_PERMISSION = new CommandSettings<>("USE_PERMISSION");
 
     public static final CommandSettings<String> HAS_COOLDOWN_DELAY_MESSAGE = new CommandSettings<>("HAS_COOLDOWN_DELAY_MESSAGE", ChatColor.RED + "Please, wait for %s sec. for use this command!");
+
     public static final CommandSettings<String> NO_PERMISSION_MESSAGE = new CommandSettings<>("NO_PERMISSION_MESSAGE", ChatColor.RED + "You don`t have permissions to use this command!");
+
     public static final CommandSettings<String> EMPTY_ARGS_MESSAGE = new CommandSettings<>("EMPTY_ARGS_MESSAGE", ChatColor.RED + "No enough arguments!");
+
     public static final CommandSettings<String> CONSOLE_DISABLED_MESSAGE = new CommandSettings<>("CONSOLE_USE_MESSAGE", ChatColor.RED + "That command can use only players!");
 
     public static final CommandSettings<?>[] DEFAULT_SETTINGS_ARRAY = {

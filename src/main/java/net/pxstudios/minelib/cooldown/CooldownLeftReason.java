@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.common.cooldown;
+package net.pxstudios.minelib.cooldown;
 
 public enum CooldownLeftReason {
 

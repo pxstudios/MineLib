@@ -5,28 +5,29 @@ import net.pxstudios.minelib.asynccatcher.AsyncCatcherBypass;
 import net.pxstudios.minelib.beat.BukkitBeater;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
-import net.pxstudios.minelib.common.board.Board;
-import net.pxstudios.minelib.common.board.BoardApi;
-import net.pxstudios.minelib.common.board.BoardFlag;
+import net.pxstudios.minelib.board.Board;
+import net.pxstudios.minelib.board.BoardApi;
+import net.pxstudios.minelib.board.BoardFlag;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.chat.ChatDirection;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
 import net.pxstudios.minelib.common.config.type.TextPluginConfig;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
-import net.pxstudios.minelib.common.cooldown.PlayerCooldownApi;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.location.point.Point2D;
 import net.pxstudios.minelib.common.location.point.Point3D;
-import net.pxstudios.minelib.common.motd.ServerMotdApi;
-import net.pxstudios.minelib.common.permission.PlayerPermissionApi;
-import net.pxstudios.minelib.common.world.BukkitWorldsApi;
-import net.pxstudios.minelib.common.world.WrapperBukkitWorld;
-import net.pxstudios.minelib.common.world.rule.WorldGameRuleType;
-import net.pxstudios.minelib.common.world.time.WorldTimeType;
-import net.pxstudios.minelib.common.world.weather.WorldWeatherType;
+import net.pxstudios.minelib.cooldown.PlayerCooldownApi;
+import net.pxstudios.minelib.motd.ServerMotdApi;
+import net.pxstudios.minelib.permission.PlayerPermissionApi;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
+import net.pxstudios.minelib.world.BukkitWorldsApi;
+import net.pxstudios.minelib.world.WrapperBukkitWorld;
+import net.pxstudios.minelib.world.rule.WorldGameRuleType;
+import net.pxstudios.minelib.world.time.WorldTimeType;
+import net.pxstudios.minelib.world.weather.WorldWeatherType;
 import net.pxstudtios.minelib.test.command.TestAbstractBukkitCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractContextCommand;
 import net.pxstudtios.minelib.test.command.TestAbstractPlayerBukkitCommand;
@@ -42,7 +43,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.ServerOperator;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 
@@ -51,12 +51,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
-public final class MineLibTest extends JavaPlugin {
+public final class MineLibTest extends MinecraftPlugin {
 
-    private final MineLibrary mineLibrary = MineLibrary.getLibrary();
-
-    private void testContextCommands() {
+    private void testContextCommands(MineLibrary mineLibrary) {
         mineLibrary.getCommandRegistry().registerCommand(new TestAbstractBukkitCommand(this), "bukkittest", "btest");
         // -> this command is not contains internal labels.
 
@@ -64,7 +63,7 @@ public final class MineLibTest extends JavaPlugin {
         mineLibrary.getCommandRegistry().registerCommand(new TestAbstractContextCommand(this));
     }
 
-    private void testItemApi() {
+    private void testItemApi(MineLibrary mineLibrary) {
         BukkitItemApi bukkitItemApi = mineLibrary.getItemApi();
         getServer().getPluginManager().registerEvents(new TestBukkitItemFactoryListener(bukkitItemApi.getFactory()), this);
 
@@ -91,7 +90,7 @@ public final class MineLibTest extends JavaPlugin {
         ItemStack donateItemIcon = bukkitItemApi.parseItem(getConfig().getConfigurationSection("Items.DonateItem"));
     }
 
-    private void testAsyncCatcherBypass() {
+    private void testAsyncCatcherBypass(MineLibrary mineLibrary) {
         AsyncCatcherBypass asyncCatcherBypass = mineLibrary.getAsyncCatcherBypass();
         asyncCatcherBypass.enableSpigotBypass();
 
@@ -103,7 +102,7 @@ public final class MineLibTest extends JavaPlugin {
         });
     }
 
-    private void testBukkitBeater() {
+    private void testBukkitBeater(MineLibrary mineLibrary) {
         BukkitBeater bukkitBeater = mineLibrary.getBeater();
 
         WrappedBukkitTimerTask timerTask = bukkitBeater.runTimer(2L, () -> Bukkit.broadcastMessage("Hello world!"));
@@ -120,7 +119,7 @@ public final class MineLibTest extends JavaPlugin {
         });
     }
 
-    private void testEventsSubscriber() {
+    private void testEventsSubscriber(MineLibrary mineLibrary) {
         mineLibrary.getEventsSubscriber().subscribe(PlayerJoinEvent.class, EventPriority.HIGHEST)
                 .withIgnoreCancelled() // если ивент ранее был отменен, то он не будет использоваться
 
@@ -138,14 +137,14 @@ public final class MineLibTest extends JavaPlugin {
                 });
     }
 
-    private void testBukkitRegistry() {
+    private void testBukkitRegistry(MineLibrary mineLibrary) {
         BukkitRegistryManager bukkitRegistryManager = mineLibrary.getRegistryManager();
 
         bukkitRegistryManager.register(TestRegistryCommand.class);
         bukkitRegistryManager.register(TestRegistryListener.class);
     }
 
-    private void testChatApi() {
+    private void testChatApi(MineLibrary mineLibrary) {
         ChatApi chat = mineLibrary.getChatApi();
 
         String testPermission = ("minelib.chat.test");
@@ -171,7 +170,7 @@ public final class MineLibTest extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TestComplexBlockListener(), this);
     }
 
-    private void testLocationApi() {
+    private void testLocationApi(MineLibrary mineLibrary) {
         BukkitLocationApi locationApi = mineLibrary.getLocationApi();
 
         // locations builders.
@@ -211,11 +210,11 @@ public final class MineLibTest extends JavaPlugin {
         Location locationFromString = locationApi.toLocation(locationToString);
 
         if (locationFromString.equals(firstLocation)) {
-            System.out.println("Its work!");
+            super.log(Level.FINE, "Its work!");
         }
     }
 
-    private void testConfigs() {
+    private void testConfigs(MineLibrary mineLibrary) {
         PluginConfigManager configManager = mineLibrary.getConfigManager();
 
         // Properties configs.
@@ -248,12 +247,12 @@ public final class MineLibTest extends JavaPlugin {
         yamlConfig.save();
     }
 
-    private void testPlayerCooldownApi() {
+    private void testPlayerCooldownApi(MineLibrary mineLibrary) {
         PlayerCooldownApi playerCooldownApi = mineLibrary.getPlayerCooldownApi();
         getServer().getPluginManager().registerEvents(new TestPlayerCooldownListener(playerCooldownApi), this);
     }
 
-    private void testPermissionsApi() {
+    private void testPermissionsApi(MineLibrary mineLibrary) {
         PlayerPermissionApi permissionApi = mineLibrary.getPermissionApi();
 
         permissionApi.setEnabled(true);
@@ -275,7 +274,7 @@ public final class MineLibTest extends JavaPlugin {
         }
     }
 
-    private void testBoard() {
+    private void testBoardApi(MineLibrary mineLibrary) {
         BoardApi boardApi = mineLibrary.getBoardApi();
 
         boardApi.getGlobalPresetsManager().add("Website", "&ewww.plazmix.net");
@@ -328,7 +327,7 @@ public final class MineLibTest extends JavaPlugin {
         }
     }
 
-    private void testServerMotdApi() {
+    private void testServerMotdApi(MineLibrary mineLibrary) {
         ServerMotdApi serverMotdApi = mineLibrary.getServerMotdApi();
 
         serverMotdApi.enableApiEvents();
@@ -344,7 +343,7 @@ public final class MineLibTest extends JavaPlugin {
         serverMotdApi.setServerIcon(getDataFolder().toPath().resolve("icon.png"));
     }
 
-    private void testBukkitWorldsApi() {
+    private void testBukkitWorldsApi(MineLibrary mineLibrary) {
         BukkitWorldsApi bukkitWorldsApi = mineLibrary.getWorldsApi();
         WrapperBukkitWorld wrappedWorld = bukkitWorldsApi.getWrapper(bukkitWorldsApi.getMainWorld());
 
@@ -395,9 +394,9 @@ public final class MineLibTest extends JavaPlugin {
         WorldWeatherType worldWeatherType = bukkitWorldsApi.getWeatherByName("storm");
         WorldTimeType nearbyWorldTimeType = bukkitWorldsApi.getNearbyTimeByTicks(1024);
 
-        System.out.println(worldGameRuleType);
-        System.out.println(worldWeatherType);
-        System.out.println(nearbyWorldTimeType);
+        super.log(Level.INFO, worldGameRuleType);
+        super.log(Level.INFO, worldWeatherType);
+        super.log(Level.INFO, nearbyWorldTimeType);
 
         boolean canFolderDelete = true;
 
@@ -415,36 +414,36 @@ public final class MineLibTest extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
-        testContextCommands();
+    public void postEnable(MineLibrary mineLibrary) {
+        testContextCommands(mineLibrary);
 
-        testItemApi();
+        testItemApi(mineLibrary);
 
-        testAsyncCatcherBypass();
+        testAsyncCatcherBypass(mineLibrary);
 
-        testBukkitBeater();
+        testBukkitBeater(mineLibrary);
 
-        testEventsSubscriber();
+        testEventsSubscriber(mineLibrary);
 
-        testBukkitRegistry();
+        testBukkitRegistry(mineLibrary);
 
-        testChatApi();
+        testChatApi(mineLibrary);
 
         testComplex();
 
-        testLocationApi();
+        testLocationApi(mineLibrary);
 
-        testConfigs();
+        testConfigs(mineLibrary);
 
-        testPlayerCooldownApi();
+        testPlayerCooldownApi(mineLibrary);
 
-        testPermissionsApi();
+        testPermissionsApi(mineLibrary);
 
-        testBoard();
+        testBoardApi(mineLibrary);
 
-        testServerMotdApi();
+        testServerMotdApi(mineLibrary);
 
-        testBukkitWorldsApi();
+        testBukkitWorldsApi(mineLibrary);
     }
 
 }

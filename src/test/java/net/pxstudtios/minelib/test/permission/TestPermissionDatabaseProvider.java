@@ -2,7 +2,7 @@ package net.pxstudtios.minelib.test.permission;
 
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
-import net.pxstudios.minelib.common.permission.PermissionDatabaseProvider;
+import net.pxstudios.minelib.permission.PermissionDatabaseProvider;
 import net.pxstudtios.minelib.test.MineLibTest;
 import org.bukkit.entity.Player;
 

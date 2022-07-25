@@ -4,19 +4,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTimerTask;
-import org.bukkit.plugin.Plugin;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scheduler.BukkitWorker;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 @RequiredArgsConstructor
 public final class BukkitBeater {
 
-    private final Plugin plugin;
+    private final MinecraftPlugin plugin;
 
     private WrappedBukkitTimerTask wrapTimer(BukkitTask bukkitTask) {
         return new WrappedBukkitTimerTask(this, bukkitTask);

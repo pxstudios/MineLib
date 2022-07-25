@@ -1,9 +1,9 @@
-package net.pxstudios.minelib.common.cooldown;
+package net.pxstudios.minelib.cooldown;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import lombok.NonNull;
-import net.pxstudios.minelib.MineLibrary;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -17,8 +17,12 @@ public final class PlayerCooldownApi {
 
     static final Multimap<Player, Cooldown> cooldownsMultimap = HashMultimap.create();
 
-    public PlayerCooldownApi() {
-        MineLibrary.getLibrary().getEventsSubscriber()
+    private final MinecraftPlugin plugin;
+
+    public PlayerCooldownApi(MinecraftPlugin plugin) {
+        this.plugin = plugin;
+
+        plugin.getMineLibrary().getEventsSubscriber()
                 .subscribe(PlayerQuitEvent.class, EventPriority.HIGHEST)
                 .complete(event -> {
 
@@ -49,7 +53,7 @@ public final class PlayerCooldownApi {
         cooldown.setPlayer(player);
 
         if (cooldown.hasFlag(CooldownFlag.WITH_AUTO_EXPIRATION)) {
-            cooldown.enableAutoExpirationTask();
+            cooldown.enableAutoExpirationTask(plugin);
         }
 
         cooldownsMultimap.put(player, cooldown);

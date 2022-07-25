@@ -1,9 +1,9 @@
-package net.pxstudios.minelib.common.board;
+package net.pxstudios.minelib.board;
 
 import lombok.Getter;
 import lombok.NonNull;
-import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.event.EventsSubscriber;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -29,6 +29,7 @@ public class Board {
     private static final String SMART_PRESET_LINE_PREFIX = "preset:";
 
     private final BoardApi boardApi;
+    private final MinecraftPlugin plugin;
 
     @Getter
     private final BoardObjective objective;
@@ -42,6 +43,7 @@ public class Board {
 
     public Board(BoardApi boardApi, DisplaySlot display, String name, String criteria) {
         this.boardApi = boardApi;
+        this.plugin = boardApi.getPlugin();
 
         this.objective = boardApi.createObjective(this, display, name, criteria);
         this.localPresetsManager = boardApi.createPresetsManager();
@@ -289,7 +291,7 @@ public class Board {
     }
 
     public final void update(int ticks, Supplier<Boolean> actionOnUpdate) {
-        MineLibrary.getLibrary().getBeater().runCancellableTimer(ticks, ticks, new BukkitRunnable() {
+        plugin.getMineLibrary().getBeater().runCancellableTimer(ticks, ticks, new BukkitRunnable() {
 
             @Override
             public void run() {

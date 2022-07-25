@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.common.world;
+package net.pxstudios.minelib.world;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -6,10 +6,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.common.location.point.Point3D;
-import net.pxstudios.minelib.common.world.rule.WorldGameRule;
-import net.pxstudios.minelib.common.world.rule.WorldGameRuleType;
-import net.pxstudios.minelib.common.world.time.WorldTimeType;
-import net.pxstudios.minelib.common.world.weather.WorldWeatherType;
+import net.pxstudios.minelib.world.rule.WorldGameRule;
+import net.pxstudios.minelib.world.rule.WorldGameRuleType;
+import net.pxstudios.minelib.world.time.WorldTimeType;
+import net.pxstudios.minelib.world.weather.WorldWeatherType;
 import org.bukkit.Location;
 import org.bukkit.WeatherType;
 import org.bukkit.World;

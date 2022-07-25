@@ -3,8 +3,8 @@ package net.pxstudios.minelib.registry;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.registry.provider.BukkitRegistryObjectProvider;
-import org.bukkit.plugin.Plugin;
 
 import java.util.function.Function;
 
@@ -14,7 +14,7 @@ public class BukkitRegistryObject<T> {
     @Setter(AccessLevel.PACKAGE)
     private Function<BukkitRegistryManager, BukkitRegistryObjectProvider<T>> providerFunction;
 
-    private T newInstance(BukkitRegistryManager manager, Plugin plugin) {
+    private T newInstance(BukkitRegistryManager manager, MinecraftPlugin plugin) {
         BukkitRegistryObjectProvider<T> provider = providerFunction.apply(manager);
 
         if (provider != null) {
@@ -24,7 +24,7 @@ public class BukkitRegistryObject<T> {
         return null;
     }
 
-    void register(BukkitRegistryManager manager, Plugin plugin) {
+    void register(BukkitRegistryManager manager, MinecraftPlugin plugin) {
         BukkitRegistryObjectProvider<T> provider = providerFunction.apply(manager);
 
         if (provider != null) {

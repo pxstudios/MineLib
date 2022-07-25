@@ -1,15 +1,18 @@
-package net.pxstudios.minelib.common.world;
+package net.pxstudios.minelib.world;
 
 import com.google.common.collect.Iterables;
 import lombok.NonNull;
-import net.pxstudios.minelib.MineLibrary;
-import net.pxstudios.minelib.common.world.rule.WorldGameRule;
-import net.pxstudios.minelib.common.world.rule.WorldGameRuleType;
-import net.pxstudios.minelib.common.world.time.WorldTimeType;
-import net.pxstudios.minelib.common.world.weather.WorldWeatherType;
+import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.event.EventsSubscriber;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
+import net.pxstudios.minelib.world.rule.WorldGameRule;
+import net.pxstudios.minelib.world.rule.WorldGameRuleType;
+import net.pxstudios.minelib.world.time.WorldTimeType;
+import net.pxstudios.minelib.world.weather.WorldWeatherType;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -27,9 +30,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+@RequiredArgsConstructor
 public final class BukkitWorldsApi {
 
-    private static final Server SERVER = Bukkit.getServer();
+    private final MinecraftPlugin plugin;
 
     private final Map<World, WrapperBukkitWorld> wrapperWorldsMap = new HashMap<>();
 
@@ -40,7 +44,7 @@ public final class BukkitWorldsApi {
     }
 
     public WrapperBukkitWorld getWrapper(@NonNull String name) {
-        return getWrapper(SERVER.getWorld(name));
+        return getWrapper(plugin.getServer().getWorld(name));
     }
 
     public void setSpawnLocation(World world, Location location) {
@@ -52,11 +56,11 @@ public final class BukkitWorldsApi {
     }
 
     public World getMainWorld() {
-        return SERVER.getWorlds().get(0);
+        return plugin.getServer().getWorlds().get(0);
     }
 
     public World getLastLoadedWorld() {
-        return Iterables.getLast(SERVER.getWorlds());
+        return Iterables.getLast(plugin.getServer().getWorlds());
     }
 
     public void setDefaultGameRule(WrapperBukkitWorld world, WorldGameRuleType type) {
@@ -111,10 +115,10 @@ public final class BukkitWorldsApi {
     public CompletableFuture<World> loadBukkitWorld(WorldCreator worldCreator) {
         World world = worldCreator.createWorld();
 
-        SERVER.getWorlds().add(world);
+        plugin.getServer().getWorlds().add(world);
 
         if (!isSubscribedOnWorldEvents) {
-            this.subscribeWorldEvents(MineLibrary.getLibrary().getEventsSubscriber());
+            this.subscribeWorldEvents(plugin.getMineLibrary().getEventsSubscriber());
         }
 
         CompletableFuture<World> completableFuture = new CompletableFuture<>();
@@ -128,12 +132,11 @@ public final class BukkitWorldsApi {
     }
 
     public CompletableFuture<World> unloadBukkitWorld(World world, boolean canFolderDelete) {
-        SERVER.unloadWorld(world, false);
-
-        SERVER.getWorlds().remove(world);
+        plugin.getServer().unloadWorld(world, false);
+        plugin.getServer().getWorlds().remove(world);
 
         if (!isSubscribedOnWorldEvents) {
-            this.subscribeWorldEvents(MineLibrary.getLibrary().getEventsSubscriber());
+            this.subscribeWorldEvents(plugin.getMineLibrary().getEventsSubscriber());
         }
 
         CompletableFuture<World> completableFuture = new CompletableFuture<>();

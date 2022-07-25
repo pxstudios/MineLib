@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.common.world.rule;
+package net.pxstudios.minelib.world.rule;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

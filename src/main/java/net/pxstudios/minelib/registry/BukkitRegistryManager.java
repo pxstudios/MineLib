@@ -2,11 +2,11 @@ package net.pxstudios.minelib.registry;
 
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.command.type.AbstractContextCommand;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.registry.provider.BukkitRegistryObjectProvider;
 import net.pxstudios.minelib.registry.provider.type.CommandRegistryObjectProvider;
 import net.pxstudios.minelib.registry.provider.type.EventListenerRegistryObjectProvider;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public final class BukkitRegistryManager {
 
-    private final Plugin plugin;
+    private final MinecraftPlugin plugin;
     private final Map<Class<?>, BukkitRegistryObjectProvider<?>> providersByTypeMap = new HashMap<>();
 
     @SuppressWarnings("unchecked")

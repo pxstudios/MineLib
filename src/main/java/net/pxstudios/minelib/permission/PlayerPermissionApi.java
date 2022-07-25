@@ -1,10 +1,10 @@
-package net.pxstudios.minelib.common.permission;
+package net.pxstudios.minelib.permission;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.event.EventsSubscriber;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -35,8 +35,8 @@ public final class PlayerPermissionApi {
     @Setter
     private boolean enabledOperatorsSystem;
 
-    public PlayerPermissionApi() {
-        EventsSubscriber eventsSubscriber = MineLibrary.getLibrary().getEventsSubscriber();
+    public PlayerPermissionApi(MinecraftPlugin plugin) {
+        EventsSubscriber eventsSubscriber = plugin.getMineLibrary().getEventsSubscriber();
 
         eventsSubscriber.subscribe(PlayerJoinEvent.class, EventPriority.HIGHEST)
                 .complete(event -> {

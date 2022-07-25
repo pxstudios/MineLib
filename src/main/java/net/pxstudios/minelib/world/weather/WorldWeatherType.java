@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.common.world.weather;
+package net.pxstudios.minelib.world.weather;
 
 import lombok.RequiredArgsConstructor;
 

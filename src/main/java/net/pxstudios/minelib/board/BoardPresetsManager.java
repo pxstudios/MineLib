@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.common.board;
+package net.pxstudios.minelib.board;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.common.world.time;
+package net.pxstudios.minelib.world.time;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

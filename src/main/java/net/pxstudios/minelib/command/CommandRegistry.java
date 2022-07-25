@@ -4,9 +4,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import net.pxstudios.minelib.command.type.AbstractContextCommand;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.Server;
 import org.bukkit.command.CommandMap;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +14,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public final class CommandRegistry {
 
-    private final Plugin plugin;
+    private final MinecraftPlugin plugin;
     private CommandMap cachedCommandMap;
 
     @SneakyThrows

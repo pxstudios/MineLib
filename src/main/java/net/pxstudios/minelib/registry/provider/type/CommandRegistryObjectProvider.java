@@ -1,10 +1,10 @@
 package net.pxstudios.minelib.registry.provider.type;
 
 import lombok.SneakyThrows;
-import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.command.CommandContext;
 import net.pxstudios.minelib.command.CommandSettings;
 import net.pxstudios.minelib.command.type.AbstractContextCommand;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.registry.BukkitRegistryObject;
 import net.pxstudios.minelib.registry.provider.BukkitRegistryObjectProvider;
 import net.pxstudios.minelib.registry.type.CommandRegistryObject;
@@ -18,14 +18,14 @@ import java.util.Set;
 public class CommandRegistryObjectProvider implements BukkitRegistryObjectProvider<AbstractContextCommand> {
 
     @Override
-    public void fireRegister(Plugin plugin, AbstractContextCommand obj) {
+    public void fireRegister(MinecraftPlugin plugin, AbstractContextCommand obj) {
         if (obj != null) {
-            MineLibrary.getLibrary().getCommandRegistry().registerCommand(obj);
+            plugin.getMineLibrary().getCommandRegistry().registerCommand(obj);
         }
     }
 
     @Override
-    public AbstractContextCommand newObjectInstance(Plugin plugin, BukkitRegistryObject<AbstractContextCommand> bukkitRegistryObject) {
+    public AbstractContextCommand newObjectInstance(MinecraftPlugin plugin, BukkitRegistryObject<AbstractContextCommand> bukkitRegistryObject) {
         Method processMethod = getProcessMethod(bukkitRegistryObject);
 
         if (processMethod == null) {

@@ -1,9 +1,10 @@
-package net.pxstudios.minelib.common.motd;
+package net.pxstudios.minelib.motd;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.pxstudios.minelib.MineLibrary;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.event.EventPriority;
@@ -17,7 +18,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
 
+@RequiredArgsConstructor
 public final class ServerMotdApi {
+
+    private final MinecraftPlugin plugin;
 
     private Server server;
 
@@ -46,7 +50,7 @@ public final class ServerMotdApi {
     }
 
     public void enableApiEvents() {
-        MineLibrary.getLibrary().getEventsSubscriber()
+        plugin.getMineLibrary().getEventsSubscriber()
                 .subscribe(ServerListPingEvent.class, EventPriority.HIGHEST)
 
                 .withPredication(event -> server != null)

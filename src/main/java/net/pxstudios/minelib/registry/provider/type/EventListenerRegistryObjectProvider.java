@@ -1,22 +1,21 @@
 package net.pxstudios.minelib.registry.provider.type;
 
-import net.pxstudios.minelib.MineLibrary;
+import net.pxstudios.minelib.event.EventsSubscriber;
 import net.pxstudios.minelib.event.SingleEventBuilder;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.registry.BukkitRegistryObject;
 import net.pxstudios.minelib.registry.provider.BukkitRegistryObjectProvider;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 public class EventListenerRegistryObjectProvider implements BukkitRegistryObjectProvider<Listener> {
-    private final MineLibrary mineLibrary = MineLibrary.getLibrary();
 
     @Override
-    public void fireRegister(Plugin plugin, Listener obj) {
+    public void fireRegister(MinecraftPlugin plugin, Listener obj) {
         if (obj != null) {
             plugin.getServer().getPluginManager().registerEvents(obj, plugin);
         }
@@ -24,7 +23,7 @@ public class EventListenerRegistryObjectProvider implements BukkitRegistryObject
 
     @SuppressWarnings("unchecked")
     @Override
-    public Listener newObjectInstance(Plugin plugin, BukkitRegistryObject<Listener> bukkitRegistryObject) {
+    public Listener newObjectInstance(MinecraftPlugin plugin, BukkitRegistryObject<Listener> bukkitRegistryObject) {
         for (Method method : bukkitRegistryObject.getClass().getMethods()) {
             if (method.getParameterCount() != 1) {
                 continue;
@@ -39,7 +38,7 @@ public class EventListenerRegistryObjectProvider implements BukkitRegistryObject
                     continue;
                 }
 
-                subscribe((Class<? extends Event>) parameter, eventHandler, event -> {
+                subscribe(plugin.getMineLibrary().getEventsSubscriber(), (Class<? extends Event>) parameter, eventHandler, event -> {
 
                     try {
                         method.invoke(bukkitRegistryObject, event);
@@ -53,8 +52,8 @@ public class EventListenerRegistryObjectProvider implements BukkitRegistryObject
         return null;
     }
 
-    private <E extends Event> void subscribe(Class<E> cls, EventHandler eventHandler, Consumer<E> completable) {
-        SingleEventBuilder<E> singleEventBuilder = mineLibrary.getEventsSubscriber().subscribe(cls, eventHandler.priority());
+    private <E extends Event> void subscribe(EventsSubscriber eventsSubscriber, Class<E> cls, EventHandler eventHandler, Consumer<E> completable) {
+        SingleEventBuilder<E> singleEventBuilder = eventsSubscriber.subscribe(cls, eventHandler.priority());
 
         if (eventHandler.ignoreCancelled()) {
             singleEventBuilder.withIgnoreCancelled();

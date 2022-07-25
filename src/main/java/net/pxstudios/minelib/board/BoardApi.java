@@ -1,16 +1,16 @@
-package net.pxstudios.minelib.common.board;
+package net.pxstudios.minelib.board;
 
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Supplier;
 
+@RequiredArgsConstructor
 public final class BoardApi {
 
     public static final int MAX_NAME_LENGTH         = 16;
@@ -25,6 +25,8 @@ public final class BoardApi {
                     'f', 'r',
             };
 
+    @Getter
+    private final MinecraftPlugin plugin;
     private final Map<String, Board> createdBoardsMap = new HashMap<>();
 
     @Getter

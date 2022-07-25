@@ -2,9 +2,9 @@ package net.pxstudtios.minelib.test.board;
 
 import lombok.NonNull;
 import net.pxstudios.minelib.MineLibrary;
-import net.pxstudios.minelib.common.board.Board;
-import net.pxstudios.minelib.common.board.BoardApi;
-import net.pxstudios.minelib.common.board.BoardFlag;
+import net.pxstudios.minelib.board.Board;
+import net.pxstudios.minelib.board.BoardApi;
+import net.pxstudios.minelib.board.BoardFlag;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;

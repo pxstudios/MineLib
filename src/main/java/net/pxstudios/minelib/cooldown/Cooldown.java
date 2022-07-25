@@ -1,10 +1,10 @@
-package net.pxstudios.minelib.common.cooldown;
+package net.pxstudios.minelib.cooldown;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.beat.wrap.WrappedBukkitTask;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -59,10 +59,10 @@ public final class Cooldown {
         return System.currentTimeMillis() - initMillisecondsTime >= millisecondsDelay;
     }
 
-    void enableAutoExpirationTask() {
+    void enableAutoExpirationTask(MinecraftPlugin plugin) {
         long delayAsTicks = (millisecondsDelay / 50L);
 
-        automaticallyExpirationTask = MineLibrary.getLibrary().getBeater().runLater(delayAsTicks, () -> left(CooldownLeftReason.TIME_EXPIRED));
+        automaticallyExpirationTask = plugin.getMineLibrary().getBeater().runLater(delayAsTicks, () -> left(CooldownLeftReason.TIME_EXPIRED));
     }
 
     void left(CooldownLeftReason leftReason) {

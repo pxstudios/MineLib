@@ -1,9 +1,9 @@
 package net.pxstudtios.minelib.test.cooldown;
 
 import lombok.RequiredArgsConstructor;
-import net.pxstudios.minelib.common.cooldown.Cooldown;
-import net.pxstudios.minelib.common.cooldown.CooldownFlag;
-import net.pxstudios.minelib.common.cooldown.PlayerCooldownApi;
+import net.pxstudios.minelib.cooldown.Cooldown;
+import net.pxstudios.minelib.cooldown.CooldownFlag;
+import net.pxstudios.minelib.cooldown.PlayerCooldownApi;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
