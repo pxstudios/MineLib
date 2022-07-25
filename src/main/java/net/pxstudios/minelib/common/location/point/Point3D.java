@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -87,5 +88,9 @@ public class Point3D {
 
     public Point2D to2D() {
         return new Point2D(x, y);
+    }
+
+    public Vector toVector() {
+        return new Vector(x, y, z);
     }
 }

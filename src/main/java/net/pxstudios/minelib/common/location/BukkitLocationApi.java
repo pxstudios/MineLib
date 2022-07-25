@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.util.Vector;
 
 import java.util.function.Function;
 
@@ -61,12 +62,16 @@ public final class BukkitLocationApi {
         return parsedLocation;
     }
 
+    public Location toLocation(World world, Vector vector) {
+        return newBuilder().world(world).x(vector.getX()).y(vector.getY()).z(vector.getZ()).build();
+    }
+
     public Location toLocation(World world, Point2D point) {
-        return newBuilder().world(world).x(point.x()).y(point.y()).build();
+        return toLocation(world, point.toVector());
     }
 
     public Location toLocation(World world, Point3D point) {
-        return newBuilder().world(world).x(point.x()).y(point.y()).z(point.z()).build();
+        return toLocation(world, point.toVector());
     }
 
     public Point2D toPoint2D(Location location) {
