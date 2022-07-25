@@ -1,5 +1,5 @@
 name: MineLib
-main: net.pxstudios.minelib.PluginImpl
+main: net.pxstudios.minelib.PluginInitializer
 
 version: 1.0.0
 author: 'PlazmixStudios'
