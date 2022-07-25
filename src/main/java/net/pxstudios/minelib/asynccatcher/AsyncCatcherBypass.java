@@ -22,7 +22,7 @@ public final class AsyncCatcherBypass {
             throw new IllegalArgumentException("async-catcher bypass is not enabled");
         }
 
-        plugin.getServer().getScheduler().runTask(plugin, synchronizer);
+        plugin.getMineLibrary().getBeater().runSync(synchronizer);
     }
 
 }
