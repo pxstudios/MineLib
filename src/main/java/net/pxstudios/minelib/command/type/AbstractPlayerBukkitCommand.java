@@ -3,12 +3,10 @@ package net.pxstudios.minelib.command.type;
 import net.pxstudios.minelib.command.CommandSettings;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public abstract class AbstractPlayerBukkitCommand extends AbstractBukkitCommand {
 
-    public AbstractPlayerBukkitCommand(Plugin plugin) {
-        super(plugin);
+    public AbstractPlayerBukkitCommand() {
         super.addSetting(CommandSettings.SENDER_TYPE, Player.class);
     }
 

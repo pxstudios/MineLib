@@ -28,7 +28,7 @@ public final class CommandRegistry {
 
     private void registerCommandWrapper(@NonNull BukkitCommandExecuteWrapper commandExecuteWrapper) {
         CommandMap commandMap = injectCommandMap(plugin.getServer());
-        String fallbackPrefix = commandExecuteWrapper.getHandle().getPlugin().getName();
+        String fallbackPrefix = plugin.getName();
 
         commandMap.register(commandExecuteWrapper.getName(), fallbackPrefix, commandExecuteWrapper);
     }

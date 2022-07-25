@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.command.CommandContext;
 import net.pxstudios.minelib.command.CommandSettings;
-import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -14,8 +13,6 @@ import java.util.stream.Collectors;
 @Getter
 @RequiredArgsConstructor
 public abstract class AbstractContextCommand {
-
-    private final Plugin plugin;
 
     private final Set<String> activeLabels = new HashSet<>();
 
