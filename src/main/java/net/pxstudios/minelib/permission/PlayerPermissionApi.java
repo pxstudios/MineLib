@@ -3,7 +3,7 @@ package net.pxstudios.minelib.permission;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.pxstudios.minelib.event.EventsSubscriber;
+import net.pxstudios.minelib.subscription.EventsSubscriber;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;

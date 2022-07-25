@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.event;
+package net.pxstudios.minelib.subscription;
 
 import lombok.*;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;

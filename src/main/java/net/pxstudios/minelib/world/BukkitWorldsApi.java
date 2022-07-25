@@ -3,7 +3,7 @@ package net.pxstudios.minelib.world;
 import com.google.common.collect.Iterables;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import net.pxstudios.minelib.event.EventsSubscriber;
+import net.pxstudios.minelib.subscription.EventsSubscriber;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.world.rule.WorldGameRule;
 import net.pxstudios.minelib.world.rule.WorldGameRuleType;

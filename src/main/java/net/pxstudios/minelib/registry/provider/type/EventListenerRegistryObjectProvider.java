@@ -1,7 +1,7 @@
 package net.pxstudios.minelib.registry.provider.type;
 
-import net.pxstudios.minelib.event.EventsSubscriber;
-import net.pxstudios.minelib.event.SingleEventBuilder;
+import net.pxstudios.minelib.subscription.EventsSubscriber;
+import net.pxstudios.minelib.subscription.SingleEventBuilder;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.registry.BukkitRegistryObject;
 import net.pxstudios.minelib.registry.provider.BukkitRegistryObjectProvider;

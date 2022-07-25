@@ -13,7 +13,7 @@ import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.item.event.BukkitItemEventsHandler;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.cooldown.PlayerCooldownApi;
-import net.pxstudios.minelib.event.EventsSubscriber;
+import net.pxstudios.minelib.subscription.EventsSubscriber;
 import net.pxstudios.minelib.motd.ServerMotdApi;
 import net.pxstudios.minelib.permission.PlayerPermissionApi;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;

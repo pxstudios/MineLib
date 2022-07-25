@@ -2,7 +2,7 @@ package net.pxstudios.minelib.board;
 
 import lombok.Getter;
 import lombok.NonNull;
-import net.pxstudios.minelib.event.EventsSubscriber;
+import net.pxstudios.minelib.subscription.EventsSubscriber;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
