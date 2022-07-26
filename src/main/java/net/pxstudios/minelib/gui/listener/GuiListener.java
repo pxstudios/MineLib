@@ -1,10 +1,9 @@
-package net.pxstudios.minelib.common.gui.listener;
+package net.pxstudios.minelib.gui.listener;
 
 import lombok.RequiredArgsConstructor;
-import net.pxstudios.minelib.common.gui.Gui;
-import net.pxstudios.minelib.common.gui.GuiFactory;
 import net.pxstudios.minelib.event.bukkit.inventory.MLInventoryClickEvent;
 import net.pxstudios.minelib.event.bukkit.inventory.MLInventoryCloseEvent;
+import net.pxstudios.minelib.gui.Gui;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,18 +22,18 @@ public final class GuiListener implements Listener {
 
     @EventHandler
     public void handle(MLInventoryClickEvent event) {
-        Gui gui = playersGuiMap.get(event.getPlayer());
+        Player player = event.getPlayer();
+        Gui gui = playersGuiMap.get(player);
 
         if (gui != null) {
-            gui.onClick(event);
+            gui.onClick(player, event);
         }
     }
 
     @EventHandler
     public void handle(MLInventoryCloseEvent event) {
         Player player = event.getPlayer();
-
-        Gui gui = playersGuiMap.remove(event.getPlayer());
+        Gui gui = playersGuiMap.remove(player);
 
         if (gui != null) {
             gui.onClose(player);

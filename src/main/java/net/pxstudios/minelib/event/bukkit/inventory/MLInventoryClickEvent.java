@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.event.inventory.MLInventoryEvent;
-import net.pxstudios.minelib.common.gui.GuiSlot;
+import net.pxstudios.minelib.gui.GuiSlot;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.inventory.ClickType;

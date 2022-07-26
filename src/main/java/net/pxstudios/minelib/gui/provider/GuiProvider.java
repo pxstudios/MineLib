@@ -1,18 +1,20 @@
-package net.pxstudios.minelib.common.gui.provider;
+package net.pxstudios.minelib.gui.provider;
 
 import lombok.*;
-import net.pxstudios.minelib.common.gui.Gui;
-import net.pxstudios.minelib.common.gui.GuiItem;
-import net.pxstudios.minelib.common.gui.GuiSlot;
+import net.pxstudios.minelib.gui.Gui;
+import net.pxstudios.minelib.gui.GuiItem;
+import net.pxstudios.minelib.gui.GuiSlot;
 import net.pxstudios.minelib.common.item.BukkitItem;
 import net.pxstudios.minelib.common.item.BukkitItemModifySession;
 import net.pxstudios.minelib.event.bukkit.inventory.MLInventoryClickEvent;
+import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -58,6 +60,10 @@ public abstract class GuiProvider {
     @Setter
     private Gui gui;
 
+    @Getter
+    @Setter
+    private MinecraftPlugin plugin;
+
     public GuiProvider(InventoryType inventoryType, String title, int size) {
         this.inventoryType = inventoryType;
         this.title = title;
@@ -76,17 +82,39 @@ public abstract class GuiProvider {
         this(title, 27);
     }
 
+    public abstract void draw(Player player, DrawingSession session);
+
     public DrawingSession createDrawingSession() {
         return new DrawingSession();
     }
 
-    public abstract void draw(Player player, DrawingSession session);
+    public final void update(Player player) {
+        if (gui != null) {
+            gui.updateGui(player);
+        }
+    }
 
-    public void setup(Inventory inventory, DrawingSession session) {
-        inventory.clear();
+    public final void update(int ticks, Player player) {
+        plugin.getMineLibrary().getBeater().runCancellableTimer(ticks, new BukkitRunnable() {
+
+            @Override
+            public void run() {
+
+                if (player.isOnline() && gui.isOpened(player)) {
+                    update(player);
+                }
+                else {
+                    cancel();
+                }
+            }
+        });
+    }
+
+    public void setup(Inventory bukkit, DrawingSession session) {
+        bukkit.clear();
 
         for (GuiItem item : session.getItems()) {
-            inventory.setItem(item.getSlot().toSlotIndex(), item.getItemStack());
+            bukkit.setItem(item.getSlot().toSlotIndex(), item.getItemStack());
         }
     }
 

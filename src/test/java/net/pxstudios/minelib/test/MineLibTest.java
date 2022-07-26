@@ -14,7 +14,7 @@ import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
 import net.pxstudios.minelib.common.config.type.TextPluginConfig;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
-import net.pxstudios.minelib.common.gui.Gui;
+import net.pxstudios.minelib.gui.Gui;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.location.point.Point2D;
@@ -425,13 +425,13 @@ public final class MineLibTest extends MinecraftPlugin {
         Gui testGui;
 
         // common gui provider.
-        testGui = mineLibrary.getGuiFactory().createGui(new TestGuiProvider());
+        testGui = mineLibrary.getGuiManager().createGui(new TestGuiProvider());
 
         testGui.openGui(Bukkit.getPlayerExact("itzstonlex"));
         testGui.openGui(Bukkit.getPlayerExact("md_5"));
 
         // matrix gui provider.
-        testGui = mineLibrary.getGuiFactory().createGui(new TestMatrixGuiProvider());
+        testGui = mineLibrary.getGuiManager().createGui(new TestMatrixGuiProvider());
 
         testGui.openGui(Bukkit.getPlayerExact("itzstonlex"));
         testGui.openGui(Bukkit.getPlayerExact("md_5"));

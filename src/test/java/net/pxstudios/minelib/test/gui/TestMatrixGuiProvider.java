@@ -1,7 +1,7 @@
 package net.pxstudios.minelib.test.gui;
 
-import net.pxstudios.minelib.common.gui.GuiSlot;
-import net.pxstudios.minelib.common.gui.provider.MatrixGuiProvider;
+import net.pxstudios.minelib.gui.GuiSlot;
+import net.pxstudios.minelib.gui.provider.MatrixGuiProvider;
 import net.pxstudios.minelib.common.item.BukkitItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

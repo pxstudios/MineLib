@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.common.gui;
+package net.pxstudios.minelib.gui;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

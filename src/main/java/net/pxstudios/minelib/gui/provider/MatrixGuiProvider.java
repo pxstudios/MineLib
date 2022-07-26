@@ -1,8 +1,9 @@
-package net.pxstudios.minelib.common.gui.provider;
+package net.pxstudios.minelib.gui.provider;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.pxstudios.minelib.common.gui.GuiItem;
+import net.pxstudios.minelib.gui.GuiItem;
 import net.pxstudios.minelib.common.item.BukkitItem;
 import net.pxstudios.minelib.event.bukkit.inventory.MLInventoryClickEvent;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ import java.util.function.Consumer;
 
 public abstract class MatrixGuiProvider extends GuiProvider {
 
+    @Getter
     private char[][] matrix;
 
     public MatrixGuiProvider(InventoryType inventoryType, String name) {

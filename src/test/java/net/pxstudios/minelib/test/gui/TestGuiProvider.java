@@ -1,7 +1,7 @@
 package net.pxstudios.minelib.test.gui;
 
-import net.pxstudios.minelib.common.gui.provider.GuiProvider;
-import net.pxstudios.minelib.common.gui.GuiSlot;
+import net.pxstudios.minelib.gui.provider.GuiProvider;
+import net.pxstudios.minelib.gui.GuiSlot;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;

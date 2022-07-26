@@ -9,7 +9,7 @@ import net.pxstudios.minelib.event.bukkit.player.MLPlayerDamageEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileHitEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileLaunchEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerShootBowEvent;
-import net.pxstudios.minelib.common.gui.GuiSlot;
+import net.pxstudios.minelib.gui.GuiSlot;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

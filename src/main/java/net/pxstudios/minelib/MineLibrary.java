@@ -9,7 +9,7 @@ import net.pxstudios.minelib.board.BoardApi;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
-import net.pxstudios.minelib.common.gui.GuiFactory;
+import net.pxstudios.minelib.gui.GuiManager;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.item.event.BukkitItemEventsHandler;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
@@ -22,6 +22,7 @@ import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import net.pxstudios.minelib.registry.BukkitRegistryManager;
 import net.pxstudios.minelib.world.BukkitWorldsApi;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 
 public final class MineLibrary {
 
@@ -44,7 +45,7 @@ public final class MineLibrary {
     private PluginConfigManager configManager;
 
     @Getter
-    private GuiFactory guiFactory;
+    private GuiManager guiManager;
 
     @Getter
     private PlayerCooldownApi playerCooldownApi;
@@ -83,13 +84,13 @@ public final class MineLibrary {
         boardApi = new BoardApi(plugin);
         worldsApi = new BukkitWorldsApi(plugin);
         playerCooldownApi = new PlayerCooldownApi(plugin);
+        guiManager = new GuiManager(plugin);
         serverMotdApi = new ServerMotdApi(plugin);
         permissionApi = new PlayerPermissionApi(plugin);
 
         // Init library common sub-systems.
         chatApi = new ChatApi();
         configManager = new PluginConfigManager();
-        guiFactory = new GuiFactory();
         itemApi = new BukkitItemApi();
         locationApi = new BukkitLocationApi();
 
@@ -99,14 +100,17 @@ public final class MineLibrary {
         // Register default plugin-configs providers.
         configManager.addDefaultProviders();
 
-        // Register gui actions listener.
-        guiFactory.registerListener(plugin);
+        // Acceptation a plugin-manager.
+        PluginManager pluginManager = plugin.getServer().getPluginManager();
 
         // Register BukkitItem`s internal events-storage listener.
-        plugin.getServer().getPluginManager().registerEvents(new BukkitItemEventsHandler(), plugin);
+        pluginManager.registerEvents(new BukkitItemEventsHandler(), plugin);
 
         // Register bukkit-events wrappers listener.
-        plugin.getServer().getPluginManager().registerEvents(new BukkitEventsWrapperListener(this), plugin);
+        pluginManager.registerEvents(new BukkitEventsWrapperListener(this), plugin);
+
+        // Register gui actions listener.
+        pluginManager.registerEvents(guiManager.getListener(), plugin);
     }
 
     public void runAutoGarbageCollector() {
