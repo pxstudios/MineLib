@@ -29,12 +29,8 @@ public class GuiSlot {
     private final int slot;
     private final Point2D point2D;
 
-    public final int toArraySlot() {
+    public final int toSlotIndex() {
         return slot;
-    }
-
-    public final int toSlot() {
-        return slot + 1;
     }
 
     public final int toArrayX() {
@@ -45,8 +41,12 @@ public class GuiSlot {
         return (int) point2D.y();
     }
 
-    public Point2D toPoint2D() {
+    public final Point2D toPoint2D() {
         return point2D;
+    }
+
+    public final GuiSlot normalize() {
+        return new GuiSlot(slot + 1, new Point2D(point2D.x() + 1, point2D.y() + 1));
     }
 
 }
