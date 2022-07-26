@@ -102,7 +102,7 @@ public class CommandRegistryObjectProvider implements BukkitRegistryObjectProvid
         if (aliases == null || aliases.isEmpty()) {
             return null;
         }
-        AbstractContextCommand commandInstance = new AbstractContextCommand(plugin) {
+        AbstractContextCommand commandInstance = new AbstractContextCommand() {
 
             @SneakyThrows
             @Override
