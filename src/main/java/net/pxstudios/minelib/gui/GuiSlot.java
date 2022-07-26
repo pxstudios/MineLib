@@ -46,7 +46,7 @@ public class GuiSlot {
     }
 
     public final GuiSlot normalize() {
-        return new GuiSlot(slot + 1, new Point2D(point2D.x() + 1, point2D.y() + 1));
+        return new GuiSlot(slot + 1, point2D.clone().add(1, 1));
     }
 
 }

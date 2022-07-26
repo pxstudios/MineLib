@@ -87,4 +87,9 @@ public class Point2D {
     public Vector toVector() {
         return toVector(0);
     }
+
+    @Override
+    public final Point2D clone() {
+        return new Point2D(x, y);
+    }
 }

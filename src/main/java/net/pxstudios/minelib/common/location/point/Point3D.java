@@ -93,4 +93,9 @@ public class Point3D {
     public Vector toVector() {
         return new Vector(x, y, z);
     }
+
+    @Override
+    public final Point3D clone() {
+        return new Point3D(x, y, z);
+    }
 }
