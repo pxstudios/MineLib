@@ -31,7 +31,7 @@ public class GuiSlot {
     }
 
     public static GuiSlot byMatrixArray(int x, int y) {
-        return new GuiSlot(toIntSlot(x, y), new Point2D(x, y));
+        return new GuiSlot(toIntSlot(x, y) - 1, new Point2D(x, y));
     }
 
     public static GuiSlot byMatrix(int x, int y) {
