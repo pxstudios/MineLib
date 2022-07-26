@@ -1,17 +1,25 @@
 package net.pxstudios.minelib.gui;
 
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import net.pxstudios.minelib.common.location.point.Point2D;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GuiSlot {
 
-    public static GuiSlot byArray(int slotIndex) {
-        int y = slotIndex / 9;
-        int x = slotIndex - (y * 9);
+    public static Point2D toMatrix2D(int slot) {
+        int y = slot / 9;
+        int x = slot - (y * 9);
 
-        return new GuiSlot(slotIndex, new Point2D(x, y));
+        return new Point2D(x, y);
+    }
+
+    public static int toIntSlot(int x, int y) {
+        return (y + 1) * 9 - (9 - x);
+    }
+
+    public static GuiSlot byArray(int slot) {
+        return new GuiSlot(slot, toMatrix2D(slot));
     }
 
     public static GuiSlot bySlot(int slot) {
@@ -19,25 +27,25 @@ public class GuiSlot {
     }
 
     public static GuiSlot byMatrixArray(int x, int y) {
-        return new GuiSlot((y + 1) * 9 - (9 - x), new Point2D(x, y));
+        return new GuiSlot(toIntSlot(x, y), new Point2D(x, y));
     }
 
     public static GuiSlot byMatrix(int x, int y) {
         return byMatrixArray(x - 1, y - 1);
     }
 
-    private final int slot;
-    private final Point2D point2D;
+    private int slot;
+    private Point2D point2D;
 
     public final int toSlotIndex() {
         return slot;
     }
 
-    public final int toArrayX() {
+    public final int toMatrixX() {
         return (int) point2D.x();
     }
 
-    public final int toArrayY() {
+    public final int toMatrixY() {
         return (int) point2D.y();
     }
 
@@ -47,6 +55,30 @@ public class GuiSlot {
 
     public final GuiSlot normalize() {
         return new GuiSlot(slot + 1, point2D.clone().add(1, 1));
+    }
+
+    public final GuiSlot right(int count) {
+        this.slot += count;
+        this.point2D = toMatrix2D(slot);
+
+        return this;
+    }
+
+    public final GuiSlot left(int count) {
+        int newValue = slot - count;
+        if (newValue < 0) {
+            throw new IllegalArgumentException("GuiSlot value cannot be < 0");
+        }
+
+        this.slot = newValue;
+        this.point2D = toMatrix2D(newValue);
+
+        return this;
+    }
+
+    @Override
+    public final GuiSlot clone() {
+        return new GuiSlot(slot, point2D);
     }
 
 }
