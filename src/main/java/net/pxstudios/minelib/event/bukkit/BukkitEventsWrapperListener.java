@@ -2,11 +2,13 @@ package net.pxstudios.minelib.event.bukkit;
 
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.MineLibrary;
+import net.pxstudios.minelib.event.bukkit.inventory.MLInventoryClickEvent;
 import net.pxstudios.minelib.event.player.MLPlayerKillEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerDamageEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileHitEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileLaunchEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerShootBowEvent;
+import net.pxstudios.minelib.gui.GuiSlot;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -14,12 +16,22 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 @RequiredArgsConstructor
 public final class BukkitEventsWrapperListener implements Listener {
 
     private final MineLibrary mineLibrary;
+
+    public MLInventoryClickEvent callInventoryClickEvent(InventoryClickEvent event) {
+        MLInventoryClickEvent wrapperEvent = new MLInventoryClickEvent(mineLibrary, event.getClickedInventory(), (Player) event.getWhoClicked(), event.getClick(), event.getAction(), event.getSlotType(),
+                event.getCurrentItem(), GuiSlot.byArray(event.getSlot()), event.getRawSlot(), event.getHotbarButton());
+
+        mineLibrary.getEventsSubscriber().callEvent(wrapperEvent);
+
+        return wrapperEvent;
+    }
 
     public MLPlayerDamageEvent callPlayerDamageEvent(EntityDamageEvent event) {
         MLPlayerDamageEvent wrapperEvent = new MLPlayerDamageEvent(mineLibrary, (Player) event.getEntity(), event.getCause(), event.getDamage());
@@ -53,6 +65,15 @@ public final class BukkitEventsWrapperListener implements Listener {
         mineLibrary.getEventsSubscriber().callEvent(
                 new MLPlayerKillEvent(mineLibrary, event.getEntity(), event.getEntity().getKiller())
         );
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void handle(InventoryClickEvent event) {
+        Entity entity = event.getWhoClicked();
+
+        if (entity.getType() == EntityType.PLAYER) {
+            event.setCancelled(callInventoryClickEvent(event).isCancelled());
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

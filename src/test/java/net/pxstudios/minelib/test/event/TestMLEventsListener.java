@@ -2,6 +2,7 @@ package net.pxstudios.minelib.test.event;
 
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.cooldown.CooldownLeftReason;
+import net.pxstudios.minelib.event.bukkit.inventory.MLInventoryClickEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerDamageEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileHitEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileLaunchEvent;
@@ -11,6 +12,7 @@ import net.pxstudios.minelib.event.player.MLPlayerCooldownLeftEvent;
 import net.pxstudios.minelib.event.player.MLPlayerKillEvent;
 import net.pxstudios.minelib.event.plugin.MLMinecraftPluginDisableEvent;
 import net.pxstudios.minelib.event.plugin.MLMinecraftPluginEnableEvent;
+import net.pxstudios.minelib.gui.GuiSlot;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -19,9 +21,32 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
 
 public final class TestMLEventsListener implements Listener {
+
+    @EventHandler
+    public void handle(MLInventoryClickEvent event) {
+        MineLibrary mineLibrary = event.getMineLibrary();
+
+        Player player = event.getPlayer();
+
+        ClickType clickType = event.getClickType();
+        InventoryAction inventoryAction = event.getInventoryAction();
+
+        ItemStack currentItem = event.getCurrentItem();
+        event.setCurrentItem(currentItem);
+
+        GuiSlot slot = event.getSlot().normalize();
+
+        int rawSlot = event.getRawSlot();
+        int hotbarButton = event.getHotbarButton();
+
+        boolean cancelled = event.isCancelled();
+        event.setCancelled(cancelled);
+    }
 
     @EventHandler
     public void handle(MLPlayerDamageEvent event) {
