@@ -14,9 +14,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TestBoardImpl extends Board {
 
-    private static final TestBoardImpl IMPL = new TestBoardImpl(MineLibrary.getLibrary());
+    private static TestBoardImpl IMPL;
 
-    public static void setPlayer(@NonNull Player player) {
+    public static void setPlayer(@NonNull MineLibrary mineLibrary, @NonNull Player player) {
+        if (IMPL == null) {
+            IMPL = new TestBoardImpl(mineLibrary);
+        }
+
         // Show board to the player.
         IMPL.addPlayerView(player);
     }

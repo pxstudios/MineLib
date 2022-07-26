@@ -16,7 +16,7 @@ public class TestPermissionDatabaseProvider implements PermissionDatabaseProvide
     public TestPermissionDatabaseProvider(String resourceName, MineLibTest mineLibTest) {
         Path configPath = mineLibTest.getDataFolder().toPath().resolve(resourceName);
 
-        permissionsConfig = MineLibrary.getLibrary().getConfigManager().createYamlConfig(configPath.toFile());
+        permissionsConfig = mineLibTest.getMineLibrary().getConfigManager().createYamlConfig(configPath.toFile());
         permissionsConfig.copyResource(mineLibTest, resourceName);
     }
 

@@ -27,11 +27,5 @@ public final class TestRegistryListener extends EventListenerRegistryObject {
         MaterialData materialData = block.getState().getData();
 
         event.setDropItems(false);
-
-        MineLibrary.getLibrary().getBeater().runLater(20L * 3, () -> {
-
-            block.getState().setData(materialData);
-            block.getState().update();
-        });
     }
 }

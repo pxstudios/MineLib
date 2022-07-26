@@ -14,6 +14,7 @@ import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
 import net.pxstudios.minelib.common.config.type.TextPluginConfig;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
+import net.pxstudios.minelib.event.player.MLPlayerKillEvent;
 import net.pxstudios.minelib.gui.Gui;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
