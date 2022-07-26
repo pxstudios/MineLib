@@ -3,12 +3,13 @@ package net.pxstudios.minelib.event.bukkit;
 import lombok.RequiredArgsConstructor;
 import net.pxstudios.minelib.MineLibrary;
 import net.pxstudios.minelib.event.bukkit.inventory.MLInventoryClickEvent;
+import net.pxstudios.minelib.event.bukkit.inventory.MLInventoryCloseEvent;
 import net.pxstudios.minelib.event.player.MLPlayerKillEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerDamageEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileHitEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerProjectileLaunchEvent;
 import net.pxstudios.minelib.event.bukkit.player.MLPlayerShootBowEvent;
-import net.pxstudios.minelib.gui.GuiSlot;
+import net.pxstudios.minelib.common.gui.GuiSlot;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 @RequiredArgsConstructor
@@ -47,6 +49,12 @@ public final class BukkitEventsWrapperListener implements Listener {
         mineLibrary.getEventsSubscriber().callEvent(wrapperEvent);
 
         return wrapperEvent;
+    }
+
+    public void callInventoryCloseEvent(InventoryCloseEvent event) {
+        mineLibrary.getEventsSubscriber().callEvent(
+                new MLInventoryCloseEvent(mineLibrary, event.getInventory(), (Player) event.getPlayer())
+        );
     }
 
     public void callPlayerProjectileHitEvent(ProjectileHitEvent event) {
@@ -91,6 +99,15 @@ public final class BukkitEventsWrapperListener implements Listener {
 
         if (entity.getType() == EntityType.PLAYER) {
             event.setCancelled(callPlayerShootBowEvent(event).isCancelled());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void handle(InventoryCloseEvent event) {
+        Entity entity = event.getPlayer();
+
+        if (entity.getType() == EntityType.PLAYER) {
+            callInventoryCloseEvent(event);
         }
     }
 

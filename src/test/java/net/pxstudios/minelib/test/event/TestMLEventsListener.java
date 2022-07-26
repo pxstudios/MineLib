@@ -12,7 +12,7 @@ import net.pxstudios.minelib.event.player.MLPlayerCooldownLeftEvent;
 import net.pxstudios.minelib.event.player.MLPlayerKillEvent;
 import net.pxstudios.minelib.event.plugin.MLMinecraftPluginDisableEvent;
 import net.pxstudios.minelib.event.plugin.MLMinecraftPluginEnableEvent;
-import net.pxstudios.minelib.gui.GuiSlot;
+import net.pxstudios.minelib.common.gui.GuiSlot;
 import net.pxstudios.minelib.plugin.MinecraftPlugin;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;

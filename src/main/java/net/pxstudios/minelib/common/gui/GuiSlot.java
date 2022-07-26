@@ -1,4 +1,4 @@
-package net.pxstudios.minelib.gui;
+package net.pxstudios.minelib.common.gui;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -63,7 +63,7 @@ public class GuiSlot {
 
     public final GuiSlot right(int count) {
         this.slot += count;
-        this.point2D = toMatrix2D(slot);
+        this.point2D = GuiSlot.toMatrix2D(slot);
 
         return this;
     }
@@ -75,7 +75,7 @@ public class GuiSlot {
         }
 
         this.slot = newValue;
-        this.point2D = toMatrix2D(newValue);
+        this.point2D = GuiSlot.toMatrix2D(newValue);
 
         return this;
     }

@@ -9,6 +9,7 @@ import net.pxstudios.minelib.board.BoardApi;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
+import net.pxstudios.minelib.common.gui.GuiFactory;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.item.event.BukkitItemEventsHandler;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
@@ -41,6 +42,9 @@ public final class MineLibrary {
 
     @Getter
     private PluginConfigManager configManager;
+
+    @Getter
+    private GuiFactory guiFactory;
 
     @Getter
     private PlayerCooldownApi playerCooldownApi;
@@ -85,6 +89,7 @@ public final class MineLibrary {
         // Init library common sub-systems.
         chatApi = new ChatApi();
         configManager = new PluginConfigManager();
+        guiFactory = new GuiFactory();
         itemApi = new BukkitItemApi();
         locationApi = new BukkitLocationApi();
 
@@ -93,6 +98,9 @@ public final class MineLibrary {
 
         // Register default plugin-configs providers.
         configManager.addDefaultProviders();
+
+        // Register gui actions listener.
+        guiFactory.registerListener(plugin);
 
         // Register BukkitItem`s internal events-storage listener.
         plugin.getServer().getPluginManager().registerEvents(new BukkitItemEventsHandler(), plugin);

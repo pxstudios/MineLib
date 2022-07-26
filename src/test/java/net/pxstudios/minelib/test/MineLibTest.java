@@ -14,6 +14,7 @@ import net.pxstudios.minelib.common.config.PluginConfigManager;
 import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
 import net.pxstudios.minelib.common.config.type.TextPluginConfig;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
+import net.pxstudios.minelib.common.gui.Gui;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
 import net.pxstudios.minelib.common.location.point.Point2D;
@@ -29,6 +30,8 @@ import net.pxstudios.minelib.test.command.TestAbstractPlayerBukkitCommand;
 import net.pxstudios.minelib.test.complex.TestComplexBlockListener;
 import net.pxstudios.minelib.test.cooldown.TestPlayerCooldownListener;
 import net.pxstudios.minelib.test.event.TestMLEventsListener;
+import net.pxstudios.minelib.test.gui.TestGuiProvider;
+import net.pxstudios.minelib.test.gui.TestMatrixGuiProvider;
 import net.pxstudios.minelib.test.item.TestBukkitItemFactoryListener;
 import net.pxstudios.minelib.test.permission.TestPermissionDatabaseProvider;
 import net.pxstudios.minelib.test.registry.TestRegistryCommand;
@@ -418,6 +421,22 @@ public final class MineLibTest extends MinecraftPlugin {
                 });
     }
 
+    private void testGuis(MineLibrary mineLibrary) {
+        Gui testGui;
+
+        // common gui provider.
+        testGui = mineLibrary.getGuiFactory().createGui(new TestGuiProvider());
+
+        testGui.openGui(Bukkit.getPlayerExact("itzstonlex"));
+        testGui.openGui(Bukkit.getPlayerExact("md_5"));
+
+        // matrix gui provider.
+        testGui = mineLibrary.getGuiFactory().createGui(new TestMatrixGuiProvider());
+
+        testGui.openGui(Bukkit.getPlayerExact("itzstonlex"));
+        testGui.openGui(Bukkit.getPlayerExact("md_5"));
+    }
+
     @Override
     public void postEnable(MineLibrary mineLibrary) {
         testContextCommands(mineLibrary);
@@ -451,6 +470,8 @@ public final class MineLibTest extends MinecraftPlugin {
         testServerMotdApi(mineLibrary);
 
         testBukkitWorldsApi(mineLibrary);
+
+        testGuis(mineLibrary);
     }
 
 }
