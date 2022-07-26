@@ -22,6 +22,10 @@ public class GuiSlot {
         return new GuiSlot(slot, toMatrix2D(slot));
     }
 
+    public static GuiSlot first() {
+        return byArray(0);
+    }
+
     public static GuiSlot bySlot(int slot) {
         return byArray(slot - 1);
     }
@@ -74,6 +78,14 @@ public class GuiSlot {
         this.point2D = toMatrix2D(newValue);
 
         return this;
+    }
+
+    public final GuiSlot up(int count) {
+        return left(count * 9);
+    }
+
+    public final GuiSlot down(int count) {
+        return right(count * 9);
     }
 
     @Override
