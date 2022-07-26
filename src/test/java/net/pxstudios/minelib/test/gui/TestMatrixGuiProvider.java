@@ -34,7 +34,7 @@ public final class TestMatrixGuiProvider extends MatrixGuiProvider {
             event.setCancelled(true);
 
             // update gui for player.
-            super.getGui().updateGui(player);
+            super.update(player);
         });
     }
 

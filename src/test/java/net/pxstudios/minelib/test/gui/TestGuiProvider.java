@@ -5,6 +5,7 @@ import net.pxstudios.minelib.gui.GuiSlot;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
 public final class TestGuiProvider extends GuiProvider {
 
@@ -34,10 +35,12 @@ public final class TestGuiProvider extends GuiProvider {
 
                     clicked.sendMessage("You are clicked on " + slot.normalize().toSlotIndex() + " slot");
                     event.setCancelled(true);
-
-                    // update gui for player.
-                    super.getGui().updateGui(player);
                 });
+    }
+
+    @Override
+    public void onOpen(Player player, Inventory bukkit) {
+        updateAutomatically(10, player);
     }
 
 }

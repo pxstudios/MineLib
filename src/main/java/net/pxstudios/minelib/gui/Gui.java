@@ -45,7 +45,9 @@ public class Gui {
         provider.draw(player, drawingSession);
         provider.setup(bukkit, drawingSession);
 
-        sessionByPlayersMap.put(player, drawingSession);
+        if (sessionByPlayersMap.put(player, drawingSession) == null) {
+            player.openInventory(bukkit);
+        }
     }
 
     private Inventory createInventory(Player player) {
@@ -71,6 +73,8 @@ public class Gui {
 
         plugin.getMineLibrary().getGuiManager().getListener().addPlayerGui(player, this);
         updateGui0(player, bukkit);
+
+        provider.onOpen(player, bukkit);
     }
 
     public final void updateGui(@NonNull Player player) {
@@ -82,8 +86,10 @@ public class Gui {
     }
 
     public void onClose(@NonNull Player player) {
-        inventoryByPlayersMap.remove(player);
+        Inventory bukkit = inventoryByPlayersMap.remove(player);
         sessionByPlayersMap.remove(player);
+
+        provider.onClosed(player, bukkit);
     }
 
     public void onClick(@NonNull Player player, @NonNull MLInventoryClickEvent event) {

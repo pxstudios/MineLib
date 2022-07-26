@@ -82,7 +82,15 @@ public abstract class GuiProvider {
         this(title, 27);
     }
 
-    public abstract void draw(Player player, DrawingSession session);
+    public abstract void draw(Player player, DrawingSession drawingSession);
+
+    public void onOpen(Player player, Inventory bukkit) {
+        // override me.
+    }
+
+    public void onClosed(Player player, Inventory bukkit) {
+        // override me.
+    }
 
     public DrawingSession createDrawingSession() {
         return new DrawingSession();
@@ -94,7 +102,7 @@ public abstract class GuiProvider {
         }
     }
 
-    public final void update(int ticks, Player player) {
+    public final void updateAutomatically(int ticks, Player player) {
         plugin.getMineLibrary().getBeater().runCancellableTimer(ticks, new BukkitRunnable() {
 
             @Override
