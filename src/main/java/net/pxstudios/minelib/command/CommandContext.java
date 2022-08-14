@@ -184,6 +184,14 @@ public class CommandContext {
         public Optional<Double> asDouble() {
             return asDoubleOrFail(null);
         }
+
+        public Optional<String> asStringOrFail(Runnable onFail) {
+            return asOrFail(s -> s, onFail);
+        }
+
+        public Optional<String> asString() {
+            return asStringOrFail(null);
+        }
     }
 
 }

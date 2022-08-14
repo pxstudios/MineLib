@@ -15,6 +15,8 @@ import net.pxstudios.minelib.common.config.type.PropertiesPluginConfig;
 import net.pxstudios.minelib.common.config.type.TextPluginConfig;
 import net.pxstudios.minelib.common.config.type.YamlPluginConfig;
 import net.pxstudios.minelib.event.player.MLPlayerKillEvent;
+import net.pxstudios.minelib.fastutil.FastUtils;
+import net.pxstudios.minelib.fastutil.blockplace.FastBlockPlaceSession;
 import net.pxstudios.minelib.gui.Gui;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.location.BukkitLocationApi;
@@ -438,6 +440,17 @@ public final class MineLibTest extends MinecraftPlugin {
         testGui.openGui(Bukkit.getPlayerExact("md_5"));
     }
 
+    private void testFastUtils(MineLibrary mineLibrary) {
+        World mainWorld = mineLibrary.getWorldsApi().getMainWorld();
+
+        FastUtils fastUtils = mineLibrary.getFastUtils();
+
+        FastBlockPlaceSession blockPlaceSession = fastUtils.createBlockPlaceSession(mainWorld);
+        blockPlaceSession.setBlockType(mainWorld.getBlockAt(0, 50, 0), Material.DIAMOND_BLOCK);
+
+        long delayMillis = blockPlaceSession.flush();
+    }
+
     @Override
     public void postEnable(MineLibrary mineLibrary) {
         testContextCommands(mineLibrary);
@@ -473,6 +486,8 @@ public final class MineLibTest extends MinecraftPlugin {
         testBukkitWorldsApi(mineLibrary);
 
         testGuis(mineLibrary);
+
+        testFastUtils(mineLibrary);
     }
 
 }

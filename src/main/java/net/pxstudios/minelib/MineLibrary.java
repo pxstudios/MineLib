@@ -9,6 +9,7 @@ import net.pxstudios.minelib.board.BoardApi;
 import net.pxstudios.minelib.command.CommandRegistry;
 import net.pxstudios.minelib.common.chat.ChatApi;
 import net.pxstudios.minelib.common.config.PluginConfigManager;
+import net.pxstudios.minelib.fastutil.FastUtils;
 import net.pxstudios.minelib.gui.GuiManager;
 import net.pxstudios.minelib.common.item.BukkitItemApi;
 import net.pxstudios.minelib.common.item.event.BukkitItemEventsHandler;
@@ -54,6 +55,9 @@ public final class MineLibrary {
     private EventsSubscriber eventsSubscriber;
 
     @Getter
+    private FastUtils fastUtils;
+
+    @Getter
     private BukkitItemApi itemApi;
 
     @Getter
@@ -80,6 +84,7 @@ public final class MineLibrary {
         commandRegistry = new CommandRegistry(plugin);
         beater = new BukkitBeater(plugin);
         eventsSubscriber = new EventsSubscriber(plugin);
+        fastUtils = new FastUtils();
         registryManager = new BukkitRegistryManager(plugin);
         boardApi = new BoardApi(plugin);
         worldsApi = new BukkitWorldsApi(plugin);

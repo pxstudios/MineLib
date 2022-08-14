@@ -13,7 +13,7 @@ public final class AsyncCatcherBypass {
     private boolean bypassEnabled = false;
 
     public void enableSpigotBypass() {
-        AsyncCatcher.enabled = false;
+        // AsyncCatcher.enabled = false;
         bypassEnabled = true;
     }
 

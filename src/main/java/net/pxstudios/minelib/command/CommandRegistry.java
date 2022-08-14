@@ -20,7 +20,7 @@ public final class CommandRegistry {
     @SneakyThrows
     private CommandMap injectCommandMap(@NonNull Server server) {
         if (cachedCommandMap == null) {
-            cachedCommandMap = ((CommandMap) server.getClass().getMethod("getCommandMap").invoke(server));
+            cachedCommandMap = ((CommandMap) server.getClass().getDeclaredField("commandMap").get(server));
         }
 
         return cachedCommandMap;
